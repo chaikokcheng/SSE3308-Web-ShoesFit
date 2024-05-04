@@ -1,0 +1,73 @@
+// just for reference
+// not used in coding
+
+const products = [
+    { 
+        https://www.jdsports.my/product/black-nike-dunk-low-retro/16071413_jdsportsmy/
+
+        id: 1, 
+        name: "Nike Dunk Low Retro", 
+        category: "Sport", 
+        description: "Optimized for performance and agility.", 
+        img: "images/sportNIkeDunkLow.png",
+        link: "productpage.html"
+    },
+    { 
+        https://www.jdsports.my/product/white-new-balance-530/16237972_jdsportsmy/
+
+        id: 2, 
+        name: "New Balance 530", 
+        category: "Sport", 
+        description: "Classic design meets modern comfort.", 
+        img: "images/sportNB530.png", 
+        link: "productpage.html"
+    },
+    { 
+        https://www.jdsports.my/product/white-adidas-originals-handball-spezial/19608465_jdsportsmy/
+
+        id: 3, 
+        name: "Adidas Originals Handball Spezial", 
+        category: "Sport", 
+        description: "Retro style, superior court performance.", 
+        img: "images/sportAdidasOriginalsHB.png", 
+        link: "productpage.html"
+    },
+    { 
+        https://www.zalora.com.my/p/knight-business-slip-ons-black-2117520
+
+        id: 4, 
+        name: "KNIGHT - Business Slip Ons", 
+        category: "Formal", 
+        description: "Sleek slip-ons for professional elegance.", 
+        img: "images/formalKnight.png", 
+        link: "productpage.html"
+    },
+    { 
+        https://colehaan.my/collections/mens-dress-shoes/products/american-classics-montrose-plain-toe-oxford-c38959-m
+        
+        id: 5, 
+        name: "Cole Haan Men's Classics", 
+        category: "Formal", 
+        description: "Tradition and comfort in classic footwear.", 
+        img: "images/formalCHmen.png", 
+        link: "productpage.html"
+    },
+    { 
+        https://www.charleskeith.com/my/CK1-61720177_BLKTXT.html
+
+        id: 6, 
+        name: "C&K Heeled Sandals", 
+        category: "Heels", 
+        description: "Chic heeled sandals for every occasion.", 
+        img: "images/heelCKTexturedTie.png", 
+        link: "productpage.html"
+    },
+    { 
+        https://www.jimmychoo.com/my/en_MY/women/shoes/pumps/azia-pump-75/champagne-glitter-leather-pumps-AZIAPUMP75GLE120011.html?cgid=women-shoes-pumps#start=1
+
+        id: 7, 
+        name: "Jimmy Choo Azia Pump 75", 
+        category: "Heels", 
+        description: "Elegant pumps with signature style.", 
+
+    }
