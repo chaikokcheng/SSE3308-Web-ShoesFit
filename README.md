@@ -8,6 +8,9 @@
 | 215035 | CHAN CI EN    |
 | 217463 | CHAI KOK CHENG|
 
+Live Website Link: https://sse3308-shoesfit.web.app/
+Github Actions: any push to "Main" branch will auto deploy to hosting
+PS: Follow below steps to do your own branch and avoid directly push/merge to "Main" 
 
 ---------------------------
 
