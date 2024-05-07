@@ -199,3 +199,132 @@ body {
     }
 }
 
+
+
+/* //payment */
+.checkout-styling {
+    text-align: center;
+    height: 150px;
+    padding-top: 20px;
+   
+}
+
+#checkout-font {
+font-weight: bold;
+font-size: 35px;
+}
+
+#spacer {
+    padding-left: 230px;
+}
+
+.section-font {
+font-size: 22px;
+font-weight: bolder;
+padding-bottom: 20px;
+}
+
+.spacing {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    border-width: 3px;
+}
+
+
+.field-styling {
+    font-size: 15px;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: inherit; 
+}
+
+#emailIcon, #addressForm {
+    display: none;
+}
+
+.icon-position {
+    position: absolute;
+    top: 50%; 
+    right: 10px; 
+    transform: translateY(-50%);
+}
+
+.text-danger {
+    font-size: 12px;
+}
+
+.dafault-text {
+    color: grey;
+    font-size: 12px; 
+}
+
+.image-size {
+    width: 50px; 
+    height: 40px;
+    
+}
+
+.wrap-outline {
+    border: 2px solid #ccc; 
+    padding: 15px; 
+}
+
+.text-align{
+    padding-top: 12px;
+}
+
+.btn {
+    background-color: black;
+    border-color: black;
+    color: white;
+    float: right;
+    width: 150px;
+}
+
+.btn:disabled {
+    background-color: black;
+    border-color: black; 
+    color: white; 
+}
+
+.btn:disabled:hover {
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+
+.btn:hover {
+    background-color: lightgray;
+    border-color: black;
+    color: black; 
+}
+
+.btn:active {
+    border-color: gray !important;
+    background-color: gray !important; 
+    box-shadow: 0 0 5px gray !important;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    margin-top: 20px; 
+    align-self: flex-end; 
+}
+
+
+
+
+ 
+
+
+
+
+
+

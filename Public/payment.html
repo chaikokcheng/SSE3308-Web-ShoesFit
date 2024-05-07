@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShoesFit Checkout</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <a class="navbar-brand" href="#">
+            <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html" title="User Profile">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 checkout-styling">
+                
+                <h2 id="checkout-font">CHECKOUT</h2>
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="section-font">CONTACT</h3>
+                <div class="form-container">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 field-styling" id="emailFormGroup">
+                            <label for="contact">Email *</label>
+                            <div class="input-group">
+                                <input type="contact" class="form-control" id="emailInput" required>
+                                <div class="icon-position">
+                                    <i class="fas fa-times-circle text-danger" id="emailIcon"></i>
+                                </div>
+                            </div>
+                            <span class="text-danger" id="emailErrorMessage">
+
+                            </span>
+                        </div>
+                    </div>
+                    
+                </form>
+
+                <hr class="spacing">
+
+                <h3 class="section-font" id="addressSection">ADDRESS</h3>
+                <form id="addressForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="firstName">First Name*</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                          
+                            <span class="text-danger" id="firstNameErrorMessage"></span>
+                        </div>
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="lastName">Last Name*</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                            <span class="text-danger" id="lastNameErrorMessage"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group field-styling">
+                        <label for="streetAddress">Street Address*</label>
+                        <input type="text" class="form-control" id="streetAddress" required>
+                        <span class="text-danger" id="address1ErrorMessage"></span>
+                    </div>
+
+
+
+                    <div class="form-group field-styling">
+                        <label for="additionalInfo">Additional Info</label>
+                        <textarea class="form-control" id="additionalInfo"></textarea>
+                        <span class=" dafault-text">Additional address information</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="city">City*</label>
+                            <input type="text" class="form-control" id="city" required>
+                            <span class="text-danger" id="cityErrorMessage"></span>
+                        </div>
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="state">State*</label>
+                            <input type="text" class="form-control" id="state" required>
+                            <span class="text-danger" id="stateErrorMessage"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="postcode">Postcode*</label>
+                            <input type="text" class="form-control" id="postcode" required>
+                            <span class="dafault-text" id="PC-Info"></span>
+                            <span class="text-danger" id="postcodeErrorMessage"></span>
+                        </div>
+                        <div class="form-group col-md-6 field-styling">
+                            <label for="phoneNumber">Phone Number*</label>
+                            <input type="text" class="form-control" id="phoneNumber" required>
+                            <span class="dafault-text" id="PhNum-Info"></span>
+                            <span class="text-danger" id="phoneNumberErrorMessage"></span>
+                        </div>
+                    </div>
+                    <div  class="button-container">
+
+                        <button type="button" class="btn btn-primary btn-block" id="addressButton" disabled>NEXT</button>
+                    </div>
+                </form>
+                    
+                    
+
+
+                   
+               
+            </div>
+                <hr class="spacing">
+
+
+                <h3 class="section-font">SHIPPING METHODS</h3>
+                <container class="shippingSection">           
+                    <div class="form-group wrap-outline">
+                      <label class="d-block">
+                        <input type="radio" name="shipping" checked>
+                        <img src="image/ninja_van.png" alt="Ninja Van" class="image-size field-styling"> &nbsp; Ninja Van
+
+                        <span class="float-right field-styling text-align">$10</span>
+                      </label>
+                    </div>
+                    <br>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="terms">
+                      <label class="form-check-label field-styling" for="terms">Yes, I accept the Terms and Conditions*</label>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block" id="nextButton" disabled>NEXT</button>
+               
+                </container> 
+                <hr class="spacing">
+
+
+                <h3 class="section-font">PAYMENT</h3>
+                
+            </div>
+
+            <div class="col-md-6" id="spacer">
+                <h3>YOUR CART</h3>
+                
+                
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+   
+</body>
+</html>
