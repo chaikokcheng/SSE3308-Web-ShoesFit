@@ -39,137 +39,210 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12 checkout-styling">
-                
-                <h2 id="checkout-font">CHECKOUT</h2>
-               
+            <div class="col-md-12">
+                <h2>CHECKOUT</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h3 class="section-font">CONTACT</h3>
+                <h3>CONTACT</h3>
                 <div class="form-container">
-                <form>
-                    <div class="form-row">
-                        <div class="form-group col-md-6 field-styling" id="emailFormGroup">
-                            <label for="contact">Email *</label>
-                            <div class="input-group">
-                                <input type="contact" class="form-control" id="emailInput" required>
-                                <div class="icon-position">
-                                    <i class="fas fa-times-circle text-danger" id="emailIcon"></i>
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 formTitle-styling" id="emailFormGroup">
+                                <label for="contact">Email *</label>
+                                <div class="input-group">
+                                    <input type="contact" class="form-control" id="emailInput" required>
+                                    <div class="icon-position">
+                                        <i class="fas fa-times-circle text-danger" id="email-checkIcon"></i>
+                                    </div>
                                 </div>
+                                <span class="text-danger" id="emailErrorMessage">
+                                </span>
                             </div>
-                            <span class="text-danger" id="emailErrorMessage">
+                        </div>
+                    </form>
+                </div>
 
-                            </span>
+                <hr class="margin">
+
+                <h3>ADDRESS</h3>
+                <form class="addressSection">
+                    <div class="formTitle-styling">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="firstName">First Name*</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                                <span class="text-danger" id="firstNameErrorMessage"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lastName">Last Name*</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                                <span class="text-danger" id="lastNameErrorMessage"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="streetAddress">Street Address*</label>
+                            <input type="text" class="form-control" id="streetAddress" required>
+                            <span class="text-danger" id="addressErrorMessage"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="additionalInfo">Additional Info</label>
+                            <textarea class="form-control" id="additionalInfo"></textarea>
+                            <span class="formFooter-styling">Additional address information</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="city">City*</label>
+                                <input type="text" class="form-control" id="city" required>
+                                <span class="text-danger" id="cityErrorMessage"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="state">State*</label>
+                                <input type="text" class="form-control" id="state" required>
+                                <span class="text-danger" id="stateErrorMessage"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="postcode">Postcode*</label>
+                                <input type="text" class="form-control" id="postcode" required>
+                                <span class="formFooter-styling" id="PC-Footer"></span>
+                                <span class="text-danger" id="postcodeErrorMessage"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="phoneNumber">Phone Number*</label>
+                                <input type="text" class="form-control" id="phoneNumber" required>
+                                <span class="formFooter-styling" id="PhNum-Footer"></span>
+                                <span class="text-danger" id="phoneNumberErrorMessage"></span>
+                            </div>
                         </div>
                     </div>
-                    
+                    <container class="button-container">
+                        <button type="button" class="btn btn-primary btn-block" id="addressButton"
+                            disabled>NEXT</button>
+                    </container>
                 </form>
 
-                <hr class="spacing">
+                <hr class="margin">
 
-                <h3 class="section-font" id="addressSection">ADDRESS</h3>
-                <form id="addressForm">
-                    <div class="form-row">
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="firstName">First Name*</label>
-                            <input type="text" class="form-control" id="firstName" required>
-                          
-                            <span class="text-danger" id="firstNameErrorMessage"></span>
-                        </div>
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="lastName">Last Name*</label>
-                            <input type="text" class="form-control" id="lastName" required>
-                            <span class="text-danger" id="lastNameErrorMessage"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group field-styling">
-                        <label for="streetAddress">Street Address*</label>
-                        <input type="text" class="form-control" id="streetAddress" required>
-                        <span class="text-danger" id="address1ErrorMessage"></span>
-                    </div>
-
-
-
-                    <div class="form-group field-styling">
-                        <label for="additionalInfo">Additional Info</label>
-                        <textarea class="form-control" id="additionalInfo"></textarea>
-                        <span class=" dafault-text">Additional address information</span>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="city">City*</label>
-                            <input type="text" class="form-control" id="city" required>
-                            <span class="text-danger" id="cityErrorMessage"></span>
-                        </div>
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="state">State*</label>
-                            <input type="text" class="form-control" id="state" required>
-                            <span class="text-danger" id="stateErrorMessage"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="postcode">Postcode*</label>
-                            <input type="text" class="form-control" id="postcode" required>
-                            <span class="dafault-text" id="PC-Info"></span>
-                            <span class="text-danger" id="postcodeErrorMessage"></span>
-                        </div>
-                        <div class="form-group col-md-6 field-styling">
-                            <label for="phoneNumber">Phone Number*</label>
-                            <input type="text" class="form-control" id="phoneNumber" required>
-                            <span class="dafault-text" id="PhNum-Info"></span>
-                            <span class="text-danger" id="phoneNumberErrorMessage"></span>
-                        </div>
-                    </div>
-                    <div  class="button-container">
-
-                        <button type="button" class="btn btn-primary btn-block" id="addressButton" disabled>NEXT</button>
-                    </div>
-                </form>
-                    
-                    
-
-
-                   
-               
-            </div>
-                <hr class="spacing">
-
-
-                <h3 class="section-font">SHIPPING METHODS</h3>
-                <container class="shippingSection">           
-                    <div class="form-group wrap-outline">
-                      <label class="d-block">
-                        <input type="radio" name="shipping" checked>
-                        <img src="image/ninja_van.png" alt="Ninja Van" class="image-size field-styling"> &nbsp; Ninja Van
-
-                        <span class="float-right field-styling text-align">$10</span>
-                      </label>
+                <h3>SHIPPING METHODS</h3>
+                <div class="shippingSection formTitle-styling">
+                    <div class="form-group shipping-border ">
+                        <label class="d-block">
+                            <input type="radio" name="shipping" checked>
+                            <img src="images/ninja_van.png" alt="Ninja Van" class="shippingImage-size "> &nbsp;
+                            Ninja Van
+                            <span class="float-right text-align">$10</span>
+                        </label>
                     </div>
                     <br>
                     <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="terms">
-                      <label class="form-check-label field-styling" for="terms">Yes, I accept the Terms and Conditions*</label>
+                        <input type="checkbox" class="form-check-input" id="t&c">
+                        <label class="form-check-label" for="t&c">Yes, I accept the <a href="#">Terms &
+                                Conditions</a>*</label>
                     </div>
-                    <button type="button" class="btn btn-primary btn-block" id="nextButton" disabled>NEXT</button>
-               
-                </container> 
-                <hr class="spacing">
+                    <button type="button" class="btn btn-primary btn-block" id="shippingButton" disabled>NEXT</button>
+                </div>
 
+                <hr class="margin">
 
-                <h3 class="section-font">PAYMENT</h3>
-                
+                <h3>PAYMENT</h3>
+                <div class="paymentSection">
+                    <p class="safety-block">Payments are SSL encrypted so that your credit card and payment details stay
+                        safe. &nbsp; <i class="fas fa-lock"></i></p>
+                    <div class="form-group shipping-border">
+                        <p class="paymentMethod-title">Credit/Debit Card</p>
+                        <form class="formTitle-styling">
+                            <div class="form-group">
+                                <label for="nameOnCard">Name on card</label>
+                                <input class="form-control" id="nameOnCard" placeholder="Emily Fracnis">
+                                <div class="text-danger" id="nameOnCardValidity"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardNumber">Card number</label>
+                                <input class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                                <div class="text-danger" id="cardNumberValidity"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="expiryDate">Expiry date</label>
+                                        <input class="form-control" id="expiryDate" placeholder="MM/YY">
+                                        <div class="text-danger" id="expiryDateValidity"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cvc">CVC/CVV</label>
+                                        <input class="form-control" id="cvc" placeholder="3 digits">
+                                        <div class="text-danger" id="cvcValidity"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="form-group shipping-border">
+                        <p class="paymentMethod-title">Online Banking</p>
+                        <label class="d-block onlineBanking-method">
+                            <select class="form-control" id="onlineBanking-method">
+                                <option value="" disabled selected>Select your bank</option>
+                                <option value="am">Am Online</option>
+                                <option value="cimb">CIMB Clicks</option>
+                                <option value="pbe">Public Bank</option>
+                            </select>
+                        </label>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block" id="paymentButton">PLACE ORDER</button>
+                </div>
             </div>
 
-            <div class="col-md-6" id="spacer">
-                <h3>YOUR CART</h3>
-                
-                
+
+            <div class="col-md-6" id="spacing">
+                <h3 id="cartSection">YOUR CART</h3>
+                <div class="order-border">
+                    <img src="images/sportNIkeDunkLow.png" alt="Product Image" class="shoeImage-size">
+                    <div class="order-details">
+                        <h6>NIKE</h6>
+                        <p class="shoe-name">Dunk Low Retro - Black</p>
+                        <div class="cart-text">
+                            <p>Price: $ 110.00</p>
+                            <p>Qty: 1</p>
+                            <p>Size: US 5</p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button type="btn btn-secondary btn-block" class="cart-btn">USE A PROMO CODE</button>
+                <br>
+                <br>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        Cart Subtotal
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 110.00</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Shipping
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 10.00</i>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        Order Amount
+                    </div>
+                    <div class="col-6 text-right total-price">
+                        $ 120.00
+                    </div>
+                </div>
             </div>
         </div>
     </div>

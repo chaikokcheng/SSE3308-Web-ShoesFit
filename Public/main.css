@@ -202,36 +202,33 @@ body {
 
 
 /* //payment */
-.checkout-styling {
+h3{
+    font-size: 22px;
+    font-weight: bolder;
+    padding-bottom: 20px;
+}
+
+h2 {
+    padding-top: 25px;
+    font-weight: bold;
+    font-size: 35px;
     text-align: center;
-    height: 150px;
-    padding-top: 20px;
-   
+    padding-bottom: 100px;
 }
 
-#checkout-font {
-font-weight: bold;
-font-size: 35px;
+#spacing {
+    padding-left: 180px;
 }
 
-#spacer {
-    padding-left: 230px;
+hr{
+    border-width: 3px ;
 }
 
-.section-font {
-font-size: 22px;
-font-weight: bolder;
-padding-bottom: 20px;
+hr.margin {
+    margin-top: 50px;
 }
 
-.spacing {
-    margin-top: 20px;
-    margin-bottom: 40px;
-    border-width: 3px;
-}
-
-
-.field-styling {
+.formTitle-styling {
     font-size: 15px;
 }
 
@@ -241,7 +238,7 @@ padding-bottom: 20px;
     border-color: inherit; 
 }
 
-#emailIcon, #addressForm {
+#email-checkIcon, .addressSection{
     display: none;
 }
 
@@ -256,18 +253,18 @@ padding-bottom: 20px;
     font-size: 12px;
 }
 
-.dafault-text {
+.formFooter-styling {
     color: grey;
     font-size: 12px; 
 }
 
-.image-size {
+.shippingImage-size {
     width: 50px; 
     height: 40px;
     
 }
 
-.wrap-outline {
+.shipping-border {
     border: 2px solid #ccc; 
     padding: 15px; 
 }
@@ -284,7 +281,13 @@ padding-bottom: 20px;
     width: 150px;
 }
 
-.btn:disabled {
+.cart-btn{
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+
+.btn:disabled{
     background-color: black;
     border-color: black; 
     color: white; 
@@ -296,28 +299,79 @@ padding-bottom: 20px;
     color: white;
 }
 
-.btn:hover {
+.btn:hover, .cart-btn:hover  {
     background-color: lightgray;
     border-color: black;
     color: black; 
 }
 
-.btn:active {
+.btn:active, .cart-btn:active {
     border-color: gray !important;
     background-color: gray !important; 
     box-shadow: 0 0 5px gray !important;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-}
-
 .button-container {
-    margin-top: 20px; 
     align-self: flex-end; 
 }
 
+.safety-block {
+    background-color: lightgray;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.paymentMethod-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.form-control::placeholder {
+    font-size: 14px; 
+}
+
+.order-border {
+    display: flex;
+    align-items: center;
+    border: 2px solid lightgrey;
+    padding: 10px;
+}
+
+.order-details {
+    margin-left: 20px;
+}
+
+.total-price{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.cart-text {
+    color: grey;
+    font-size: 15px; 
+    padding-top: 7px ; 
+}
+
+.cart-text p {
+    margin-bottom: 5px; 
+}
+
+h6 {
+font-weight: bold;
+font-size: 16px;
+}
+
+.shoe-name {
+    font-size: 16px;
+}
+
+.shoeImage-size {
+    width: 120px; 
+    height: 90px;
+}
+
+/* payment */
 
 
 
