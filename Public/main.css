@@ -373,8 +373,37 @@ font-size: 16px;
 
 /* payment */
 
+/* order summary*/
+#summary-title h1{
+    font-weight: 800;
+    letter-spacing: -3px;
+}
 
+#greeting h6{
+    font-weight: bold;
+    text-decoration: underline;
+}
 
+#greeting p{
+    line-height: 1.5;
+}
+
+#summary h1{
+    font-weight: 800;
+    letter-spacing: -3px;
+}
+
+#summary h5{
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+#ordered-items h1{
+    font-weight: 800;
+    letter-spacing: -3px;
+}
+
+/* order summary*/
  
 
 
