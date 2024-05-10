@@ -1,18 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nike Dunk Low Retro</title>
-<link rel="stylesheet" type="text/css" href="main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Dunk Low Retro</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+        .color-button {
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
-<div class="container">
-    <h1>Nike Dunk Low Retro</h1>
-    <img src="images/sportNIkeDunkLow.png" alt="Nike Dunk Low Retro">
-    <p>Optimized for performance and agility.</p>
-    <span>Price: $110</span>
-    <button>Add to Cart</button>
-</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <a class="navbar-brand" href="#">
+            <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html" title="User Profile">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="product-section row">
+            <div class="col-1"></div>
+            <div class="product-images col-1 d-flex flex-column justify-content-between">
+                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+            </div>
+            <img class="product-image-main col-5" src="images/sportNIkeDunkLow.png" alt="">
+            <div class="product-details d-flex flex-column col-5">
+                <h1 class="product-name">Nike Dunk Low Retro</h1>
+                <p class="product-desc">Optimized for performance and agility.</p>
+                <p class="price">$99.99</p>
+                <div class="colors mt-3">
+                    <button class="color-button" style="background-image: url('images/sportNB530.png');"></button>
+                    <button class="color-button"
+                        style="background-image: url('images/sportAdidasOriginalsHB.png');"></button>
+                </div>
+                <div class="sizes mt-3">
+                    <button class="size-button">US 6</button>
+                    <button class="size-button">US 7</button>
+                    <button class="size-button">US 8</button>
+                    <button class="size-button">US 9</button>
+                </div>
+                <div class="quantity-control mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-secondary">-</button>
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" value="1">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-secondary">+</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="reviews mt-4">
+            <h2>Reviews</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">User 1</h5>
+                        <small>Rating: 4.5</small>
+                    </div>
+                    <p class="mb-1">Great shoes! Very comfortable and stylish.</p>
+                    <img src="images/ninja_van.png" class="img-thumbnail">
+                </li>
+            </ul>
+        </div>
+
+        <div class="other-products mt-4">
+            <h2>Other Products</h2>
+            <div id="otherProductCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/formalKnight.png" class="d-block w-30">
+                        <div class="carousel-caption">
+                            <h5>Product 1 Name</h5>
+                            <p>$99.99</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/formalCHmen.png" class="d-block w-30">
+                        <div class="carousel-caption">
+                            <h5>Product 2 Name</h5>
+                            <p>$79.99</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#otherProductCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#otherProductCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
