@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Summary</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
+
         <a class="navbar-brand" href="#">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -34,6 +38,141 @@
             </ul>
         </div>
     </nav>
-    
+    <div class="container mt-3" id="summary-title">
+        <h1>YOUR SHOES IS ON ITS WAY TO YOU</h1>
+    </div>
+    <br>
+    <div class="container mt-3" id="greeting">
+        <h6>Order Number: AMY0961341</h6>
+        <h7>Hi Username,</h7><br>
+        <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
+            We hope your new shoes bring you all the comfort and style you deserve.
+            Thank you for being a part of the ShoesFit family. We look forward to serving you again soon!
+        </p>
+    </div>
+    <br>
+    <div class="container mt-3" id="summary">
+        <h1>ORDER SUMMARY</h1>
+        <div class="row" >
+            <div class="col-sm-4">
+                <h5>DELIVERY ADDRESS</h5>
+                <p>BLABLABLA</p>
+            </div>
+            <div class="col-sm-4">
+                <h5>BILLING INFORMATION</h5>
+                <p>HAHAHAHAHAHA</p>
+                <h6>Via: Payment method</h6>
+            </div>
+            <div class="col-sm-4">
+                <h5>ORDER SUMMARY</h5>
+                <div class="row">
+                    <div class="col-6">
+                        Product
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 450.00</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Promo Code
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ -100.00</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Delivery Fee
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>Free</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Total Amount
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 350.00</i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        Total Saving
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 110.00</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container mt-3" id="ordered-items">
+        <h1>ORDERED ITEMS</h1>
+        <br>
+        <div class="row">
+            <div class="col-6">
+                <img src="images/sportNIkeDunkLow.png" width="100%" , height="auto">
+            </div>
+            <div class="col-6">
+                <h6>Nike Dunk Low</h6>
+                <p>Color: Black/White
+                    <br>Size: US8
+                </p>
+                <br>
+                <div class="row">
+                    <div class="col-6">
+                        Total Price
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 110.00</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- <footer class="footer bg-light">
+        <div class="container">
+            
+            <div class="row py-5">
+                <div class="col-md-4 mb-3">
+                    <h4>About ShoesFit</h4>
+                    <p>Welcome to ShoesFit, your number one source for all things shoes. We're dedicated to giving you the very best of footwear, with a focus on dependability, customer service, and uniqueness.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="" class="me-2" aria-label="Facebook">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                        <a href="" class="me-2" aria-label="Instagram">
+                            <i class="fab fa-instagram-square fa-2x"></i>
+                        </a>
+                        <a href="" class="me-2" aria-label="Twitter">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h4>Contact Us</h4>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control mb-2" placeholder="Name" name="name">
+                            <input type="email" class="form-control mb-2" placeholder="Email Address" name="email">
+                            <textarea class="form-control mb-2" rows="2" placeholder="Your Message"></textarea>
+                            <button type="submit" class="btn btn-secondary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </footer> -->
 </body>
+
 </html>
