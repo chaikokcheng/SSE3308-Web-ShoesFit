@@ -114,9 +114,7 @@ function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     const fieldErrorMessage = document.getElementById(errorMessage);
     const fieldFooter = document.getElementById(footer);
 
-    if (fieldInput.value.trim() === '' || document.activeElement === fieldInput) {
-        fieldErrorMessage.textContent = "";
-        
+    if (fieldInput.value.trim() === '') {   
         if (input === "postcode" && footer === "PC-Footer") {
             fieldFooter.textContent = "Example: 11900";
         } 
@@ -186,21 +184,6 @@ function checkAllFieldsFilled() {
 }
 
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    const shippingSection = document.querySelector(".shippingSection");
-    shippingSection.style.display = "none";
-});
-
-const checkbox = document.getElementById('t&c');
-const shippingButton = document.getElementById('shippingButton');
-
-checkbox.addEventListener('change', function() {
-    shippingButton.disabled = !this.checked;
-});
-
-
-
 document.addEventListener("DOMContentLoaded", function() {
     const shippingSection = document.querySelector(".shippingSection");
     const paymentSection = document.querySelector(".paymentSection");
@@ -211,11 +194,18 @@ document.addEventListener("DOMContentLoaded", function() {
     const shippingButton = document.getElementById('shippingButton');
 
     checkbox.addEventListener('change', function() {
-        shippingButton.disabled = !this.checked;
+        if (!this.checked) {
+            shippingButton.disabled = true;
+            paymentSection.style.display = "none";
+        }
+        else {
+            shippingButton.disabled = false;
+        }
     });
-
+    
     shippingButton.addEventListener('click', function() {
         paymentSection.style.display = "block";
+        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 });
 
@@ -246,9 +236,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 const nameOnCardRegex = /^[a-zA-Z ]+$/; 
-const cardNumberRegex = /^[0-9]{16}$/; 
+const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/; 
 const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
 const cvvRegex = /^[0-9]{3}$/; 
+
+function formatCardNumber(input) {
+    const inputValue = input.value.replace(/\D/g, '');
+
+    const formattedValue = inputValue.match(/.{1,4}/g).join(' ');
+
+    input.value = formattedValue;
+}
 
 function validateCard(input, errorMessage, fieldName, regex) {
     const cardInput = document.getElementById(input);

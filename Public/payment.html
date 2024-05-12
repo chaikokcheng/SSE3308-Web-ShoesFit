@@ -168,7 +168,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="cardNumber">Card number</label>
-                                <input class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                                <input class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
                                 <div class="text-danger" id="cardNumberValidity"></div>
                             </div>
                             <div class="row">
@@ -182,7 +182,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="cvc">CVC/CVV</label>
-                                        <input class="form-control" id="cvc" placeholder="3 digits">
+                                        <input class="form-control" id="cvc" placeholder="3 digits" maxlength="3">
                                         <div class="text-danger" id="cvcValidity"></div>
                                     </div>
                                 </div>
