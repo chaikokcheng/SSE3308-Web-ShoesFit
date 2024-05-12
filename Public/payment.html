@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShoesFit Checkout</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
 
 
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
+
         <a class="navbar-brand" href="#">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -150,10 +154,16 @@
                 <h3>PAYMENT</h3>
                 <div class="paymentSection">
                     <p class="safety-block">Payments are SSL encrypted so that your credit card and payment details stay
-                        safe. &nbsp; <i class="fas fa-lock"></i></p>
+                        safe. &nbsp; <i class="fas fa-lock"></i>
+                    </p>
                     <div class="form-group shipping-border">
-                        <p class="paymentMethod-title">Credit/Debit Card</p>
-                        <form class="formTitle-styling">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCardRadio" value="creditCard" checked>
+                            <label class="form-check-label paymentMethod-title" for="creditCardRadio">
+                                Credit/Debit Card
+                            </label>
+                        </div>
+                        <div class="form-group formTitle-styling pt-4" id="creditCardDetails">
                             <div class="form-group">
                                 <label for="nameOnCard">Name on card</label>
                                 <input class="form-control" id="nameOnCard" placeholder="Emily Fracnis">
@@ -180,14 +190,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
 
                     <div class="form-group shipping-border">
-                        <p class="paymentMethod-title">Online Banking</p>
-                        <label class="d-block onlineBanking-method">
-                            <select class="form-control" id="onlineBanking-method">
-                                <option value="" disabled selected>Select your bank</option>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlineBankingRadio" value="onlineBanking">
+                            <label class="form-check-label paymentMethod-title" for="onlineBankingRadio">
+                                Online Banking
+                            </label>
+                        </div>
+                        <label class="d-block">
+                            <select class="form-control" id="onlineBankingDetails">
+                                <option hidden disabled selected style="display:none;">Select your bank</option>
                                 <option value="am">Am Online</option>
                                 <option value="cimb">CIMB Clicks</option>
                                 <option value="pbe">Public Bank</option>
@@ -247,12 +262,13 @@
         </div>
     </div>
 
-    
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
-   
+
 </body>
+
 </html>

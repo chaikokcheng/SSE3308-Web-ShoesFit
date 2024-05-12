@@ -199,24 +199,48 @@ checkbox.addEventListener('change', function() {
     shippingButton.disabled = !this.checked;
 });
 
-$(document).ready(function(){
-    $('#onlineBanking-method').on('change', function(){
-        $('.payment-details').hide();
-        $('#' + $(this).val() + '-details').show();
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const shippingSection = document.querySelector(".shippingSection");
+    const paymentSection = document.querySelector(".paymentSection");
+    shippingSection.style.display = "none";
+    paymentSection.style.display = "none";
+
+    const checkbox = document.getElementById('t&c');
+    const shippingButton = document.getElementById('shippingButton');
+
+    checkbox.addEventListener('change', function() {
+        shippingButton.disabled = !this.checked;
     });
 
-    const paymentSection = document.querySelector(".paymentSection");
-    
-    shippingButton.addEventListener("click", function() {
-        if (paymentSection) {
-            paymentSection.style.display = "block"; 
-            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    shippingButton.addEventListener('click', function() {
+        paymentSection.style.display = "block";
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const creditCardRadio = document.getElementById('creditCardRadio');
+    const creditCardDetails = document.getElementById('creditCardDetails');
+    const onlineBankingRadio = document.getElementById('onlineBankingRadio');
+    const onlineBankingDetails = document.getElementById('onlineBankingDetails');
+
+    onlineBankingDetails.style.display = 'none';
+   
+    creditCardRadio.addEventListener('change', function() {
+        if (this.checked) {
+            creditCardDetails.style.display = 'block';
+            onlineBankingDetails.style.display = 'none';
         }
     });
-    
-    if (paymentSection) {
-        paymentSection.style.display = "none";
-    }
+
+    onlineBankingRadio.addEventListener('change', function() {
+        if (this.checked) {
+            creditCardDetails.style.display = 'none';
+            onlineBankingDetails.style.display = 'block';
+        }
+    });
 });
 
 
