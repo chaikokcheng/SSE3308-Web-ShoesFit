@@ -227,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const onlineBankingDetails = document.getElementById('onlineBankingDetails');
 
     onlineBankingDetails.style.display = 'none';
+    creditCardDetails.style.display = 'none';
    
     creditCardRadio.addEventListener('change', function() {
         if (this.checked) {
