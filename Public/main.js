@@ -215,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const creditCardDetails = document.getElementById('creditCardDetails');
     const onlineBankingRadio = document.getElementById('onlineBankingRadio');
     const onlineBankingDetails = document.getElementById('onlineBankingDetails');
+    const paymentButton = document.getElementById('paymentButton');
 
     onlineBankingDetails.style.display = 'none';
     creditCardDetails.style.display = 'none';
@@ -223,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (this.checked) {
             creditCardDetails.style.display = 'block';
             onlineBankingDetails.style.display = 'none';
+            paymentButton.disabled = false;
         }
     });
 
@@ -230,6 +232,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (this.checked) {
             creditCardDetails.style.display = 'none';
             onlineBankingDetails.style.display = 'block';
+            paymentButton.disabled = false;
         }
     });
 });
@@ -292,6 +295,11 @@ const inputs = document.querySelectorAll('.form-control');
         });
     });
 
+$(document).ready(function() {
+    $('#paymentButton').click(function() {
+        $('#myModal').modal('show');
+    });
+});
 
 document.getElementById("email").addEventListener("input", updateEmailFeedback);
 

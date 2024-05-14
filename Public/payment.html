@@ -122,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                        <button type="button" class="btn" id="addressButton" disabled>NEXT</button>
+                        <button type="button" class="btn btn-width" id="addressButton" disabled>NEXT</button>
                 </form>
 
                 <hr class="margin">
@@ -143,7 +143,7 @@
                         <label class="form-check-label" for="t&c">Yes, I accept the <a href="#">Terms &
                                 Conditions</a>*</label>
                     </div>
-                    <button type="button" class="btn" id="shippingButton" disabled>NEXT</button>
+                    <button type="button" class="btn btn-width" id="shippingButton" disabled>NEXT</button>
                 </div>
 
                 <hr class="margin">
@@ -206,7 +206,7 @@
                             </select>
                         </label>
                     </div>
-                    <button type="button" class="btn" id="paymentButton">PLACE ORDER</button>
+                    <button type="button" class="btn btn-width" id="paymentButton" data-bs-toggle="modal" data-bs-target="#myModal" disabled>PLACE ORDER</button>
                 </div>
             </div>
 
@@ -255,6 +255,24 @@
                     <div class="col-6 text-right total-price">
                         $ 120.00
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="alert alert-success"><strong>Order confirmed !</strong></h4>
+                    <a href="index.html"><button type="button" class="btn-close"></button></a>
+                </div>
+                <div class="modal-body">
+                    Your payment has been successfully completed.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn">View Order Summary</button>
                 </div>
             </div>
         </div>

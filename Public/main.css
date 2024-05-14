@@ -274,6 +274,9 @@ hr.margin {
     border-color: black;
     color: white;
     float: right;
+}
+
+.btn-width {
     width: 150px;
 }
 
