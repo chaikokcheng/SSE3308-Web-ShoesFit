@@ -301,8 +301,34 @@ $(document).ready(function() {
     });
 });
 
-document.getElementById("email").addEventListener("input", updateEmailFeedback);
+$(document).ready(function() {
+    $('.cart-btn').click(function() {
+        $('#codeModal').modal('show');
+    });
+});
 
+  
+var countDownTime = new Date().getTime() + 20 * 60 * 1000;
+
+var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownTime - now;
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+    document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+        
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
+    }
+}, 1000);
+
+document.getElementById("email").addEventListener("input", updateEmailFeedback);
 // payment
 
 function filterCategory(category) {

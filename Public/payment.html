@@ -45,6 +45,10 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>CHECKOUT</h2>
+                <p>Please complete your checkout within <strong>20 minutes</strong>.</p>
+            </div>
+            <div class="timer">
+                <div id="countdown"></div>
             </div>
         </div>
         <div class="row">
@@ -227,7 +231,7 @@
                     </div>
                 </div>
                 <br>
-                <button type="btn" class="cart-btn">USE A PROMO CODE</button>
+                <button type="btn" class="cart-btn" data-bs-toggle="modal" data-bs-target="codeModal">USE A PROMO CODE</button>
                 <br>
                 <br>
                 <hr>
@@ -260,6 +264,28 @@
         </div>
     </div>
 
+
+    <div class="modal fade" id="codeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enter Your Promo Code</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="promoCode">Promo Code:</label>
+                            <input type="text" class="form-control" id="promoCode" placeholder="Enter promo code">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="myModal">
         <div class="modal-dialog">
