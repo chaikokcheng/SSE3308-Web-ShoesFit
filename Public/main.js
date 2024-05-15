@@ -308,7 +308,7 @@ $(document).ready(function() {
 });
 
   
-var countDownTime = new Date().getTime() + 20 * 60 * 1000;
+var countDownTime = new Date().getTime() + 1 * 60 * 1000;
 
 var x = setInterval(function() {
     var now = new Date().getTime();
