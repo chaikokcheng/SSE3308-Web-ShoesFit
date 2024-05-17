@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShoesFit</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
-        <a class="navbar-brand" href="#">
+
+        <a class="navbar-brand" href="/Public/">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -34,8 +38,8 @@
             </ul>
         </div>
     </nav>
-    
-    
+
+
 
     <div class="container mt-4">
         <div class="jumbotron" style="background-image: url('images/coverwallpaper1.jpg');">
@@ -44,7 +48,7 @@
                 <p>Fit for every step, styled for every street—find your shoes at ShoesFit.</p>
             </div>
         </div>
-        
+
 
 
         <h2>New Arrivals</h2>
@@ -55,27 +59,31 @@
 
         <h2>Shop by Category</h2>
         <div class="btn-group mb-4">
-            <button type="button" class="btn btn-outline-secondary" data-category="Sport" onclick="filterCategory('Sport')">Sport</button>
-            <button type="button" class="btn btn-outline-secondary" data-category="Formal" onclick="filterCategory('Formal')">Formal</button>
-            <button type="button" class="btn btn-outline-secondary" data-category="Heels" onclick="filterCategory('Heels')">Heels</button>
+            <button type="button" class="btn btn-outline-secondary" data-category="Sport"
+                onclick="filterCategory('Sport')">Sport</button>
+            <button type="button" class="btn btn-outline-secondary" data-category="Formal"
+                onclick="filterCategory('Formal')">Formal</button>
+            <button type="button" class="btn btn-outline-secondary" data-category="Heels"
+                onclick="filterCategory('Heels')">Heels</button>
         </div>
         <div class="row" id="productList"></div>
-        
-        
+
+
     </div>
     </div>
 
 
     <br><br>
-    
+
 
     <footer class="footer bg-light">
         <div class="container">
-            
+
             <div class="row py-5">
                 <div class="col-md-4 mb-3">
                     <h4>About ShoesFit</h4>
-                    <p>Welcome to ShoesFit, your number one source for all things shoes. We're dedicated to giving you the very best of footwear, with a focus on dependability, customer service, and uniqueness.</p>
+                    <p>Welcome to ShoesFit, your number one source for all things shoes. We're dedicated to giving you
+                        the very best of footwear, with a focus on dependability, customer service, and uniqueness.</p>
                 </div>
                 <div class="col-md-4 mb-3">
                     <h4>Follow Us</h4>
@@ -99,11 +107,11 @@
                             <input type="email" class="form-control mb-2" placeholder="Email Address" name="email">
                             <textarea class="form-control mb-2" rows="2" placeholder="Your Message"></textarea>
                             <button type="submit" class="btn btn-secondary">Send Message</button>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
 
     <br><br>
@@ -113,4 +121,5 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>

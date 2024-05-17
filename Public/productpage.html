@@ -18,13 +18,17 @@
             border: none;
             cursor: pointer;
         }
+
+        h2 {
+            padding-bottom: 50px;
+        }
     </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/Public">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -47,90 +51,283 @@
         </div>
     </nav>
 
+    <hr>
     <main>
-        <div class="product-section row">
-            <div class="col-1"></div>
-            <div class="product-images col-1 d-flex flex-column justify-content-between">
-                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
-                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
-                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
-                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
-                <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
-            </div>
-            <img class="product-image-main col-5" src="images/sportNIkeDunkLow.png" alt="">
-            <div class="product-details d-flex flex-column col-5">
-                <h1 class="product-name">Nike Dunk Low Retro</h1>
-                <p class="product-desc">Optimized for performance and agility.</p>
-                <p class="price">$99.99</p>
-                <div class="colors mt-3">
-                    <button class="color-button" style="background-image: url('images/sportNB530.png');"></button>
-                    <button class="color-button"
-                        style="background-image: url('images/sportAdidasOriginalsHB.png');"></button>
+        <div id="product-section" class="container py-5">
+            <div class="row">
+                <div id="product-images" class="col-1 d-flex flex-column justify-content-between">
+                    <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                    <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                    <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                    <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
+                    <img class="product-image" src="images/sportNIkeDunkLow.png" alt="">
                 </div>
-                <div class="sizes mt-3">
-                    <button class="size-button">US 6</button>
-                    <button class="size-button">US 7</button>
-                    <button class="size-button">US 8</button>
-                    <button class="size-button">US 9</button>
-                </div>
-                <div class="quantity-control mt-3">
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-secondary">-</button>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" value="1">
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-secondary">+</button>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                <img id="product-image-main" class="col-6" src="images/sportNIkeDunkLow.png" alt="">
+                <div id="product-details" class="d-flex flex-column col-5">
+                    <h1 id="product-name">Nike Dunk Low Retro</h1>
+                    <p id="product-desc">Optimized for performance and agility.</p>
+                    <p id="price">$99.99</p>
+                    <div id="colors" class="mt-3">
+                        <button class="color-button" style="background-image: url('images/sportNB530.png');"></button>
+                        <button class="color-button"
+                            style="background-image: url('images/sportAdidasOriginalsHB.png');"></button>
+                    </div>
+                    <div id="sizes" class="mt-3">
+                        <button class="size-button">US 6</button>
+                        <button class="size-button">US 7</button>
+                        <button class="size-button">US 8</button>
+                        <button class="size-button">US 9</button>
+                    </div>
+                    <div class="quantity-control mt-3">
+                        <div class="row">
+                            <div class="col">
+                                <button class="btn btn-secondary">-</button>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" value="1">
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-secondary">+</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-
-
             </div>
         </div>
-        <div class="reviews mt-4">
-            <h2>Reviews</h2>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">User 1</h5>
-                        <small>Rating: 4.5</small>
+
+        <hr>
+
+        <div id="reviews-section" class="container mt-5">
+            <h2>Product Reviews</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
                     </div>
-                    <p class="mb-1">Great shoes! Very comfortable and stylish.</p>
-                    <img src="images/ninja_van.png" class="img-thumbnail">
-                </li>
-            </ul>
+                    <h5 class="card-title">Great Product!</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">John Doe</h6>
+                        <small class="text-muted">2024-05-16</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>SKU:</strong> 123456</p>
+                    <img src="images/ninja_van.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
+                    <p class="card-text">This product exceeded my expectations. The quality is top-notch and it works
+                        perfectly. I've been using it for a few weeks now and have had no issues. Highly recommend to
+                        anyone in need of this product.</p>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5 class="card-title">Amazing Quality</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">Jane Smith</h6>
+                        <small class="text-muted">2024-05-15</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>SKU:</strong> 654321</p>
+                    <img src="images/sportAdidasOriginalsHB.png" alt="User Picture" class="img-fluid mb-3"
+                        style="width: 80px;">
+                    <p class="card-text">I was really impressed with the build quality of this product. It feels very
+                        sturdy and well-made. The performance is also excellent, and it meets all of my needs. Would
+                        definitely buy again.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="other-products mt-4">
-            <h2>Other Products</h2>
-            <div id="otherProductCarousel" class="carousel slide" data-ride="carousel">
+        <hr>
+
+        <div id="similar-products-section" class="container mt-5 pb-5">
+            <h2>Similar Products</h2>
+            <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="images/formalKnight.png" class="d-block w-30">
-                        <div class="carousel-caption">
-                            <h5>Product 1 Name</h5>
-                            <p>$99.99</p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 1</h5>
+                                        <p class="card-text">$49.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 2</h5>
+                                        <p class="card-text">$59.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 3</h5>
+                                        <p class="card-text">$69.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 4</h5>
+                                        <p class="card-text">$79.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="images/formalCHmen.png" class="d-block w-30">
-                        <div class="carousel-caption">
-                            <h5>Product 2 Name</h5>
-                            <p>$79.99</p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 5">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 5</h5>
+                                        <p class="card-text">$49.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 6</h5>
+                                        <p class="card-text">$59.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 7">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 7</h5>
+                                        <p class="card-text">$69.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 8</h5>
+                                        <p class="card-text">$79.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-3">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#otherProductCarousel" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#similarProductsCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#otherProductCarousel" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#similarProductsCarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
