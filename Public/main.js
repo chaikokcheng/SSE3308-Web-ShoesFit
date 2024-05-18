@@ -135,11 +135,10 @@ $(document).ready(function() {
 
     calculateDeliveryDate();
 });
-
+// cart
 
 
 // payment
-
 function validateEmailFormat(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -268,7 +267,8 @@ validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "p
 
 
 
-const textFields = document.querySelectorAll('input[type="text"]');
+const textFields = document.querySelectorAll('#firstName, #lastName, #streetAddress, #city, #state, #postcode, #phoneNumber');
+
 textFields.forEach(textField => {
     textField.addEventListener("input", checkAllFieldsFilled);
 });
