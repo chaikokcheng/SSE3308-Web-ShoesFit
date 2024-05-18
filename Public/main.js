@@ -35,6 +35,11 @@ fetchProducts((products) => {
     displayProducts(products, 'newArrivals', 'Heels');
 });
 
+//shopping cart
+$(document).ready(function(){
+    $('.multi_select').selectpicker();
+})
+
 
 // payment
 

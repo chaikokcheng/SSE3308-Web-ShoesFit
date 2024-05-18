@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="main.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shopping Cart</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet"><!--for cart-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="cart.css"> 
+<!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
 </head>
 <body>
-<div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         
         <a class="navbar-brand" href="index.html">
@@ -37,7 +38,66 @@
         </div>
     </nav>
 
-    <h1>Your Cart</h1>
+
+    
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12 col-11">
+                <div class="row mt-5 gx-4">
+                    <div class="col-md-8">
+                        <h2 class="py-2 font-weight-bold text-left" >YOUR SHOPPING CART</h2>
+                        <p class=" text-muted text-left">TOTAL [x items] <br><!--how to make this variable same as cart num-->
+                        Items in your cart are not reserved - checkout now to make them yours</p>
+                    </div>
+                    <!--left side div-->
+                    <div class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 "><!--shadow make the background that seem like container ,how to make padding on the top of the card-->
+                        <!-- make as function to retrieve data after this -->
+                        <div class="card p-4 shadow " id="shoppingcart">
+                            <div class="row">
+                                <!--cart images -->
+                                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                    <img src="images/sportNIkeDunkLow.png" class="img-fluid" alt="sportNIkeDunkLow">
+                                </div>
+                                <!--cart product details-->
+                                <div class="col-md-7 col-12 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <!-- product name -->
+                                        <div class="col-9 card-body">
+                                            <h5 class="mb-3 card-title text-align-left">Nike Dunk Low Retro</h5>
+                                            <p class="mb-2 card-text">Select details [Size and Color]:</p>
+                                           
+                                            <div class="multi_select_box"> 
+                                                <Select class="multi_select w-100" multiple data-live-search="true" title="Select fav shoes">
+                                                    <option>US 5</option>
+                                                    <option>US 6 </option>
+                                                    <option>US 7</option>
+                                                    <option>US 8</option>
+                                                    <option>BLack</option>
+                                                    <option>Yellow</option>
+                                                    <option>Blue</option>
+                                                    <option>Red</option>
+                                                </Select>
+                                            </div>
+                                            
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 
+        //mx-auto align center
+        <h1>Your Cart</h1>
     <div class="product">
         <span>Nike Dunk Low Retro</span>
         <span>$110</span>
@@ -47,7 +107,14 @@
         <span>$300</span>
     </div>
     <hr>
-    <strong>Total: $410</strong>
-</div>
+    <strong>Total: $410</strong> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proper.js/1.16.1/umd/proper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script><!--latest-->
+    <script scr="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
