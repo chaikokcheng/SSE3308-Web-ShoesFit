@@ -1,3 +1,17 @@
+
+a {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+a:hover {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+.main_cart {
+    background: #fff;
+}
 .multi_select_box{
     width:200px;
 }
@@ -10,4 +24,53 @@
     background-color: darkblue;
     color: #fff;
     padding: 15px 25px;
+}
+
+.page-link {
+    line-height: 16px;
+    width: 45px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #495057;
+}
+
+.page-item input {
+    line-height: 26px;
+    padding: 3px;
+    font-size: 15px;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    text-align: center;
+}
+
+.page-link:hover {
+    text-decoration: none;
+    color: #1d92f1;
+    outline: none !important;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+.set_quantity {
+    position: relative;
+}
+
+.set_quantity::after {
+    content: "";
+    width: auto;
+    height: auto;
+    text-align: center;
+    position: absolute;
+    bottom: -20px;
+    right: 1.5rem;
+    font-size: 0.8rem;
+}
+
+.price_indiv p {
+    font-size: 1.1rem;
 }

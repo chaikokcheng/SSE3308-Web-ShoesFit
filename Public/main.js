@@ -36,9 +36,111 @@ fetchProducts((products) => {
 });
 
 //shopping cart
-$(document).ready(function(){
-    $('.multi_select').selectpicker();
-})
+$(document).ready(function () {
+    $('.selectpicker').selectpicker();
+
+    $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        const selectedOptions = $(this).find('option:selected');
+        const selectedSized = selectedOptions.filter('[data-category="size"]').length;
+        const selectedColors = selectedOptions.filter('[data-category="color"]').length;
+
+        if (selectedSized > 1 || selectedColors > 1) {
+            alert('Please select only one size and one color.');
+            $(this).find('option').eq(clickedIndex).prop('selected', false);
+            $(this).selectpicker('refresh');
+        }
+    });
+    
+    // Function to update the total item count
+    function updateTotalItemsCount() {
+        const itemCount = $('.card.p-4').length;
+        $('#total_items_count').text(itemCount);
+    }
+
+    // Call updateTotalItemsCount on page load
+    updateTotalItemsCount();
+
+    // Call updateTotalItemsCount whenever items are added/removed
+
+    $('.remove-item-btn').on('click', function() {
+        $(this).closest('.card.p-4').remove();
+        updateTotalItemsCount();
+        calculateTotal();
+    });
+});
+
+const calculateTotal = () => {
+    let productTotalAmt = 0;
+    
+    // Loop through all items in the cart
+    $('.card.p-4').each(function() {
+        const itemPrice = parseFloat($(this).find('.price_money span').text());
+        const itemQuantity = parseInt($(this).find('.set_quantity input').val());
+        productTotalAmt += itemPrice * itemQuantity;
+    });
+
+    const shippingCharge = parseFloat(document.getElementById('shipping_charge').innerText);
+
+    document.getElementById('product_total_amt').innerText = productTotalAmt.toFixed(2);
+    document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
+}
+
+const decreaseNumber = (incdec, itemprice, itembaseprice) => {
+    const itemval = document.getElementById(incdec);
+    const itempriceElement = document.getElementById(itemprice);
+
+    if (itemval.value <= 1) {
+        itemval.value = 1;
+        alert('Minimum quantity is 1');
+    } else {
+        itemval.value = parseInt(itemval.value) - 1;
+        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+        calculateTotal();
+    }
+}
+
+const increaseNumber = (incdec, itemprice, itembaseprice) => {
+    const itemval = document.getElementById(incdec);
+    const itempriceElement = document.getElementById(itemprice);
+
+    if (itemval.value >= 5) {
+        itemval.value = 5;
+        alert('Maximum quantity is 5');
+    } else {
+        itemval.value = parseInt(itemval.value) + 1;
+        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+        calculateTotal();
+    }
+}
+
+// Initialize the total amount on page load
+$(document).ready(function() {
+    calculateTotal();
+});
+
+$(document).ready(function() {
+    // Calculate the expected delivery date range
+    function calculateDeliveryDate() {
+        let today = new Date();
+        let starterDay = new Date(today);
+        starterDay.setDate(today.getDate() + 4); // four days after today
+
+        let afterDay = new Date(starterDay);
+        afterDay.setDate(starterDay.getDate() + 2); // Two days after starterDay
+
+        // Format dates as desired (e.g., "June 27th 2024")
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        let starterDayStr = starterDay.toLocaleDateString('en-US', options);
+        let afterDayStr = afterDay.toLocaleDateString('en-US', options);
+
+        // Update the expected delivery date text
+        $('#expected-delivery-date').text(`${starterDayStr} - ${afterDayStr}`);
+    }
+
+    // Call the function to set the delivery date range on page load
+    calculateDeliveryDate();
+});
+
 
 
 // payment

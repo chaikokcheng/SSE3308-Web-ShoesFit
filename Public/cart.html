@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shopping Cart</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"
+        rel="stylesheet">
 
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="cart.css">
-<!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="cart.css">
+    <!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
+
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -40,80 +45,203 @@
     </nav>
 
 
-    
+
     <div class="container mt-3">
         <div class="row">
             <div class="col-md-12 col-11">
-                <div class="row mt-5 gx-4">
+                <!--Header-->
+                <div class="row mt-3 gx-4">
                     <div class="col-md-8">
-                        <h2 class="py-2 font-weight-bold text-left" >YOUR SHOPPING CART</h2>
-                        <p class=" text-muted text-left">TOTAL [x items] <br><!--how to make this variable same as cart num-->
-                        Items in your cart are not reserved - checkout now to make them yours</p>
+                        <h2 class="py-2 font-weight-bold text-left">YOUR SHOPPING CART</h2>
+                        <p class=" text-muted text-left">TOTAL [<span id="total_items_count">x</span> items]
+                            <br><!--how to make this variable same as cart num-->
+                            Items in your cart are not reserved - checkout now to make them yours
+                        </p>
                     </div>
                     <!--left side div-->
-                    <div class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 "><!--shadow make the background that seem like container ,how to make padding on the top of the card-->
+                    <div class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 shadow">
+                        <!--shadow make the background that seem like container ,how to make padding on the shadow top of the card-->
                         <!-- make as function to retrieve data after this -->
-                        <div class="card p-4 shadow " id="shoppingcart">
+                        <div class="card p-4 shadow " data-id="1"><!--how to match it into main.css? same card-->
                             <div class="row">
                                 <!--cart images -->
-                                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                <div
+                                    class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                    <!--product_img may removed-->
                                     <img src="images/sportNIkeDunkLow.png" class="img-fluid" alt="sportNIkeDunkLow">
                                 </div>
                                 <!--cart product details-->
                                 <div class="col-md-7 col-12 mx-auto px-4 mt-2">
                                     <div class="row">
                                         <!-- product name -->
-                                        <div class="col-9 card-body">
+                                        <div class="col-8 card-body">
                                             <h5 class="mb-3 card-title text-align-left">Nike Dunk Low Retro</h5>
-                                            <p class="mb-2 card-text">Select details [Size and Color]:</p>
-                                           
-                                            <div class="multi_select_box">
-                                                <select class="multi_select selectpicker w-100" multiple data-live-search="true" title="Select fav shoes">
-                                                    <option>US 5</option>
-                                                    <option>US 6</option>
-                                                    <option>US 7</option>
-                                                    <option>US 8</option>
-                                                    <option>Black</option>
-                                                    <option>Yellow</option>
-                                                    <option>Blue</option>
-                                                    <option>Red</option>
+                                            <p class="mb-2 card-text">Select fav shoes:</p>
+
+                                            <div class="multi_select_box ">
+                                                <select class="multi_select selectpicker w-100" multiple
+                                                    data-live-search="true" title="Size and Color">
+                                                    <optgroup label="Sizes">
+                                                        <option data-category="size">US 5</option>
+                                                        <option data-category="size" selected>US 6</option>
+                                                        <option data-category="size">US 7</option>
+                                                        <option data-category="size">US 8</option>
+                                                    </optgroup>
+                                                    <optgroup label="Colors">
+                                                        <option data-category="color" selected>Black</option>
+                                                        <option data-category="color">Yellow</option>
+                                                        <option data-category="color">Blue</option>
+                                                        <option data-category="color">Red</option>
+                                                    </optgroup>
                                                 </select>
                                             </div>
-                                            
-
-
+                                        </div>
+                                        <!-- quantity increase and decrease-->
+                                        <div class="col-4">
+                                            <ul class="pagination justify-content-end set_quantity">
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="decreaseNumber('textbox','itemval',110)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <input type="text" name="" class="page-link" value="1" id="textbox"
+                                                        data-price="110">
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="increaseNumber('textbox','itemval',110)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- remover move and price-->
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-between removex-wish">
+                                            <p class="remove-item-btn"data-id="1"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
+                                            <!--how to visualize remove item-->
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <h3>$<span id="itemval">110.00</span></h3> <!--how to retireve price-->
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- 2nd cart product-->
+                        <div class="card p-4 shadow" data-id="2"><!--how to match it into main.css? same card-->
+                            <div class="row">
+                                <!--cart images -->
+                                <div
+                                    class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                    <!--product_img may removed-->
+                                    <img src="images/heelCKTexturedTie.png" class="img-fluid" alt="C&K Heeled Sandals">
+                                </div>
+                                <!--cart product details-->
+                                <div class="col-md-7 col-12 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <!-- product name -->
+                                        <div class="col-8 card-body">
+                                            <h5 class="mb-3 card-title text-align-left">C&K Heeled Sandals</h5>
+                                            <p class="mb-2 card-text">Select fav shoes:</p>
+
+                                            <div class="multi_select_box mb-2">
+                                                <select class="multi_select selectpicker w-100" multiple
+                                                    data-live-search="true" title="Size and Color">
+                                                    <optgroup label="Sizes">
+                                                        <option data-category="size">US 5</option>
+                                                        <option data-category="size" selected>US 6</option>
+                                                        <option data-category="size">US 7</option>
+                                                        <option data-category="size">US 8</option>
+                                                    </optgroup>
+                                                    <optgroup label="Colors">
+                                                        <option data-category="color" selected>Black</option>
+                                                        <option data-category="color">Yellow</option>
+                                                        <option data-category="color">Blue</option>
+                                                        <option data-category="color">Red</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- quantity increase and decrease-->
+                                        <div class="col-4">
+                                            <ul class="pagination justify-content-end set_quantity">
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="decreaseNumber('textbox1','itemval1',65)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <input type="text" name="" class="page-link" value="1" id="textbox1"
+                                                        data-price="65">
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="increaseNumber('textbox1','itemval1',65)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- remover move and price-->
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-between remove">
+                                            <p class="remove-item-btn"data-id="2"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
+                                            <!--how to visualize remove item-->
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <h3>$<span id="itemval1">65.00</span></h3> <!--how to retireve price-->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- right side div-->
+                    <div class="col-md-12 col-lg-4 col-12 mx-auto mt-lg-0 mt-md-5">
+                        <div class="right_side p-3 shadow bg-white">
+                            <h2 class="product_name mb-5">Total Amount</h2>
+                            <div class="price_indiv d-flex justify-content-between">
+                                <p>Product amount</p>
+                                <p>$<span id="product_total_amt">175.00</span></p>
+                            </div>
+                            <div class="price_indiv d-flex justify-content-between">
+                                <p>Shipping Charge</p>
+                                <p>$<span id="shipping_charge">5.00</span></p>
+                            </div>
+                            <hr />
+                            <div class="total-amt d-flex justify-content-between font-weight-bold">
+                                <p>The total amount of (including VAT)</p>
+                                <P>$<span id="total_cart_amt">180.00</span></P>
+                            </div>
+                            <button class="btn btn-primary text-uppercase" onclick="location.href ='payment.html'">checkout</button>
+                        </div>
+                        <div class="mt-3 shadow p-4 bg-white">
+                            <h5 class="mb-4">Expected delivery date</h5>
+                            <p id="expected-delivery-date"></p>
+                            <!-- <p>June 27th 2024 - June 29th 2024</p> -->
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </div>
 
-
-    <!-- 
-        //mx-auto align center
-        <h1>Your Cart</h1>
-    <div class="product">
-        <span>Nike Dunk Low Retro</span>
-        <span>$110</span>
-    </div>
-    <div class="product">
-        <span>Cole Haan Men's Classics</span>
-        <span>$300</span>
-    </div>
-    <hr>
-    <strong>Total: $410</strong> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 
     <script src="main.js"></script>
+
 </body>
+
 </html>
