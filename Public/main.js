@@ -51,16 +51,15 @@ $(document).ready(function () {
         }
     });
     
-    // Function to update the total item count
+
     function updateTotalItemsCount() {
         const itemCount = $('.card.p-4').length;
         $('#total_items_count').text(itemCount);
     }
 
-    // Call updateTotalItemsCount on page load
+
     updateTotalItemsCount();
 
-    // Call updateTotalItemsCount whenever items are added/removed
 
     $('.remove-item-btn').on('click', function() {
         $(this).closest('.card.p-4').remove();
@@ -72,7 +71,6 @@ $(document).ready(function () {
 const calculateTotal = () => {
     let productTotalAmt = 0;
     
-    // Loop through all items in the cart
     $('.card.p-4').each(function() {
         const itemPrice = parseFloat($(this).find('.price_money span').text());
         const itemQuantity = parseInt($(this).find('.set_quantity input').val());
@@ -113,31 +111,28 @@ const increaseNumber = (incdec, itemprice, itembaseprice) => {
     }
 }
 
-// Initialize the total amount on page load
+
 $(document).ready(function() {
     calculateTotal();
 });
 
 $(document).ready(function() {
-    // Calculate the expected delivery date range
+
     function calculateDeliveryDate() {
         let today = new Date();
         let starterDay = new Date(today);
-        starterDay.setDate(today.getDate() + 4); // four days after today
+        starterDay.setDate(today.getDate() + 4); 
 
         let afterDay = new Date(starterDay);
-        afterDay.setDate(starterDay.getDate() + 2); // Two days after starterDay
+        afterDay.setDate(starterDay.getDate() + 2); 
 
-        // Format dates as desired (e.g., "June 27th 2024")
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         let starterDayStr = starterDay.toLocaleDateString('en-US', options);
         let afterDayStr = afterDay.toLocaleDateString('en-US', options);
 
-        // Update the expected delivery date text
         $('#expected-delivery-date').text(`${starterDayStr} - ${afterDayStr}`);
     }
 
-    // Call the function to set the delivery date range on page load
     calculateDeliveryDate();
 });
 
