@@ -462,6 +462,6 @@ document.addEventListener("DOMContentLoaded", function(){
     
     document.getElementById("fullAddress").innerHTML = fullAdress;
     document.getElementById("billingAddress").innerHTML = fullAdress;
-})
+});
 
 //Order Summary
