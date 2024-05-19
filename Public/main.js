@@ -453,14 +453,18 @@ function filterCategory(category) {
 
 //Order Summary
 document.addEventListener("DOMContentLoaded", function(){
-    // const streetAddress = localStorage.getItem("streetAddress");
-    // const city = localStorage.getItem("city");
-    // const state = localStorage.getItem("state");
-    // const postcode = localStorage.getItem("postcode");
+    const streetAddress = localStorage.getItem("streetAddress");
+    const city = localStorage.getItem("city");
+    const state = localStorage.getItem("state");
+    const postcode = localStorage.getItem("postcode");
 
-    let fullAdress = '${streetAddress}, ${postcode}, ${city}, ${state}';
+    let fullAdress = '';
+    if (streetAddress) fullAddress += streetAddress;
+    if (city) fullAddress += ', ${city}';
+    if (state) fullAddress += ', ${state}';
+    if (postcode) fullAddress += ', ${postcode}';
     
-    document.getElementById("fullAddress").innerHTML = fullAdress;
+    if (fullAdress) document.getElementById("fullAddress").innerHTML = fullAdress;
     document.getElementById("billingAddress").innerHTML = fullAdress;
 });
 
