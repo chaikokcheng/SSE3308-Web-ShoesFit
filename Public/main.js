@@ -464,8 +464,8 @@ document.addEventListener("DOMContentLoaded", function(){
     if (state) fullAddress += ', ${state}';
     if (postcode) fullAddress += ', ${postcode}';
     
-    if (fullAdress) document.getElementById("fullAddress").innerHTML = fullAdress;
-    document.getElementById("billingAddress").innerHTML = fullAdress;
+    if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
+    document.getElementById("billingAddress").textContent = fullAddress;
 });
 
 //Order Summary
