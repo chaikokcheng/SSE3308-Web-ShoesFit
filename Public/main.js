@@ -453,10 +453,10 @@ function filterCategory(category) {
 
 //Order Summary
 document.addEventListener("DOMContentLoaded", function(){
-    const streetAddress = localStorage.getItem("streetAddress");
-    const city = localStorage.getItem("city");
-    const state = localStorage.getItem("state");
-    const postcode = localStorage.getItem("postcode");
+    // const streetAddress = localStorage.getItem("streetAddress");
+    // const city = localStorage.getItem("city");
+    // const state = localStorage.getItem("state");
+    // const postcode = localStorage.getItem("postcode");
 
     let fullAdress = '${streetAddress}, ${postcode}, ${city}, ${state}';
     
