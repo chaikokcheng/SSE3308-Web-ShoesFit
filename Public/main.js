@@ -185,7 +185,7 @@ function validateAddressField(input, errorMessage, fieldName) {
     else {
         fieldErrorMessage.textContent = '';
         fieldInput.style.borderColor = 'green';
-        localStorage.setItem(input, fieldInput.value.trim());
+        localStorage.setItem(input);
     }
 }
 
@@ -219,11 +219,10 @@ function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     if (fieldInput.value.trim() === '') {   
         if (input === "postcode" && footer === "PC-Footer") {
             fieldFooter.textContent = "Example: 11900";
-            localStorage.setItem(input, fieldInput.value.trim());
+            localStorage.setItem(input);
         } 
         else if (input === "phoneNumber" && footer === "PhNum-Footer") {
             fieldFooter.textContent = "Notification will be sent to this number.";
-            localStorage.setItem(input, fieldInput.value.trim());
             
         }
     
