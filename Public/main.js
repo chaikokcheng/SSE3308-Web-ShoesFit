@@ -185,7 +185,7 @@ function validateAddressField(input, errorMessage, fieldName) {
     else {
         fieldErrorMessage.textContent = '';
         fieldInput.style.borderColor = 'green';
-        localStorage.setItem(input, fieldInput.value.trim());
+        localStorage.setItem(input);
     }
 }
 
@@ -219,11 +219,10 @@ function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     if (fieldInput.value.trim() === '') {   
         if (input === "postcode" && footer === "PC-Footer") {
             fieldFooter.textContent = "Example: 11900";
-            localStorage.setItem(input, fieldInput.value.trim());
+            localStorage.setItem(input);
         } 
         else if (input === "phoneNumber" && footer === "PhNum-Footer") {
             fieldFooter.textContent = "Notification will be sent to this number.";
-            localStorage.setItem(input, fieldInput.value.trim());
             
         }
     
@@ -458,10 +457,14 @@ document.addEventListener("DOMContentLoaded", function(){
     const state = localStorage.getItem("state");
     const postcode = localStorage.getItem("postcode");
 
-    let fullAdress = '${streetAddress}, ${postcode}, ${city}, ${state}';
+    let fullAdress = '';
+    if (streetAddress) fullAddress += streetAddress;
+    if (city) fullAddress += ', ${city}';
+    if (state) fullAddress += ', ${state}';
+    if (postcode) fullAddress += ', ${postcode}';
     
-    document.getElementById("fullAddress").innerHTML = fullAdress;
-    document.getElementById("billingAddress").innerHTML = fullAdress;
+    if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
+    document.getElementById("billingAddress").textContent = fullAddress;
 });
 
 //Order Summary
