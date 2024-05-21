@@ -467,4 +467,11 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("billingAddress").textContent = fullAddress;
 });
 
+function printOrder(){
+    window.print();
+}
+const printBtn = document.getElementById("printBtn");
+
+printBtn.addEventListener("click", printOrder);
+
 //Order Summary
