@@ -7,8 +7,6 @@ function fetchProducts(callback, category = '') {
 }
 
 
-
-
 function displayProducts(products, containerId, category = '') {
     const productList = document.getElementById(containerId);
     productList.innerHTML = '';
@@ -137,8 +135,29 @@ $(document).ready(function() {
 });
 // cart
 
-
 // payment
+// Countdown Timer
+var countDownTime = new Date().getTime() + 20 * 60 * 1000;
+
+var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownTime - now;
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+    document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+        
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
+    }
+}, 1000);
+
+// Validate Email Format
 function validateEmailFormat(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -160,8 +179,7 @@ document.getElementById("emailInput").addEventListener("blur", function() {
         emailFormGroup.classList.remove("has-error");
         emailFormGroup.classList.add("has-success");
         addressSection.style.display = "block"; 
-    }  
-    else {
+    } else {
         emailCheckIcon.classList.remove("text-success", "fa-check-circle");
         emailCheckIcon.classList.add("text-danger", "fa-times-circle");
         emailCheckIcon.style.display = "inline-block"; 
@@ -172,8 +190,7 @@ document.getElementById("emailInput").addEventListener("blur", function() {
     }
 });
 
-
-
+// Validate Address Fields
 function validateAddressField(input, errorMessage, fieldName) {
     const fieldInput = document.getElementById(input);
     const fieldErrorMessage = document.getElementById(errorMessage);
@@ -181,11 +198,9 @@ function validateAddressField(input, errorMessage, fieldName) {
     if (fieldInput.value.trim() === '') {
         fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
         fieldInput.style.borderColor = 'red';  
-    } 
-    else {
+    } else {
         fieldErrorMessage.textContent = '';
         fieldInput.style.borderColor = 'green';
-        localStorage.setItem(input);
     }
 }
 
@@ -210,45 +225,23 @@ document.getElementById("state").addEventListener("blur", function() {
 });
 
 
-
 function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     const fieldInput = document.getElementById(input);
     const fieldErrorMessage = document.getElementById(errorMessage);
     const fieldFooter = document.getElementById(footer);
 
-    if (fieldInput.value.trim() === '') {   
-        if (input === "postcode" && footer === "PC-Footer") {
-            fieldFooter.textContent = "Example: 11900";
-            localStorage.setItem(input);
-        } 
-        else if (input === "phoneNumber" && footer === "PhNum-Footer") {
-            fieldFooter.textContent = "Notification will be sent to this number.";
-            
-        }
-    
-    } 
-    
-    else if (/^\d+$/.test(fieldInput.value.trim())) {
-        fieldErrorMessage.textContent = "";
-        fieldInput.style.borderColor = 'green';
-        if (input === "postcode" && footer === "PC-Footer") {
-            fieldFooter.textContent = "Example: 11900";
-        } 
-        else if (input === "phoneNumber" && footer === "PhNum-Footer") {
-            fieldFooter.textContent = "Notification will be sent to this number.";
-        }
-    } 
-
     fieldInput.addEventListener("blur", function() {
         if (fieldInput.value.trim() === '') {
             fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
-            fieldFooter.textContent = ""; 
+            fieldFooter.textContent = ''; 
             fieldInput.style.borderColor = 'red';
-        } 
-        else if (!/^\d+$/.test(fieldInput.value.trim())) {
+        } else if (!/^\d+$/.test(fieldInput.value.trim())) {
             fieldErrorMessage.textContent = `Please check your ${fieldName}.`;
-            fieldFooter.textContent = ""; 
+            fieldFooter.textContent = ''; 
             fieldInput.style.borderColor = 'red';
+        } else {
+            fieldErrorMessage.textContent = '';
+            fieldInput.style.borderColor = 'green';
         }
     });
 }
@@ -260,10 +253,6 @@ document.getElementById("postcode").addEventListener("blur", function() {
 document.getElementById("phoneNumber").addEventListener("blur", function() {
     validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "phone number");
 });
-
-validatePCode_PhNum("postcode", "postcodeErrorMessage", "PC-Footer", "postcode");
-validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "phone number");
-
 
 
 const textFields = document.querySelectorAll('#firstName, #lastName, #streetAddress, #city, #state, #postcode, #phoneNumber');
@@ -283,8 +272,7 @@ function checkAllFieldsFilled() {
             shippingSection.style.display = "block"; 
             shippingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-    } 
-    else {
+    } else {
         addressButton.disabled = true; 
     }
 }
@@ -303,8 +291,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!this.checked) {
             shippingButton.disabled = true;
             paymentSection.style.display = "none";
-        }
-        else {
+        } else {
             shippingButton.disabled = false;
         }
     });
@@ -349,14 +336,6 @@ const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/;
 const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
 const cvvRegex = /^[0-9]{3}$/; 
 
-function formatCardNumber(input) {
-    const inputValue = input.value.replace(/\D/g, '');
-
-    const formattedValue = inputValue.match(/.{1,4}/g).join(' ');
-
-    input.value = formattedValue;
-}
-
 function validateCard(input, errorMessage, fieldName, regex) {
     const cardInput = document.getElementById(input);
     const cardErrorMessage = document.getElementById(errorMessage);
@@ -393,13 +372,15 @@ document.getElementById('cvc').addEventListener('input', function() {
     validateCard('cvc', 'cvcValidity', 'CVV (3 digits)', cvvRegex);
 });
 
+
 const inputs = document.querySelectorAll('.form-control');
 
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.removeAttribute('placeholder');
-        });
+inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+        this.removeAttribute('placeholder');
     });
+});
+
 
 $(document).ready(function() {
     $('#paymentButton').click(function() {
@@ -413,29 +394,8 @@ $(document).ready(function() {
     });
 });
 
-  
-var countDownTime = new Date().getTime() + 20 * 60 * 1000;
-
-var x = setInterval(function() {
-    var now = new Date().getTime();
-    var distance = countDownTime - now;
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-    document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-        
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "EXPIRED";
-
-        setTimeout(function() {
-            location.reload();
-        }, 1000);
-    }
-}, 1000);
-
-document.getElementById("email").addEventListener("input", updateEmailFeedback);
 // payment
+
 
 function filterCategory(category) {
     fetchProducts((products) => {
