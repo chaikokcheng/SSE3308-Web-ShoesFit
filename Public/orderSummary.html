@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="orderSummary.css">
 </head>
 
 <body>
@@ -111,26 +111,28 @@
         </div>
     </div>
     <br>
-    <div class="container mt-3" id="ordered-items">
-        <h1>ORDERED ITEMS</h1>
-        <br>
-        <div class="container mt-3" id="ordered-block">
+
+    <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
+        <h1 >ORDERED ITEMS</h1>
+        <div class="card p-3 shadow " id="ordered-details">
             <div class="row">
-                <div class="col-6" id="shoes-img">
-                    <img class="img-responsive" src="images/sportNIkeDunkLow.png" width="80%" , height="auto">
+                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                    <img src="images/sportNIkeDunkLow.png" class="img-fluid" alt="sportNIkeDunkLow">
                 </div>
-                <div class="col-6" id="shoes-details">
-                    <h6>Nike Dunk Low</h6>
-                    <p>Color: Black/White
-                        <br>Size: US8
-                    </p>
-                    <br>
+                <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
                     <div class="row">
-                        <div class="col-6">
-                            Total Price
+                        <div class="col-8 card-body">
+                            <h5 class="mb-3 card-title text-align-left">Nike Dunk Low Retro</h5>
+                            <p class="mb-2 card-text">Color: Black/White
+                                <br>Size: US8
+                                <br>Quantity: 1
+                            </p>
                         </div>
-                        <div class="col-6 text-right">
-                            <i>$ 110.00</i>
+                    </div>
+                    <div class="row mt-auto">
+                        <div class="col-12 d-flex justify-content-end align-items-end">
+                            <br>
+                            <h3>$<span id="itemval">110.00</span></h3>
                         </div>
                     </div>
                 </div>
@@ -138,52 +140,15 @@
         </div>
     </div>
 
-    <div class="container pb-5">
-        <button type="button" , id="printBtn" class="btn btn-default btn-sm pull-right">Print Your Order</button>
+    <div class="container py-5">
+        <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script src="main.js"></script>
-
-
-
-    <!-- <footer class="footer bg-light">
-        <div class="container">
-            
-            <div class="row py-5">
-                <div class="col-md-4 mb-3">
-                    <h4>About ShoesFit</h4>
-                    <p>Welcome to ShoesFit, your number one source for all things shoes. We're dedicated to giving you the very best of footwear, with a focus on dependability, customer service, and uniqueness.</p>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="" class="me-2" aria-label="Facebook">
-                            <i class="fab fa-facebook-square fa-2x"></i>
-                        </a>
-                        <a href="" class="me-2" aria-label="Instagram">
-                            <i class="fab fa-instagram-square fa-2x"></i>
-                        </a>
-                        <a href="" class="me-2" aria-label="Twitter">
-                            <i class="fab fa-twitter-square fa-2x"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <h4>Contact Us</h4>
-                    <form>
-                        <div class="form-group">
-                            <input type="text" class="form-control mb-2" placeholder="Name" name="name">
-                            <input type="email" class="form-control mb-2" placeholder="Email Address" name="email">
-                            <textarea class="form-control mb-2" rows="2" placeholder="Your Message"></textarea>
-                            <button type="submit" class="btn btn-secondary">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </footer> -->
 </body>
 
 </html>

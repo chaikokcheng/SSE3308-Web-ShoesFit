@@ -1,0 +1,110 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    padding: 0.5rem 0.8rem;
+    font-size: 1.1rem;
+}
+
+.nav-link i {
+    font-size: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #000;
+}
+
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: #333;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.navbar-brand img {
+    height: 30px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+#summary-title h1 {
+    font-weight: 800;
+    letter-spacing: -3px;
+}
+
+#greeting h6 {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#greeting p {
+    line-height: 1.5;
+}
+
+#summary h1 {
+    font-weight: 800;
+    letter-spacing: -3px;
+}
+
+#summary h5 {
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+.card-text {
+    line-height: -20px;
+}
+
+#printBtn{
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+
+#printBtn:hover  {
+    background-color: lightgray;
+    border-color: black;
+    color: black; 
+}
+
+#printBtn:active {
+    border-color: gray !important;
+    background-color: gray !important;
+    box-shadow: 0 0 5px gray !important;
+}
+
+.orderedItems h1 {
+    font-weight: 800;
+    letter-spacing: -3px;
+    padding-left: 10px; ;
+}
+
+
+
+/* order summary*/
