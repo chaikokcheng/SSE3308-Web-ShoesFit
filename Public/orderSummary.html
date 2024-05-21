@@ -56,11 +56,13 @@
         <div class="row">
             <div class="col-sm-4">
                 <h5>DELIVERY ADDRESS</h5>
-                <p id="fullAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA, <br>43400 UPM SERDANG,<br> SELANGOR</p>
+                <p id="fullAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA, <br>43400 UPM SERDANG,<br>
+                    SELANGOR</p>
             </div>
             <div class="col-sm-4">
                 <h5>BILLING INFORMATION</h5>
-                <p id="billingAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA,<br> 43400 UPM SERDANG,<br> SELANGOR</p>
+                <p id="billingAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA,<br> 43400 UPM SERDANG,<br>
+                    SELANGOR</p>
                 <h6>Via: Online Banking</h6>
             </div>
             <div class="col-sm-4">
@@ -112,29 +114,33 @@
     <div class="container mt-3" id="ordered-items">
         <h1>ORDERED ITEMS</h1>
         <br>
-        <div class="row">
-            <div class="col-6">
-                <img src="images/sportNIkeDunkLow.png" width="100%" , height="auto">
-            </div>
-            <div class="col-6">
-                <h6>Nike Dunk Low</h6>
-                <p>Color: Black/White
-                    <br>Size: US8
-                </p>
-                <br>
-                <div class="row">
-                    <div class="col-6">
-                        Total Price
-                    </div>
-                    <div class="col-6 text-right">
-                        <i>$ 110.00</i>
+        <div class="container mt-3" id="ordered-block">
+            <div class="row">
+                <div class="col-6" id="shoes-img">
+                    <img class="img-responsive" src="images/sportNIkeDunkLow.png" width="80%" , height="auto">
+                </div>
+                <div class="col-6" id="shoes-details">
+                    <h6>Nike Dunk Low</h6>
+                    <p>Color: Black/White
+                        <br>Size: US8
+                    </p>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            Total Price
+                        </div>
+                        <div class="col-6 text-right">
+                            <i>$ 110.00</i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <button type="button", id="printBtn" class="btn btn-default btn-sm">Print Your Order</button>
+    <div class="container pb-5">
+        <button type="button" , id="printBtn" class="btn btn-default btn-sm pull-right">Print Your Order</button>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
