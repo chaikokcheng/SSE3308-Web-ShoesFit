@@ -51,7 +51,6 @@ $(document).ready(function () {
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-            // alert('Please select only one size and one color.');
             $(this).find('option').eq(clickedIndex).prop('selected', false);
             $(this).selectpicker('refresh');
         }
@@ -101,7 +100,6 @@ const decreaseNumber = (incdec, itemprice, itembaseprice) => {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        // alert('Minimum quantity is 1');
     } else {
         itemval.value = parseInt(itemval.value) - 1;
         itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
@@ -121,7 +119,6 @@ const increaseNumber = (incdec, itemprice, itembaseprice) => {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        // alert('Maximum quantity is 5');
     } else {
         itemval.value = parseInt(itemval.value) + 1;
         itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
