@@ -1,0 +1,136 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff; 
+    color: #333; 
+}
+
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 0.8rem 2rem; 
+    position: sticky;
+    top: 0;
+    z-index: 1020; 
+    transition: background-color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    padding: 0.5rem 0.8rem;
+    font-size: 1.1rem;
+}
+
+.nav-link i {
+    font-size: 24px; 
+    vertical-align: middle; 
+    margin-right: 5px; 
+}
+
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #000;
+}
+
+
+.navbar-brand {
+    font-size: 1.8rem; 
+    font-weight: bold; 
+    letter-spacing: 0.05em; 
+    color: #333;
+    text-transform: uppercase; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
+}
+
+.cart-btn{
+    background-color: black;
+    border-color: black;
+    color: white;
+}
+.cart-btn:hover  {
+    background-color: lightgray;
+    border-color: black;
+    color: black; 
+}
+
+.cart-btn:active {
+    border-color: gray !important;
+    background-color: gray !important; 
+    box-shadow: 0 0 5px gray !important;
+}
+
+
+.navbar-brand img {
+    height: 30px; 
+    margin-bottom: 10px;
+    vertical-align: middle; 
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05); 
+}
+
+.main_cart {
+    background: #fff;
+}
+.multi_select_box{
+    width:200px;
+}
+
+.multi_select_box select{
+    width: 40%;
+}
+
+.multi_select_box button{
+    background-color: darkblue;
+    color: #fff;
+    padding: 15px 25px;
+}
+
+.page-link {
+    line-height: 16px;
+    width: 45px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #495057;
+}
+
+.page-item input {
+    line-height: 26px;
+    padding: 3px;
+    font-size: 15px;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    text-align: center;
+}
+
+.page-link:hover {
+    text-decoration: none;
+    color: #1d92f1;
+    outline: none !important;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+.set_quantity {
+    position: relative;
+}
+
+.set_quantity::after {
+    content: "";
+    width: auto;
+    height: auto;
+    text-align: center;
+    position: absolute;
+    bottom: -20px;
+    right: 1.5rem;
+    font-size: 0.8rem;
+}
+
+.price_indiv p {
+    font-size: 1.1rem;
+}

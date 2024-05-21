@@ -1,25 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" type="text/css" href="main.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shopping Cart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="cart.css">
+    <!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
 
 </head>
+
 <body>
-<div class="container">
-    <h1>Your Cart</h1>
-    <div class="product">
-        <span>Nike Dunk Low Retro</span>
-        <span>$110</span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html" title="User Profile">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12 col-11">
+                <div class="row mt-3 gx-4">
+                    <div class="col-md-8">
+                        <h2 class="py-2 font-weight-bold text-left">YOUR SHOPPING CART</h2>
+                        <p class=" text-muted text-left">TOTAL [<span id="total_items_count">x</span> items]
+                            <br>
+                            Items in your cart are not reserved - checkout now to make them yours
+                        </p>
+                    </div>
+                    <div class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 shadow">
+                        <div class="card p-4 shadow " data-id="1" id="shopping cart">
+                            <div class="row">
+                                <div
+                                    class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+
+                                    <img src="images/sportNIkeDunkLow.png" class="img-fluid" alt="sportNIkeDunkLow">
+                                </div>
+                                <div class="col-md-7 col-12 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <div class="col-8 card-body">
+                                            <h5 class="mb-3 card-title text-align-left">Nike Dunk Low Retro</h5>
+                                            <p class="mb-2 card-text">Select size and colour:</p>
+
+                                            <div class="multi_select_box ">
+                                                <select class="multi_select selectpicker w-100" multiple
+                                                    data-live-search="true" title="Size and Color">
+                                                    <optgroup label="Sizes">
+                                                        <option data-category="size" selected>US 5</option>
+                                                        <option data-category="size">US 6</option>
+                                                        <option data-category="size">US 7</option>
+                                                        <option data-category="size">US 8</option>
+                                                    </optgroup>
+                                                    <optgroup label="Colors">
+                                                        <option data-category="color" selected>Black</option>
+                                                        <option data-category="color">Yellow</option>
+                                                        <option data-category="color">Blue</option>
+                                                        <option data-category="color">Red</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <ul class="pagination justify-content-end set_quantity">
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="decreaseNumber('textbox','itemval',110)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <input type="text" name="" class="page-link" value="1" id="textbox"
+                                                        data-price="110">
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="increaseNumber('textbox','itemval',110)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-between removex-wish">
+                                            <p class="remove-item-btn" data-id="1"><i class="fas fa-trash-alt"></i>
+                                                REMOVE ITEM</p>
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <h3>$<span id="itemval">110.00</span></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="card p-4 shadow" data-id="2" id="shopping cart">
+                            <div class="row">
+                                <div
+                                    class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+
+                                    <img src="images/heelCKTexturedTie.png" class="img-fluid" alt="C&K Heeled Sandals">
+                                </div>
+                                <div class="col-md-7 col-12 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <div class="col-8 card-body">
+                                            <h5 class="mb-3 card-title text-align-left">C&K Heeled Sandals</h5>
+                                            <p class="mb-2 card-text">Select size and colour:</p>
+
+                                            <div class="multi_select_box mb-2">
+                                                <select class="multi_select selectpicker w-100" multiple
+                                                    data-live-search="true" title="Size and Color">
+                                                    <optgroup label="Sizes">
+                                                        <option data-category="size" selected>US 5</option>
+                                                        <option data-category="size">US 6</option>
+                                                        <option data-category="size">US 7</option>
+                                                        <option data-category="size">US 8</option>
+                                                    </optgroup>
+                                                    <optgroup label="Colors">
+                                                        <option data-category="color" selected>Black</option>
+                                                        <option data-category="color">Yellow</option>
+                                                        <option data-category="color">Blue</option>
+                                                        <option data-category="color">Red</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <ul class="pagination justify-content-end set_quantity">
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="decreaseNumber('textbox1','itemval1',65)">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <input type="text" name="" class="page-link" value="1" id="textbox1"
+                                                        data-price="65">
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link"
+                                                        onclick="increaseNumber('textbox1','itemval1',65)">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-between remove">
+                                            <p class="remove-item-btn" data-id="2"><i class="fas fa-trash-alt"></i>
+                                                REMOVE ITEM</p>
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <h3>$<span id="itemval1">65.00</span></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-4 col-12 mx-auto mt-lg-0 mt-md-5">
+                        <div class="right_side p-3 shadow bg-white">
+                            <h2 class="product_name mb-5">Total Amount</h2>
+                            <div class="price_indiv d-flex justify-content-between">
+                                <p>Product amount</p>
+                                <p>$<span id="product_total_amt">175.00</span></p>
+                            </div>
+                            <div class="price_indiv d-flex justify-content-between">
+                                <p>Shipping Charge</p>
+                                <p>$<span id="shipping_charge">10.00</span></p>
+                            </div>
+                            <hr />
+                            <div class="total-amt d-flex justify-content-between font-weight-bold">
+                                <p>The total amount of (including VAT)</p>
+                                <P>$<span id="total_cart_amt">180.00</span></P>
+                            </div>
+                            <button class="btn btn-primary text-uppercase cart-btn"
+                                onclick="location.href ='payment.html'">checkout</button>
+                        </div>
+                        <div class="mt-3 shadow p-4 bg-white">
+                            <h5 class="mb-4">Expected delivery date</h5>
+                            <p id="expected-delivery-date"></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="product">
-        <span>Cole Haan Men's Classics</span>
-        <span>$300</span>
     </div>
-    <hr>
-    <strong>Total: $410</strong>
-</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="main.js"></script>
+
 </body>
+
 </html>

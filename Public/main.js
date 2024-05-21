@@ -7,8 +7,6 @@ function fetchProducts(callback, category = '') {
 }
 
 
-
-
 function displayProducts(products, containerId, category = '') {
     const productList = document.getElementById(containerId);
     productList.innerHTML = '';
@@ -35,9 +33,146 @@ fetchProducts((products) => {
     displayProducts(products, 'newArrivals', 'Heels');
 });
 
+//shopping cart
+$(document).ready(function () {
+    $('.selectpicker').selectpicker();
+
+    $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+        const selectedOptions = $(this).find('option:selected');
+        const selectedSized = selectedOptions.filter('[data-category="size"]').length;
+        const selectedColors = selectedOptions.filter('[data-category="color"]').length;
+
+        if (selectedSized > 1 || selectedColors > 1) {
+            Swal.fire({
+                title: 'Selection Error',
+                text: 'Please select only one size and one color.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            $(this).find('option').eq(clickedIndex).prop('selected', false);
+            $(this).selectpicker('refresh');
+        }
+    });
+    
+
+    function updateTotalItemsCount() {
+        const itemCount = $('.card.p-4').length;
+        $('#total_items_count').text(itemCount);
+    }
+
+
+    updateTotalItemsCount();
+
+
+    $('.remove-item-btn').on('click', function() {
+        $(this).closest('.card.p-4').remove();
+        updateTotalItemsCount();
+        calculateTotal();
+    });
+});
+
+const calculateTotal = () => {
+    let productTotalAmt = 0;
+    
+    $('.card.p-4').each(function() {
+        const itemPrice = parseFloat($(this).find('.price_money span').text());
+        const itemQuantity = parseInt($(this).find('.set_quantity input').val());
+        productTotalAmt += itemPrice * itemQuantity;
+    });
+
+    const shippingCharge = parseFloat(document.getElementById('shipping_charge').innerText);
+
+    document.getElementById('product_total_amt').innerText = productTotalAmt.toFixed(2);
+    document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
+}
+
+const decreaseNumber = (incdec, itemprice, itembaseprice) => {
+    const itemval = document.getElementById(incdec);
+    const itempriceElement = document.getElementById(itemprice);
+
+    if (itemval.value <= 1) {
+        itemval.value = 1;
+        Swal.fire({
+            title: 'Quantity Error',
+            text: 'Minimum quantity is 1',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        itemval.value = parseInt(itemval.value) - 1;
+        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+        calculateTotal();
+    }
+}
+
+const increaseNumber = (incdec, itemprice, itembaseprice) => {
+    const itemval = document.getElementById(incdec);
+    const itempriceElement = document.getElementById(itemprice);
+
+    if (itemval.value >= 5) {
+        itemval.value = 5;
+        Swal.fire({
+            titel: 'Quantity Error',
+            text: 'Maximum quantity is 5',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        itemval.value = parseInt(itemval.value) + 1;
+        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+        calculateTotal();
+    }
+}
+
+
+$(document).ready(function() {
+    calculateTotal();
+});
+
+$(document).ready(function() {
+
+    function calculateDeliveryDate() {
+        let today = new Date();
+        let starterDay = new Date(today);
+        starterDay.setDate(today.getDate() + 4); 
+
+        let afterDay = new Date(starterDay);
+        afterDay.setDate(starterDay.getDate() + 2); 
+
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        let starterDayStr = starterDay.toLocaleDateString('en-US', options);
+        let afterDayStr = afterDay.toLocaleDateString('en-US', options);
+
+        $('#expected-delivery-date').text(`${starterDayStr} - ${afterDayStr}`);
+    }
+
+    calculateDeliveryDate();
+});
+// cart
 
 // payment
+// Countdown Timer
+var countDownTime = new Date().getTime() + 20 * 60 * 1000;
 
+var x = setInterval(function() {
+    var now = new Date().getTime();
+    var distance = countDownTime - now;
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+    document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+        
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "EXPIRED";
+
+        setTimeout(function() {
+            location.reload();
+        }, 1000);
+    }
+}, 1000);
+
+// Validate Email Format
 function validateEmailFormat(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -59,8 +194,7 @@ document.getElementById("emailInput").addEventListener("blur", function() {
         emailFormGroup.classList.remove("has-error");
         emailFormGroup.classList.add("has-success");
         addressSection.style.display = "block"; 
-    }  
-    else {
+    } else {
         emailCheckIcon.classList.remove("text-success", "fa-check-circle");
         emailCheckIcon.classList.add("text-danger", "fa-times-circle");
         emailCheckIcon.style.display = "inline-block"; 
@@ -71,8 +205,7 @@ document.getElementById("emailInput").addEventListener("blur", function() {
     }
 });
 
-
-
+// Validate Address Fields
 function validateAddressField(input, errorMessage, fieldName) {
     const fieldInput = document.getElementById(input);
     const fieldErrorMessage = document.getElementById(errorMessage);
@@ -80,8 +213,7 @@ function validateAddressField(input, errorMessage, fieldName) {
     if (fieldInput.value.trim() === '') {
         fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
         fieldInput.style.borderColor = 'red';  
-    } 
-    else {
+    } else {
         fieldErrorMessage.textContent = '';
         fieldInput.style.borderColor = 'green';
     }
@@ -108,44 +240,23 @@ document.getElementById("state").addEventListener("blur", function() {
 });
 
 
-
 function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     const fieldInput = document.getElementById(input);
     const fieldErrorMessage = document.getElementById(errorMessage);
     const fieldFooter = document.getElementById(footer);
 
-    if (fieldInput.value.trim() === '' || document.activeElement === fieldInput) {
-        fieldErrorMessage.textContent = "";
-        
-        if (input === "postcode" && footer === "PC-Footer") {
-            fieldFooter.textContent = "Example: 11900";
-        } 
-        else if (input === "phoneNumber" && footer === "PhNum-Footer") {
-            fieldFooter.textContent = "Notification will be sent to this number.";
-        }
-    } 
-    
-    else if (/^\d+$/.test(fieldInput.value.trim())) {
-        fieldErrorMessage.textContent = "";
-        fieldInput.style.borderColor = 'green';
-        if (input === "postcode" && footer === "PC-Footer") {
-            fieldFooter.textContent = "Example: 11900";
-        } 
-        else if (input === "phoneNumber" && footer === "PhNum-Footer") {
-            fieldFooter.textContent = "Notification will be sent to this number.";
-        }
-    } 
-
     fieldInput.addEventListener("blur", function() {
         if (fieldInput.value.trim() === '') {
             fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
-            fieldFooter.textContent = ""; 
+            fieldFooter.textContent = ''; 
             fieldInput.style.borderColor = 'red';
-        } 
-        else if (!/^\d+$/.test(fieldInput.value.trim())) {
+        } else if (!/^\d+$/.test(fieldInput.value.trim())) {
             fieldErrorMessage.textContent = `Please check your ${fieldName}.`;
-            fieldFooter.textContent = ""; 
+            fieldFooter.textContent = ''; 
             fieldInput.style.borderColor = 'red';
+        } else {
+            fieldErrorMessage.textContent = '';
+            fieldInput.style.borderColor = 'green';
         }
     });
 }
@@ -158,12 +269,9 @@ document.getElementById("phoneNumber").addEventListener("blur", function() {
     validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "phone number");
 });
 
-validatePCode_PhNum("postcode", "postcodeErrorMessage", "PC-Footer", "postcode");
-validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "phone number");
 
+const textFields = document.querySelectorAll('#firstName, #lastName, #streetAddress, #city, #state, #postcode, #phoneNumber');
 
-
-const textFields = document.querySelectorAll('input[type="text"]');
 textFields.forEach(textField => {
     textField.addEventListener("input", checkAllFieldsFilled);
 });
@@ -179,49 +287,67 @@ function checkAllFieldsFilled() {
             shippingSection.style.display = "block"; 
             shippingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-    } 
-    else {
+    } else {
         addressButton.disabled = true; 
     }
 }
 
 
-
 document.addEventListener("DOMContentLoaded", function() {
     const shippingSection = document.querySelector(".shippingSection");
-    shippingSection.style.display = "none";
-});
-
-const checkbox = document.getElementById('t&c');
-const shippingButton = document.getElementById('shippingButton');
-
-checkbox.addEventListener('change', function() {
-    shippingButton.disabled = !this.checked;
-});
-
-$(document).ready(function(){
-    $('#onlineBanking-method').on('change', function(){
-        $('.payment-details').hide();
-        $('#' + $(this).val() + '-details').show();
-    });
-
     const paymentSection = document.querySelector(".paymentSection");
-    
-    shippingButton.addEventListener("click", function() {
-        if (paymentSection) {
-            paymentSection.style.display = "block"; 
-            paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    shippingSection.style.display = "none";
+    paymentSection.style.display = "none";
+
+    const checkbox = document.getElementById('t&c');
+    const shippingButton = document.getElementById('shippingButton');
+
+    checkbox.addEventListener('change', function() {
+        if (!this.checked) {
+            shippingButton.disabled = true;
+            paymentSection.style.display = "none";
+        } else {
+            shippingButton.disabled = false;
         }
     });
     
-    if (paymentSection) {
-        paymentSection.style.display = "none";
-    }
+    shippingButton.addEventListener('click', function() {
+        paymentSection.style.display = "block";
+        paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const creditCardRadio = document.getElementById('creditCardRadio');
+    const creditCardDetails = document.getElementById('creditCardDetails');
+    const onlineBankingRadio = document.getElementById('onlineBankingRadio');
+    const onlineBankingDetails = document.getElementById('onlineBankingDetails');
+    const paymentButton = document.getElementById('paymentButton');
+
+    onlineBankingDetails.style.display = 'none';
+    creditCardDetails.style.display = 'none';
+   
+    creditCardRadio.addEventListener('change', function() {
+        if (this.checked) {
+            creditCardDetails.style.display = 'block';
+            onlineBankingDetails.style.display = 'none';
+            paymentButton.disabled = false;
+        }
+    });
+
+    onlineBankingRadio.addEventListener('change', function() {
+        if (this.checked) {
+            creditCardDetails.style.display = 'none';
+            onlineBankingDetails.style.display = 'block';
+            paymentButton.disabled = false;
+        }
+    });
 });
 
 
 const nameOnCardRegex = /^[a-zA-Z ]+$/; 
-const cardNumberRegex = /^[0-9]{16}$/; 
+const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/; 
 const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
 const cvvRegex = /^[0-9]{3}$/; 
 
@@ -261,18 +387,30 @@ document.getElementById('cvc').addEventListener('input', function() {
     validateCard('cvc', 'cvcValidity', 'CVV (3 digits)', cvvRegex);
 });
 
+
 const inputs = document.querySelectorAll('.form-control');
 
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.removeAttribute('placeholder');
-        });
+inputs.forEach(input => {
+    input.addEventListener('focus', function() {
+        this.removeAttribute('placeholder');
     });
+});
 
 
-document.getElementById("email").addEventListener("input", updateEmailFeedback);
+$(document).ready(function() {
+    $('#paymentButton').click(function() {
+        $('#myModal').modal('show');
+    });
+});
+
+$(document).ready(function() {
+    $('.cart-btn').click(function() {
+        $('#codeModal').modal('show');
+    });
+});
 
 // payment
+
 
 function filterCategory(category) {
     fetchProducts((products) => {
@@ -286,3 +424,29 @@ function filterCategory(category) {
     document.querySelector(`button[data-category="${category}"]`).classList.add('active');
 }
         filterCategory('Formal');
+
+//Order Summary
+document.addEventListener("DOMContentLoaded", function(){
+    const streetAddress = localStorage.getItem("streetAddress");
+    const city = localStorage.getItem("city");
+    const state = localStorage.getItem("state");
+    const postcode = localStorage.getItem("postcode");
+
+    let fullAdress = '';
+    if (streetAddress) fullAddress += streetAddress;
+    if (city) fullAddress += ', ${city}';
+    if (state) fullAddress += ', ${state}';
+    if (postcode) fullAddress += ', ${postcode}';
+    
+    if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
+    document.getElementById("billingAddress").textContent = fullAddress;
+});
+
+function printOrder(){
+    window.print();
+}
+const printBtn = document.getElementById("printBtn");
+
+printBtn.addEventListener("click", printOrder);
+
+//Order Summary
