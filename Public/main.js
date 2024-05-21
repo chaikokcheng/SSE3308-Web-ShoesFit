@@ -45,7 +45,13 @@ $(document).ready(function () {
         const selectedColors = selectedOptions.filter('[data-category="color"]').length;
 
         if (selectedSized > 1 || selectedColors > 1) {
-            alert('Please select only one size and one color.');
+            Swal.fire({
+                title: 'Selection Error',
+                text: 'Please select only one size and one color.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            // alert('Please select only one size and one color.');
             $(this).find('option').eq(clickedIndex).prop('selected', false);
             $(this).selectpicker('refresh');
         }
@@ -89,7 +95,13 @@ const decreaseNumber = (incdec, itemprice, itembaseprice) => {
 
     if (itemval.value <= 1) {
         itemval.value = 1;
-        alert('Minimum quantity is 1');
+        Swal.fire({
+            title: 'Quantity Error',
+            text: 'Minimum quantity is 1',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        // alert('Minimum quantity is 1');
     } else {
         itemval.value = parseInt(itemval.value) - 1;
         itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
@@ -103,7 +115,13 @@ const increaseNumber = (incdec, itemprice, itembaseprice) => {
 
     if (itemval.value >= 5) {
         itemval.value = 5;
-        alert('Maximum quantity is 5');
+        Swal.fire({
+            titel: 'Quantity Error',
+            text: 'Maximum quantity is 5',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        // alert('Maximum quantity is 5');
     } else {
         itemval.value = parseInt(itemval.value) + 1;
         itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
