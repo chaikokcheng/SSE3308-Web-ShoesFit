@@ -53,17 +53,12 @@ $(document).ready(function () {
             $(this).selectpicker('refresh');
         }
     });
-    
 
-    function updateTotalItemsCount() {
-        const itemCount = $('.card.p-4').length;
+    function updateTotalItemsCount(cart) {
+        const itemCount = cart.length;
         $('#total_items_count').text(itemCount);
     }
-
-
-    updateTotalItemsCount();
-
-
+    
     $('.remove-item-btn').on('click', function() {
         $(this).closest('.card.p-4').remove();
         updateTotalItemsCount();

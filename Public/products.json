@@ -9,15 +9,11 @@
             "img": "images/sportNIkeDunkLow.png",
             "colors": [
                 {
-                    "text": "black",
+                    "text": "Black",
                     "img": "images/sportNIkeDunkLow.png"
                 },
                 {
-                    "text": "beige",
-                    "img": "images/sportNB530.png"
-                },
-                {
-                    "text": "white",
+                    "text": "White",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
@@ -37,15 +33,15 @@
             "img": "images/sportNB530.png",
             "colors": [
                 {
-                    "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
-                },
-                {
-                    "text": "beige",
+                    "text": "Black",
                     "img": "images/sportNB530.png"
                 },
                 {
-                    "text": "white",
+                    "text": "Beige",
+                    "img": "images/sportNB530.png"
+                },
+                {
+                    "text": "White",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
@@ -65,16 +61,12 @@
             "img": "images/sportAdidasOriginalsHB.png",
             "colors": [
                 {
-                    "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
-                },
-                {
-                    "text": "beige",
-                    "img": "images/sportNB530.png"
-                },
-                {
-                    "text": "white",
+                    "text": "Black",
                     "img": "images/sportAdidasOriginalsHB.png"
+                },
+                {
+                    "text": "White",
+                    "img": "images/sportNB530.png"
                 }
             ],
             "sizes": [
@@ -93,15 +85,15 @@
             "img": "images/formalKnight.png",
             "colors": [
                 {
-                    "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
+                    "text": "Brown",
+                    "img": "images/formalKnight.png"
                 },
                 {
-                    "text": "beige",
+                    "text": "Beige",
                     "img": "images/sportNB530.png"
                 },
                 {
-                    "text": "white",
+                    "text": "Purple",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
@@ -122,14 +114,14 @@
             "colors": [
                 {
                     "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
+                    "img": "images/formalCHmen.png"
                 },
                 {
-                    "text": "beige",
+                    "text": "Green",
                     "img": "images/sportNB530.png"
                 },
                 {
-                    "text": "white",
+                    "text": "Blue",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
@@ -149,15 +141,15 @@
             "img": "images/heelCKTexturedTie.png",
             "colors": [
                 {
-                    "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
+                    "text": "Black",
+                    "img": "images/heelCKTexturedTie.png"
                 },
                 {
-                    "text": "beige",
+                    "text": "Beige",
                     "img": "images/sportNB530.png"
                 },
                 {
-                    "text": "white",
+                    "text": "White",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
@@ -177,15 +169,15 @@
             "img": "images/heelJCAziaPump75.png",
             "colors": [
                 {
-                    "text": "black",
-                    "img": "images/sportNIkeDunkLow.png"
+                    "text": "Black",
+                    "img": "images/heelJCAziaPump75.png"
                 },
                 {
-                    "text": "beige",
+                    "text": "Beige",
                     "img": "images/sportNB530.png"
                 },
                 {
-                    "text": "white",
+                    "text": "White",
                     "img": "images/sportAdidasOriginalsHB.png"
                 }
             ],
