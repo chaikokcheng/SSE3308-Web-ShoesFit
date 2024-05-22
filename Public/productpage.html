@@ -54,6 +54,11 @@
             border-radius: 5px;
         }
 
+        .color-button.selected,
+        .size-button.selected {
+            border: 2px solid #000;
+        }
+
         #increase,
         #decrease {
             width: 50px;
@@ -98,53 +103,7 @@
     <hr>
     <main>
         <div id="product-section" class="container py-5">
-            <div class="row">
-                <div id="product-images" class="col-2">
-                    <img class="d-block w-100 product-thumb" src="images/sportNIkeDunkLow.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportAdidasOriginalsHB.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportNB530.png" alt="Image 3">
-                    <img class="d-block w-100 product-thumb" src="images/heelJCAziaPump75.png">
-                </div>
-                <div class="col-6">
-                    <img id="product-image-main" src="images/sportNIkeDunkLow.png" alt="Main Product Image">
-                </div>
-                <div id="product-details" class="d-flex flex-column col-4">
-                    <h1 id="product-name">Nike Dunk Low Retro</h1>
-                    <p id="product-desc">Optimized for performance and agility.</p>
-                    <p id="price">$99.99</p>
-                    <div id="colors" class="mt-3">
-                        <button class="color-button" style="background-image: url('images/sportNIkeDunkLow.png');"
-                            data-image="images/sportNIkeDunkLow.png"></button>
-                        <button class="color-button" style="background-image: url('images/sportNB530.png');"
-                            data-image="images/sportNB530.png"></button>
-                        <button class="color-button" style="background-image: url('images/sportAdidasOriginalsHB.png');"
-                            data-image="images/sportAdidasOriginalsHB.png"></button>
-                    </div>
-                    <div id="sizes" class="mt-3">
-                        <button class="size-button">US 6</button>
-                        <button class="size-button">US 7</button>
-                        <button class="size-button">US 8</button>
-                        <button class="size-button">US 9</button>
-                    </div>
 
-                    <div class="quantity-control my-3">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <button id="decrease" class="btn btn-secondary">-</button>
-                            </div>
-                            <div class="col-auto">
-                                <input id="quantity" type="text" class="form-control" value="1">
-                            </div>
-                            <div class="col-auto">
-                                <button id="increase" class="btn btn-secondary">+</button>
-                            </div>
-
-                        </div>
-                    </div>
-                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
-
-                </div>
-            </div>
         </div>
 
 
@@ -389,20 +348,91 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script>
-        document.querySelectorAll('.product-thumb').forEach(function (img) {
-            img.addEventListener('click', function () {
-                document.getElementById('product-image-main').src = this.src;
-            });
-        });
-
-        document.querySelectorAll('.color-button').forEach(button => {
-            button.addEventListener('click', function () {
-                const newImageSrc = this.getAttribute('data-image');
-                document.getElementById('product-image-main').setAttribute('src', newImageSrc);
-            });
-        });
-
         document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (productId) {
+                fetch('products.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const product = data.products.find(p => p.id == productId);
+                        if (product) {
+                            const productSection = document.getElementById('product-section');
+                            productSection.innerHTML = `
+                        <div class="container py-5">
+                            <div class="row">
+                                <div id="product-images" class="col-2">
+                                    <img class="d-block w-100 product-thumb" src="images/sportNIkeDunkLow.png">
+                                    <img class="d-block w-100 product-thumb" src="images/sportAdidasOriginalsHB.png">
+                                    <img class="d-block w-100 product-thumb" src="images/sportNB530.png" alt="Image 3">
+                                    <img class="d-block w-100 product-thumb" src="images/heelJCAziaPump75.png">
+                                </div>
+                                <div class="col-6">
+                                    <img id="product-image-main" src="${product.img}" alt="Main Product Image">
+                                </div>
+                                <div id="product-details" class="d-flex flex-column col-4">
+                                    <h1 id="product-name">${product.name}</h1>
+                                    <p id="product-desc">${product.description}</p>
+                                    <p id="price">$${product.price}</p>
+                                    <div id="colors" class="mt-3">
+                                        ${product.colors.map(color => `<button class="color-button" style="background-image: url('${color.img}');" data-image="${color.img}"></button>`).join('')}
+                                    </div>
+                                    <div id="sizes" class="mt-3">
+                                        ${product.sizes.map(size => `<button class="size-button">${size}</button>`).join('')}
+                                    </div>
+                                    <div class="quantity-control my-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <button id="decrease" class="btn btn-secondary">-</button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input id="quantity" type="text" class="form-control" value="1">
+                                            </div>
+                                            <div class="col-auto">
+                                                <button id="increase" class="btn btn-secondary">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        }
+                    });
+            }
+
+            let selectedColor = null;
+            let selectedSize = null;
+
+            const colorButtons = document.querySelectorAll('.color-button');
+            colorButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    if (selectedColor) {
+                        selectedColor.classList.remove('selected');
+                    }
+
+                    this.classList.add('selected');
+                    selectedColor = this;
+
+                    const newImageSrc = this.getAttribute('data-image');
+                    document.getElementById('product-image-main').setAttribute('src', newImageSrc);
+                });
+            });
+
+            const sizeButtons = document.querySelectorAll('.size-button');
+            sizeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    this.classList.toggle('selected');
+
+                    if (this.classList.contains('selected')) {
+                        selectedSize = this;
+                    } else {
+                        selectedSize = null;
+                    }
+                });
+            });
             const decreaseBtn = document.getElementById("decrease");
             const increaseBtn = document.getElementById("increase");
             const quantityInput = document.getElementById("quantity");
@@ -420,6 +450,16 @@
             });
         });
 
+        function addToCart(productId) {
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            if (!cart.includes(productId)) {
+                cart.push(productId);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Product added to cart!');
+            } else {
+                alert('Product already in cart.');
+            }
+        }
     </script>
 </body>
 

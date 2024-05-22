@@ -13,7 +13,7 @@ function displayProducts(products, containerId, category = '') {
     products.filter(product => !category || product.category === category).forEach(product => {
         productList.innerHTML += `
             <div class="col-md-4">
-                <a href="${product.link}" class="card mb-4 shadow-sm text-decoration-none">
+                <a href="productpage.html?id=${product.id}" class="card mb-4 shadow-sm text-decoration-none">
                     <img class="card-img-top" alt="${product.name}" src="${product.img}">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>

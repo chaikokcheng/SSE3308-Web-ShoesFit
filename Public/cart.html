@@ -228,6 +228,66 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                fetch('products.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        let total = 0;
+                        const cartHTML = cart.map(productId => {
+                            const product = data.products.find(p => p.id == productId);
+                            if (product) {
+                                total += product.price;
+                                return `
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src="${product.img}" class="img-fluid" alt="${product.name}">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <h5>${product.name}</h5>
+                                                    <p>${product.description}</p>
+                                                    <p>$${product.price}</p>
+                                                    <button class="btn btn-danger remove-from-cart" data-id="${product.id}">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            return '';
+                        }).join('');
+
+                        cartItemsContainer.innerHTML = cartHTML;
+                    });
+            }
+
+            cartItemsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-from-cart')) {
+                    const productId = e.target.dataset.id;
+                    removeFromCart(productId);
+                }
+            });
+
+            function removeFromCart(productId) {
+                let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+                cart = cart.filter(id => id != productId);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload();
+            }
+        });
+
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            alert('Checkout not implemented yet.');
+        });
+    </script>
 
 </body>
 
