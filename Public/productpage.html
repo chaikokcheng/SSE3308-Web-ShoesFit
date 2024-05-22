@@ -1,18 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nike Dunk Low Retro</title>
-<link rel="stylesheet" type="text/css" href="main.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nike Dunk Low Retro</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+        #product-image-main {
+            height: 400px;
+            width: 100%;
+            max-width: 100%;
+            object-fit: cover;
+        }
+
+        #product-images {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        .product-thumb {
+            cursor: pointer;
+            width: 100%;
+            height: 23%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .color-button,
+        .size-button {
+            border: none;
+            padding: 10px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .color-button {
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            border-radius: 5%;
+        }
+
+        .size-button {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #increase,
+        #decrease {
+            width: 50px;
+        }
+
+        #quantity {
+            width: 80px;
+        }
+
+        h2 {
+            padding-bottom: 50px;
+        }
+    </style>
 </head>
+
 <body>
-<div class="container">
-    <h1>Nike Dunk Low Retro</h1>
-    <img src="images/sportNIkeDunkLow.png" alt="Nike Dunk Low Retro">
-    <p>Optimized for performance and agility.</p>
-    <span>Price: $110</span>
-    <button>Add to Cart</button>
-</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <a class="navbar-brand" href="/Public">
+            <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html" title="User Profile">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <hr>
+    <main>
+        <div id="product-section" class="container py-5">
+            <div class="row">
+                <div id="product-images" class="col-2">
+                    <img class="d-block w-100 product-thumb" src="images/sportNIkeDunkLow.png">
+                    <img class="d-block w-100 product-thumb" src="images/sportAdidasOriginalsHB.png">
+                    <img class="d-block w-100 product-thumb" src="images/sportNB530.png" alt="Image 3">
+                    <img class="d-block w-100 product-thumb" src="images/heelJCAziaPump75.png">
+                </div>
+                <div class="col-6">
+                    <img id="product-image-main" src="images/sportNIkeDunkLow.png" alt="Main Product Image">
+                </div>
+                <div id="product-details" class="d-flex flex-column col-4">
+                    <h1 id="product-name">Nike Dunk Low Retro</h1>
+                    <p id="product-desc">Optimized for performance and agility.</p>
+                    <p id="price">$99.99</p>
+                    <div id="colors" class="mt-3">
+                        <button class="color-button" style="background-image: url('images/sportNIkeDunkLow.png');"
+                            data-image="images/sportNIkeDunkLow.png"></button>
+                        <button class="color-button" style="background-image: url('images/sportNB530.png');"
+                            data-image="images/sportNB530.png"></button>
+                        <button class="color-button" style="background-image: url('images/sportAdidasOriginalsHB.png');"
+                            data-image="images/sportAdidasOriginalsHB.png"></button>
+                    </div>
+                    <div id="sizes" class="mt-3">
+                        <button class="size-button">US 6</button>
+                        <button class="size-button">US 7</button>
+                        <button class="size-button">US 8</button>
+                        <button class="size-button">US 9</button>
+                    </div>
+
+                    <div class="quantity-control my-3">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <button id="decrease" class="btn btn-secondary">-</button>
+                            </div>
+                            <div class="col-auto">
+                                <input id="quantity" type="text" class="form-control" value="1">
+                            </div>
+                            <div class="col-auto">
+                                <button id="increase" class="btn btn-secondary">+</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+
+                </div>
+            </div>
+        </div>
+
+
+        <hr>
+
+        <div id="reviews-section" class="container mt-5">
+            <h2>Product Reviews</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5 class="card-title">Great Product!</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">John Doe</h6>
+                        <small class="text-muted">2024-05-16</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>SKU:</strong> 123456</p>
+                    <img src="images/ninja_van.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
+                    <p class="card-text">This product exceeded my expectations. The quality is top-notch and it works
+                        perfectly. I've been using it for a few weeks now and have had no issues. Highly recommend to
+                        anyone in need of this product.</p>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5 class="card-title">Amazing Quality</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">Jane Smith</h6>
+                        <small class="text-muted">2024-05-15</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>SKU:</strong> 654321</p>
+                    <img src="images/sportAdidasOriginalsHB.png" alt="User Picture" class="img-fluid mb-3"
+                        style="width: 80px;">
+                    <p class="card-text">I was really impressed with the build quality of this product. It feels very
+                        sturdy and well-made. The performance is also excellent, and it meets all of my needs. Would
+                        definitely buy again.</p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="similar-products-section" class="container mt-5 pb-5">
+            <h2>Similar Products</h2>
+            <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 1</h5>
+                                        <p class="card-text">$49.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 2</h5>
+                                        <p class="card-text">$59.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 3</h5>
+                                        <p class="card-text">$69.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 4</h5>
+                                        <p class="card-text">$79.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 5">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 5</h5>
+                                        <p class="card-text">$49.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 6</h5>
+                                        <p class="card-text">$59.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 7">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 7</h5>
+                                        <p class="card-text">$69.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Product 8</h5>
+                                        <p class="card-text">$79.99</p>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <button class="btn btn-primary mr-2">Buy Now</button>
+                                            <button class="btn btn-secondary">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#similarProductsCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#similarProductsCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        document.querySelectorAll('.product-thumb').forEach(function (img) {
+            img.addEventListener('click', function () {
+                document.getElementById('product-image-main').src = this.src;
+            });
+        });
+
+        document.querySelectorAll('.color-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const newImageSrc = this.getAttribute('data-image');
+                document.getElementById('product-image-main').setAttribute('src', newImageSrc);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const decreaseBtn = document.getElementById("decrease");
+            const increaseBtn = document.getElementById("increase");
+            const quantityInput = document.getElementById("quantity");
+
+            decreaseBtn.addEventListener("click", function () {
+                let currentValue = parseInt(quantityInput.value);
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                }
+            });
+
+            increaseBtn.addEventListener("click", function () {
+                let currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+            });
+        });
+
+    </script>
 </body>
+
 </html>
