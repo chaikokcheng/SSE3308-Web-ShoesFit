@@ -56,13 +56,11 @@
         <div class="row">
             <div class="col-sm-4">
                 <h5>DELIVERY ADDRESS</h5>
-                <p id="fullAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA, <br>43400 UPM SERDANG,<br>
-                    SELANGOR</p>
+                <p id="fullAddress"></p>
             </div>
             <div class="col-sm-4">
                 <h5>BILLING INFORMATION</h5>
-                <p id="billingAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA,<br> 43400 UPM SERDANG,<br>
-                    SELANGOR</p>
+                <p id="billingAddress"></p>
                 <h6>Via: Online Banking</h6>
             </div>
             <div class="col-sm-4">
@@ -148,7 +146,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="main.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            localStorage.setItem("streetAddress", "9-012, KOLEJ CANSELOR");
+            localStorage.setItem("city", "UPM SERDANG");
+            localStorage.setItem("state", "SELANGOR");
+            localStorage.setItem("postcode", "43400");
+
+            const streetAddress = localStorage.getItem("streetAddress");
+            const city = localStorage.getItem("city");
+            const state = localStorage.getItem("state");
+            const postcode = localStorage.getItem("postcode");
+
+            let fullAddress = '';
+            if (streetAddress) fullAddress += streetAddress;
+            if (city) fullAddress += `, ${city}`;
+            if (state) fullAddress += `, ${state}`;
+            if (postcode) fullAddress += `, ${postcode}`;
+
+            document.getElementById("fullAddress").innerHTML = fullAddress;
+            document.getElementById("billingAddress").innerHTML = fullAddress;
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const printBtn = document.getElementById("printBtn");
+            if (printBtn) {
+                printBtn.addEventListener("click", function () {
+                    console.log("Print button clicked");
+                    window.print();
+                });
+            }
+        });
+    </script>
+    <!-- <script src="main.js"></script> -->
 </body>
 
 </html>

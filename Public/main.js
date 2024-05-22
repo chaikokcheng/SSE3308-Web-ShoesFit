@@ -53,7 +53,7 @@ $(document).ready(function () {
             $(this).selectpicker('refresh');
         }
     });
-    
+
 
     function updateTotalItemsCount() {
         const itemCount = $('.card.p-4').length;
@@ -64,7 +64,7 @@ $(document).ready(function () {
     updateTotalItemsCount();
 
 
-    $('.remove-item-btn').on('click', function() {
+    $('.remove-item-btn').on('click', function () {
         $(this).closest('.card.p-4').remove();
         updateTotalItemsCount();
         calculateTotal();
@@ -73,8 +73,8 @@ $(document).ready(function () {
 
 const calculateTotal = () => {
     let productTotalAmt = 0;
-    
-    $('.card.p-4').each(function() {
+
+    $('.card.p-4').each(function () {
         const itemPrice = parseFloat($(this).find('.price_money span').text());
         const itemQuantity = parseInt($(this).find('.set_quantity input').val());
         productTotalAmt += itemPrice * itemQuantity;
@@ -125,19 +125,19 @@ const increaseNumber = (incdec, itemprice, itembaseprice) => {
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     calculateTotal();
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     function calculateDeliveryDate() {
         let today = new Date();
         let starterDay = new Date(today);
-        starterDay.setDate(today.getDate() + 4); 
+        starterDay.setDate(today.getDate() + 4);
 
         let afterDay = new Date(starterDay);
-        afterDay.setDate(starterDay.getDate() + 2); 
+        afterDay.setDate(starterDay.getDate() + 2);
 
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         let starterDayStr = starterDay.toLocaleDateString('en-US', options);
@@ -154,19 +154,19 @@ $(document).ready(function() {
 // Countdown Timer
 var countDownTime = new Date().getTime() + 20 * 60 * 1000;
 
-var x = setInterval(function() {
+var x = setInterval(function () {
     var now = new Date().getTime();
     var distance = countDownTime - now;
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
+
     document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-        
+
     if (distance < 0) {
         clearInterval(x);
         document.getElementById("countdown").innerHTML = "EXPIRED";
 
-        setTimeout(function() {
+        setTimeout(function () {
             location.reload();
         }, 1000);
     }
@@ -178,7 +178,7 @@ function validateEmailFormat(email) {
     return emailRegex.test(email);
 }
 
-document.getElementById("emailInput").addEventListener("blur", function() {
+document.getElementById("emailInput").addEventListener("blur", function () {
     const emailInput = document.getElementById("emailInput");
     const emailCheckIcon = document.getElementById("email-checkIcon");
     const emailErrorMessage = document.getElementById("emailErrorMessage");
@@ -193,15 +193,15 @@ document.getElementById("emailInput").addEventListener("blur", function() {
         emailInput.style.borderColor = 'green';
         emailFormGroup.classList.remove("has-error");
         emailFormGroup.classList.add("has-success");
-        addressSection.style.display = "block"; 
+        addressSection.style.display = "block";
     } else {
         emailCheckIcon.classList.remove("text-success", "fa-check-circle");
         emailCheckIcon.classList.add("text-danger", "fa-times-circle");
-        emailCheckIcon.style.display = "inline-block"; 
+        emailCheckIcon.style.display = "inline-block";
         emailErrorMessage.textContent = 'Please enter a valid email address.';
         emailInput.style.borderColor = 'red';
         emailFormGroup.classList.remove("has-success");
-        emailFormGroup.classList.add("has-error"); 
+        emailFormGroup.classList.add("has-error");
     }
 });
 
@@ -209,33 +209,33 @@ document.getElementById("emailInput").addEventListener("blur", function() {
 function validateAddressField(input, errorMessage, fieldName) {
     const fieldInput = document.getElementById(input);
     const fieldErrorMessage = document.getElementById(errorMessage);
-    
+
     if (fieldInput.value.trim() === '') {
         fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
-        fieldInput.style.borderColor = 'red';  
+        fieldInput.style.borderColor = 'red';
     } else {
         fieldErrorMessage.textContent = '';
         fieldInput.style.borderColor = 'green';
     }
 }
 
-document.getElementById("firstName").addEventListener("blur", function() {
+document.getElementById("firstName").addEventListener("blur", function () {
     validateAddressField("firstName", "firstNameErrorMessage", "first name");
 });
 
-document.getElementById("lastName").addEventListener("blur", function() {
+document.getElementById("lastName").addEventListener("blur", function () {
     validateAddressField("lastName", "lastNameErrorMessage", "last name");
 });
 
-document.getElementById("streetAddress").addEventListener("blur", function() {
+document.getElementById("streetAddress").addEventListener("blur", function () {
     validateAddressField("streetAddress", "addressErrorMessage", "delivery address");
 });
 
-document.getElementById("city").addEventListener("blur", function() {
+document.getElementById("city").addEventListener("blur", function () {
     validateAddressField("city", "cityErrorMessage", "city");
 });
 
-document.getElementById("state").addEventListener("blur", function() {
+document.getElementById("state").addEventListener("blur", function () {
     validateAddressField("state", "stateErrorMessage", "state");
 });
 
@@ -245,14 +245,14 @@ function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     const fieldErrorMessage = document.getElementById(errorMessage);
     const fieldFooter = document.getElementById(footer);
 
-    fieldInput.addEventListener("blur", function() {
+    fieldInput.addEventListener("blur", function () {
         if (fieldInput.value.trim() === '') {
             fieldErrorMessage.textContent = `Please enter your ${fieldName}.`;
-            fieldFooter.textContent = ''; 
+            fieldFooter.textContent = '';
             fieldInput.style.borderColor = 'red';
         } else if (!/^\d+$/.test(fieldInput.value.trim())) {
             fieldErrorMessage.textContent = `Please check your ${fieldName}.`;
-            fieldFooter.textContent = ''; 
+            fieldFooter.textContent = '';
             fieldInput.style.borderColor = 'red';
         } else {
             fieldErrorMessage.textContent = '';
@@ -261,11 +261,11 @@ function validatePCode_PhNum(input, errorMessage, footer, fieldName) {
     });
 }
 
-document.getElementById("postcode").addEventListener("blur", function() {
+document.getElementById("postcode").addEventListener("blur", function () {
     validatePCode_PhNum("postcode", "postcodeErrorMessage", "PC-Footer", "postcode");
 });
 
-document.getElementById("phoneNumber").addEventListener("blur", function() {
+document.getElementById("phoneNumber").addEventListener("blur", function () {
     validatePCode_PhNum("phoneNumber", "phoneNumberErrorMessage", "PhNum-Footer", "phone number");
 });
 
@@ -279,21 +279,21 @@ textFields.forEach(textField => {
 function checkAllFieldsFilled() {
     const allFieldsFilled = Array.from(textFields).every(textField => textField.value.trim() !== '');
     const addressButton = document.getElementById("addressButton");
-    const shippingSection = document.querySelector(".shippingSection"); 
+    const shippingSection = document.querySelector(".shippingSection");
 
     if (allFieldsFilled) {
-        addressButton.disabled = false; 
-        addressButton.addEventListener("click", function() {
-            shippingSection.style.display = "block"; 
+        addressButton.disabled = false;
+        addressButton.addEventListener("click", function () {
+            shippingSection.style.display = "block";
             shippingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     } else {
-        addressButton.disabled = true; 
+        addressButton.disabled = true;
     }
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const shippingSection = document.querySelector(".shippingSection");
     const paymentSection = document.querySelector(".paymentSection");
     shippingSection.style.display = "none";
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const checkbox = document.getElementById('t&c');
     const shippingButton = document.getElementById('shippingButton');
 
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function () {
         if (!this.checked) {
             shippingButton.disabled = true;
             paymentSection.style.display = "none";
@@ -310,15 +310,15 @@ document.addEventListener("DOMContentLoaded", function() {
             shippingButton.disabled = false;
         }
     });
-    
-    shippingButton.addEventListener('click', function() {
+
+    shippingButton.addEventListener('click', function () {
         paymentSection.style.display = "block";
         paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 });
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const creditCardRadio = document.getElementById('creditCardRadio');
     const creditCardDetails = document.getElementById('creditCardDetails');
     const onlineBankingRadio = document.getElementById('onlineBankingRadio');
@@ -327,8 +327,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     onlineBankingDetails.style.display = 'none';
     creditCardDetails.style.display = 'none';
-   
-    creditCardRadio.addEventListener('change', function() {
+
+    creditCardRadio.addEventListener('change', function () {
         if (this.checked) {
             creditCardDetails.style.display = 'block';
             onlineBankingDetails.style.display = 'none';
@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    onlineBankingRadio.addEventListener('change', function() {
+    onlineBankingRadio.addEventListener('change', function () {
         if (this.checked) {
             creditCardDetails.style.display = 'none';
             onlineBankingDetails.style.display = 'block';
@@ -346,18 +346,18 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-const nameOnCardRegex = /^[a-zA-Z ]+$/; 
-const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/; 
-const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; 
-const cvvRegex = /^[0-9]{3}$/; 
+const nameOnCardRegex = /^[a-zA-Z ]+$/;
+const cardNumberRegex = /^\d{4}\s?\d{4}\s?\d{4}\s?\d{4}$/;
+const expiryDateRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+const cvvRegex = /^[0-9]{3}$/;
 
 function validateCard(input, errorMessage, fieldName, regex) {
     const cardInput = document.getElementById(input);
     const cardErrorMessage = document.getElementById(errorMessage);
-    
+
     if (cardInput.value.trim() === '') {
         cardErrorMessage.textContent = `Please enter your ${fieldName}.`;
-        cardInput.style.borderColor = 'red';  
+        cardInput.style.borderColor = 'red';
     } else {
         const isValid = regex.test(cardInput.value.trim());
         if (isValid) {
@@ -371,19 +371,19 @@ function validateCard(input, errorMessage, fieldName, regex) {
     }
 }
 
-document.getElementById('nameOnCard').addEventListener('input', function() {
+document.getElementById('nameOnCard').addEventListener('input', function () {
     validateCard('nameOnCard', 'nameOnCardValidity', 'name on card', nameOnCardRegex);
 });
 
-document.getElementById('cardNumber').addEventListener('input', function() {
+document.getElementById('cardNumber').addEventListener('input', function () {
     validateCard('cardNumber', 'cardNumberValidity', 'card number', cardNumberRegex);
 });
 
-document.getElementById('expiryDate').addEventListener('input', function() {
+document.getElementById('expiryDate').addEventListener('input', function () {
     validateCard('expiryDate', 'expiryDateValidity', 'expiry date (MM/YY)', expiryDateRegex);
 });
 
-document.getElementById('cvc').addEventListener('input', function() {
+document.getElementById('cvc').addEventListener('input', function () {
     validateCard('cvc', 'cvcValidity', 'CVV (3 digits)', cvvRegex);
 });
 
@@ -391,20 +391,20 @@ document.getElementById('cvc').addEventListener('input', function() {
 const inputs = document.querySelectorAll('.form-control');
 
 inputs.forEach(input => {
-    input.addEventListener('focus', function() {
+    input.addEventListener('focus', function () {
         this.removeAttribute('placeholder');
     });
 });
 
 
-$(document).ready(function() {
-    $('#paymentButton').click(function() {
+$(document).ready(function () {
+    $('#paymentButton').click(function () {
         $('#myModal').modal('show');
     });
 });
 
-$(document).ready(function() {
-    $('.cart-btn').click(function() {
+$(document).ready(function () {
+    $('.cart-btn').click(function () {
         $('#codeModal').modal('show');
     });
 });
@@ -423,30 +423,35 @@ function filterCategory(category) {
 
     document.querySelector(`button[data-category="${category}"]`).classList.add('active');
 }
-        filterCategory('Formal');
+filterCategory('Formal');
 
 //Order Summary
-document.addEventListener("DOMContentLoaded", function(){
-    const streetAddress = localStorage.getItem("streetAddress");
-    const city = localStorage.getItem("city");
-    const state = localStorage.getItem("state");
-    const postcode = localStorage.getItem("postcode");
+// document.addEventListener("DOMContentLoaded", function () {
+//     const streetAddress = localStorage.getItem("streetAddress");
+//     const city = localStorage.getItem("city");
+//     const state = localStorage.getItem("state");
+//     const postcode = localStorage.getItem("postcode");
 
-    let fullAdress = '';
-    if (streetAddress) fullAddress += streetAddress;
-    if (city) fullAddress += ', ${city}';
-    if (state) fullAddress += ', ${state}';
-    if (postcode) fullAddress += ', ${postcode}';
-    
-    if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
-    document.getElementById("billingAddress").textContent = fullAddress;
-});
+//     let fullAdress = '';
+//     if (streetAddress) fullAddress += streetAddress;
+//     if (city) fullAddress += ', ${city}';
+//     if (state) fullAddress += ', ${state}';
+//     if (postcode) fullAddress += ', ${postcode}';
 
-function printOrder(){
-    window.print();
-}
-const printBtn = document.getElementById("printBtn");
+//     if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
+//     document.getElementById("billingAddress").textContent = fullAddress;
+// });
+//
+// const printBtn = document.getElementById("printBtn");
+// if (printBtn) {
+//     printBtn.addEventListener("click", function () {
+//         window.print();
+//     });
+// }
 
-printBtn.addEventListener("click", printOrder);
+// printBtn.addEventListener("click", function () {
+//     console.log("Print button clicked");
+//     window.print();
+// });
 
 //Order Summary
