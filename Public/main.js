@@ -13,7 +13,7 @@ function displayProducts(products, containerId, category = '') {
     products.filter(product => !category || product.category === category).forEach(product => {
         productList.innerHTML += `
             <div class="col-md-4">
-                <a href="${product.link}" class="card mb-4 shadow-sm text-decoration-none">
+                <a href="productpage.html?id=${product.id}" class="card mb-4 shadow-sm text-decoration-none">
                     <img class="card-img-top" alt="${product.name}" src="${product.img}">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
@@ -54,17 +54,14 @@ $(document).ready(function () {
         }
     });
 
-
-    function updateTotalItemsCount() {
-        const itemCount = $('.card.p-4').length;
+    function updateTotalItemsCount(cart) {
+        const itemCount = cart.length;
         $('#total_items_count').text(itemCount);
     }
 
+    
+    $('.remove-item-btn').on('click', function() {
 
-    updateTotalItemsCount();
-
-
-    $('.remove-item-btn').on('click', function () {
         $(this).closest('.card.p-4').remove();
         updateTotalItemsCount();
         calculateTotal();
