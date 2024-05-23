@@ -69,24 +69,30 @@
                     <div class="col-6">
                         Product
                     </div>
+                    <div class="col-6 text-right font-italic">
+                        $ <span id="productPrice"></span>
+                    </div>
+                    <!-- <div class="col-6">
+                        Product
+                    </div>
                     <div class="col-6 text-right">
                         <i>$ 450.00</i>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col-6">
                         Promo Code
                     </div>
                     <div class="col-6 text-right">
-                        <i>$ -100.00</i>
+                        <i>$ -0.00</i>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        Delivery Fee
+                        Shipping
                     </div>
-                    <div class="col-6 text-right">
-                        <i>Free</i>
+                    <div class="col-6 text-right" id="shipping_charge">
+                        <i>$ 10.00</i>
                     </div>
                 </div>
                 <div class="row">
@@ -94,15 +100,21 @@
                         Total Amount
                     </div>
                     <div class="col-6 text-right">
-                        <i>$ 350.00</i>
+                        $ <span id="totalAmount"></span>
                     </div>
+                    <!-- <div class="col-6">
+                        Total Amount
+                    </div>
+                    <div class="col-6 text-right">
+                        <i>$ 350.00</i>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col-6">
                         Total Saving
                     </div>
                     <div class="col-6 text-right">
-                        <i>$ 110.00</i>
+                        <i>$ 0.00</i>
                     </div>
                 </div>
             </div>
@@ -112,30 +124,32 @@
 
     <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
         <h1>ORDERED ITEMS</h1>
-        <div class="card p-3 shadow " id="ordered-details">
+        <section id="orderedSection"></section>
+        <!-- <div class="card p-3 shadow " id="ordered-items">
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
-                    <img src="images/sportNIkeDunkLow.png" class="img-fluid" alt="sportNIkeDunkLow">
+                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
                 </div>
                 <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
                     <div class="row">
                         <div class="col-8 card-body">
-                            <h5 class="mb-3 card-title text-align-left">Nike Dunk Low Retro</h5>
-                            <p class="mb-2 card-text">Color: Black/White
-                                <br>Size: US8
-                                <br>Quantity: 1
-                            </p>
+                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
+                            <p class="shoe-colour">${cartItem.color}</p>
+                        <div class="cart-text">
+                            <p>Qty: ${cartItem.quantity}</p>
+                            <p>Size: ${cartItem.size}</p>
+                        </div>
                         </div>
                     </div>
                     <div class="row mt-auto">
                         <div class="col-12 d-flex justify-content-end align-items-end">
                             <br>
-                            <h3>$<span id="itemval">110.00</span></h3>
+                            <h3>$<span id="itemval">${product.price}</span></h3>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="container py-5">
@@ -172,6 +186,80 @@
                     window.print();
                 });
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orderedSection = document.getElementById('orderedSection');
+            const productPrice = document.getElementById('productPrice');
+            const totalAmount = document.getElementById('totalAmount');
+            const shippingCharge = 10;
+            let total = 0;
+
+            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            $('#total_items_count').text(cart.length);
+
+            fetch('products.json')
+                .then(response => response.json())
+                .then(data => {
+                    const cartHTML = cart.map(cartItem => {
+                        const product = data.products.find(p => p.id === cartItem.productId);
+                        if (product) {
+                            total += product.price * cartItem.quantity;
+                            return
+                            //                      `
+                            //                 <div class="order-border" data-id="${product.id}">
+                            //                     <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
+                            //     <div class="order-details">
+                            //         <h6 style="font-size: 18px;">${product.name}</h6>
+                            //         <p class="shoe-colour">${cartItem.color}</p>
+                            //         <div class="cart-text">
+                            //             <p>Price: $ ${product.price}</p>
+                            //             <p>Qty: ${cartItem.quantity}</p>
+                            //             <p>Size: ${cartItem.size}</p>
+                            //         </div>
+                            //     </div>
+                            // </div>
+                            //         `
+                            `   
+                         <div class="card p-3 shadow " id="ordered-items">
+            <div class="row">
+                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
+                </div>
+                <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
+                    <div class="row">
+                        <div class="col-8 card-body">
+                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
+                            <p class="shoe-colour">${cartItem.color}</p>
+                        <div class="cart-text">
+                            <p>Qty: ${cartItem.quantity}</p>
+                            <p>Size: ${cartItem.size}</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row mt-auto">
+                        <div class="col-12 d-flex justify-content-end align-items-end">
+                            <br>
+                            <h3>$<span id="itemval">${product.price}</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                         `
+                                ;
+                        }
+                        return '';
+                    }).join('');
+
+                    cartSection.innerHTML = cartHTML;
+                    productAmt.innerText = total.toFixed(2);
+                    totalPrice.innerText = (total + shippingCharge).toFixed(2);
+                });
+
+
         });
     </script>
     <!-- <script src="main.js"></script> -->
