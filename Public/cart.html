@@ -123,7 +123,7 @@
                             if (product) {
                                 total += product.price * cartItem.quantity;
                                 return `
-                            <div class="card p-4 shadow" data-id="${product.id}">
+                            <div class="card p-4 shadow" data-id="${cartItem.id}">
                                 <div class="row">
                                     <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
                                         <img src="${product.img}" class="img-fluid" alt="${product.name}">
@@ -150,15 +150,15 @@
                                             <div class="col-4">
                                                 <ul class="pagination justify-content-end set_quantity">
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="decreaseNumber('textbox${product.id}','itemval${product.id}',${product.price})">
+                                                        <button class="page-link" onclick="decreaseNumber('textbox${cartItem.id}','itemval${cartItem.id}',${product.price})">
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                     </li>
                                                     <li class="page-item">
-                                                        <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${product.id}" data-price="${product.price}">
+                                                        <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
                                                     </li>
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="increaseNumber('textbox${product.id}','itemval${product.id}',${product.price})">
+                                                        <button class="page-link" onclick="increaseNumber('textbox${cartItem.id}','itemval${cartItem.id}',${product.price})">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </li>
@@ -167,10 +167,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-8 d-flex justify-content-between remove">
-                                                <p class="remove-item-btn" data-id="${product.id}"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
+                                                <p class="remove-item-btn" data-id="${cartItem.id}"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
                                             </div>
                                             <div class="col-4 d-flex justify-content-end price_money">
-                                                <h3>$<span id="itemval${product.id}">${(product.price * cartItem.quantity).toFixed(2)}</span></h3>
+                                                <h3>$<span id="itemval${cartItem.id}">${(product.price * cartItem.quantity).toFixed(2)}</span></h3>
                                             </div>
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
 
                         $('.selectpicker').selectpicker();
 
-                // latest
+                        // latest
                         $(document).ready(function () {
                             // Function to show error if at least one size and one color are not selected
                             function showErrorAndRestore(selectPicker, clickedOption) {
@@ -244,7 +244,7 @@
 
                             selectPicker.selectpicker('refresh');
                         });
-                // latest
+                        // latest
 
                         // $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                         //     const selectedOptions = $(this).find('option:selected');
@@ -283,12 +283,17 @@
                 }
             });
 
-            function removeFromCart(productId) {
+            function removeFromCart(itemId) {
                 let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-                cart = cart.filter(item => item.productId !== productId);
+                cart = cart.filter(item => item.id !== itemId);
                 localStorage.setItem('cart', JSON.stringify(cart));
                 location.reload();
             }
+
+            $('.remove-item-btn').on('click', function () {
+                const itemId = $(this).data('id');
+                removeFromCart(itemId);
+            });
 
             document.getElementById('checkout-btn').addEventListener('click', () => {
                 alert('Checkout not implemented yet.');
