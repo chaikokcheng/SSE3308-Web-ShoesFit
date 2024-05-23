@@ -75,7 +75,6 @@ fetchProducts((products) => {
     displayProducts(products, 'newArrivals', 'Heels');
 });
 
-// filterCategory('Formal');
 
 //shopping cart
 const calculateTotal = () => {
@@ -440,7 +439,7 @@ function filterCategory(category) {
 
     document.querySelector(`button[data-category="${category}"]`).classList.add('active');
 }
-filterCategory('Formal');
+// filterCategory('Formal');
 
 //Order Summary
 // document.addEventListener("DOMContentLoaded", function () {

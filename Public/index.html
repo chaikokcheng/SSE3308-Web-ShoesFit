@@ -117,11 +117,28 @@
 
     <br><br>
 
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
+    <script>
+    function filterCategory(category) {
+        fetchProducts((products) => {
+            displayProducts(products, 'productList', category);
+            calculateDeliveryDate(); 
+        });
+
+        document.querySelectorAll('.btn-outline-secondary').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        document.querySelector(`button[data-category="${category}"]`).classList.add('active');
+    }
+
+    filterCategory('Formal');
+</script>
 </body>
 
 </html>
