@@ -126,7 +126,7 @@
                             </div>
                         </div>
                     </div>
-                        <button type="button" class="btn btn-width" id="addressButton" disabled>NEXT</button>
+                    <button type="button" class="btn btn-width" id="addressButton" disabled>NEXT</button>
                 </form>
 
                 <hr class="margin">
@@ -159,7 +159,8 @@
                     </p>
                     <div class="form-group shipping-border">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCardRadio" value="creditCard">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCardRadio"
+                                value="creditCard">
                             <label class="form-check-label paymentMethod-title" for="creditCardRadio">
                                 Credit/Debit Card
                             </label>
@@ -172,7 +173,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="cardNumber">Card number</label>
-                                <input class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)">
+                                <input class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456"
+                                    maxlength="19" oninput="formatCardNumber(this)">
                                 <div class="text-danger" id="cardNumberValidity"></div>
                             </div>
                             <div class="row">
@@ -196,7 +198,8 @@
 
                     <div class="form-group shipping-border">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlineBankingRadio" value="onlineBanking">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlineBankingRadio"
+                                value="onlineBanking">
                             <label class="form-check-label paymentMethod-title" for="onlineBankingRadio">
                                 Online Banking
                             </label>
@@ -210,15 +213,17 @@
                             </select>
                         </label>
                     </div>
-                    <button type="button" class="btn btn-width" id="paymentButton" data-bs-toggle="modal" data-bs-target="#myModal" disabled>PLACE ORDER</button>
+                    <button type="button" class="btn btn-width" id="paymentButton" data-bs-toggle="modal"
+                        data-bs-target="#myModal" disabled>PLACE ORDER</button>
                 </div>
             </div>
 
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
 
-            <div class="col-md-4">
-                <h3 id="cartSection">YOUR CART</h3>
-                <div class="order-border">
+            <div class="col-md-5">
+                <h3>YOUR CART</h3>
+                <section id="cartSection"></section>
+                <!-- <div class="order-border">
                     <img src="images/sportNIkeDunkLow.png" alt="Product Image" class="shoeImage-size">
                     <div class="order-details">
                         <h6>NIKE</h6>
@@ -229,9 +234,10 @@
                             <p>Size: US 5</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <br>
-                <button type="btn" class="cart-btn" data-bs-toggle="modal" data-bs-target="codeModal">USE A PROMO CODE</button>
+                <button type="btn" class="cart-btn" data-bs-toggle="modal" data-bs-target="codeModal">USE A PROMO
+                    CODE</button>
                 <br>
                 <br>
                 <hr>
@@ -239,15 +245,15 @@
                     <div class="col-6">
                         Cart Subtotal
                     </div>
-                    <div class="col-6 text-right">
-                        <i>$ 110.00</i>
+                    <div class="col-6 text-right font-italic">
+                        $ <span id="productAmount"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         Shipping
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col-6 text-right" id="shipping_charge">
                         <i>$ 10.00</i>
                     </div>
                 </div>
@@ -256,8 +262,8 @@
                     <div class="col-6">
                         Order Amount
                     </div>
-                    <div class="col-6 text-right total-price">
-                        $ 120.00
+                    <div class="col-6 text-right font-weight-bold" style="font-size: 20px; margin-bottom: 20px;">
+                        $ <span id="total-price"></span>
                     </div>
                 </div>
             </div>
@@ -298,7 +304,8 @@
                     Your payment has been successfully completed.
                 </div>
                 <div class="modal-footer">
-                    <a href="orderSummary.html"><button type="button" class="btn" id="summaryBtn">View Order Summary</button></a>
+                    <a href="orderSummary.html"><button type="button" class="btn" id="summaryBtn">View Order
+                            Summary</button></a>
                 </div>
             </div>
         </div>
@@ -310,6 +317,53 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartSection = document.getElementById('cartSection');
+            const productAmt = document.getElementById('productAmount');
+            const totalPrice = document.getElementById('total-price');
+            const shippingCharge = 10;
+            let total = 0;
+
+            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            $('#total_items_count').text(cart.length);
+
+            if (cart.length === 0) {
+                cartSection.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                fetch('products.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const cartHTML = cart.map(cartItem => {
+                            const product = data.products.find(p => p.id === cartItem.productId);
+                            if (product) {
+                                total += product.price * cartItem.quantity;
+                                return `
+                                <div class="order-border" data-id="${product.id}">
+                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
+                    <div class="order-details">
+                        <h6 style="font-size: 18px;">${product.name}</h6>
+                        <p class="shoe-colour">${cartItem.color}</p>
+                        <div class="cart-text">
+                            <p>Price: $ ${product.price}</p>
+                            <p>Qty: ${cartItem.quantity}</p>
+                            <p>Size: ${cartItem.size}</p>
+                        </div>
+                    </div>
+                </div>
+                        `;
+                            }
+                            return '';
+                        }).join('');
+
+                        cartSection.innerHTML = cartHTML;
+                        productAmt.innerText = total.toFixed(2);
+                        totalPrice.innerText = (total + shippingCharge).toFixed(2);
+                    });
+            }
+
+        });
+    </script>
 
 </body>
 

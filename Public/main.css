@@ -346,11 +346,15 @@ hr.margin {
     align-items: center;
     border: 2px solid lightgrey;
     padding: 10px;
+    
 }
 
 .order-details {
     margin-left: 20px;
+    
 }
+
+
 
 .total-price {
     font-weight: bold;
@@ -372,7 +376,7 @@ h6 {
     font-size: 16px;
 }
 
-.shoe-name {
+.shoe-colour {
     font-size: 16px;
 }
 
