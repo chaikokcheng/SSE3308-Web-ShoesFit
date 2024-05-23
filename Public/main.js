@@ -75,7 +75,6 @@ fetchProducts((products) => {
     displayProducts(products, 'newArrivals', 'Heels');
 });
 
-// filterCategory('Formal');
 
 //shopping cart
 const calculateTotal = () => {
@@ -93,43 +92,7 @@ const calculateTotal = () => {
     document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
 }
 
-const decreaseNumber = (incdec, itemprice, itembaseprice) => {
-    const itemval = document.getElementById(incdec);
-    const itempriceElement = document.getElementById(itemprice);
 
-    if (itemval.value <= 1) {
-        itemval.value = 1;
-        Swal.fire({
-            title: 'Quantity Error',
-            text: 'Minimum quantity is 1',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    } else {
-        itemval.value = parseInt(itemval.value) - 1;
-        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-        calculateTotal();
-    }
-}
-
-const increaseNumber = (incdec, itemprice, itembaseprice) => {
-    const itemval = document.getElementById(incdec);
-    const itempriceElement = document.getElementById(itemprice);
-
-    if (itemval.value >= 5) {
-        itemval.value = 5;
-        Swal.fire({
-            titel: 'Quantity Error',
-            text: 'Maximum quantity is 5',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    } else {
-        itemval.value = parseInt(itemval.value) + 1;
-        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-        calculateTotal();
-    }
-}
 
 
 $(document).ready(function () {
@@ -451,7 +414,7 @@ function filterCategory(category) {
 
     document.querySelector(`button[data-category="${category}"]`).classList.add('active');
 }
-filterCategory('Formal');
+// filterCategory('Formal');
 
 //Order Summary
 // document.addEventListener("DOMContentLoaded", function () {
