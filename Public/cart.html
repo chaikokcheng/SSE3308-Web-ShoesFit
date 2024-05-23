@@ -187,33 +187,92 @@
 
 
                         $('.selectpicker').selectpicker();
-                        $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                            const selectedOptions = $(this).find('option:selected');
-                            const selectedSized = selectedOptions.filter('[data-category="size"]').length;
-                            const selectedColors = selectedOptions.filter('[data-category="color"]').length;
 
-                            if (selectedSized > 1 || selectedColors > 1) {
+                // latest
+                        $(document).ready(function () {
+                            // Function to show error if at least one size and one color are not selected
+                            function showErrorAndRestore(selectPicker, clickedOption) {
                                 Swal.fire({
                                     title: 'Selection Error',
-                                    text: 'Please select only one size and one color.',
+                                    text: 'Please select at least one size and one color.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    clickedOption.prop('selected', true);
+                                    selectPicker.selectpicker('refresh');
+                                });
+                            }
+
+                            $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected) {
+                                const selectPicker = $(this);
+                                const clickedOption = selectPicker.find('option').eq(clickedIndex);
+                                const category = clickedOption.data('category');
+
+                                // Deselect other options in the same category if a new option is selected
+                                if (isSelected) {
+                                    if (category === 'size') {
+                                        selectPicker.find('option[data-category="size"]').not(clickedOption).prop('selected', false);
+                                    } else if (category === 'color') {
+                                        selectPicker.find('option[data-category="color"]').not(clickedOption).prop('selected', false);
+                                    }
+                                }
+
+                                selectPicker.selectpicker('refresh');
+
+                                // Ensure at least one size and one color are selected
+                                const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
+                                const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
+
+                                if (selectedSizes === 0 || selectedColors === 0) {
+                                    showErrorAndRestore(selectPicker, clickedOption);
+                                }
+                            });
+
+                            // Initial check to ensure at least one size and one color are selected on page load
+                            const selectPicker = $('.multi_select');
+                            const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
+                            const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
+
+                            if (selectedSizes === 0 || selectedColors === 0) {
+                                Swal.fire({
+                                    title: 'Selection Error',
+                                    text: 'Please select at least one size and one color.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
-                                $(this).find('option').eq(clickedIndex).prop('selected', false);
-                                $(this).selectpicker('refresh');
                             }
 
-                            function updateTotalItemsCount(cart) {
-                                const itemCount = cart.length;
-                                $('#total_items_count').text(itemCount);
-                            }
-
-                            $('.remove-item-btn').on('click', function () {
-                                $(this).closest('.card.p-4').remove();
-                                updateTotalItemsCount();
-                                calculateTotal();
-                            });
+                            selectPicker.selectpicker('refresh');
                         });
+                // latest
+
+                        // $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                        //     const selectedOptions = $(this).find('option:selected');
+                        //     const selectedSized = selectedOptions.filter('[data-category="size"]').length;
+                        //     const selectedColors = selectedOptions.filter('[data-category="color"]').length;
+
+                        //     if (selectedSized > 1 || selectedColors > 1) {
+                        //         Swal.fire({
+                        //             title: 'Selection Error',
+                        //             text: 'Please select only one size and one color.',
+                        //             icon: 'error',
+                        //             confirmButtonText: 'OK'
+                        //         });
+                        //         $(this).find('option').eq(clickedIndex).prop('selected', false);
+                        //         $(this).selectpicker('refresh');
+                        //     }
+
+                        //     function updateTotalItemsCount(cart) {
+                        //         const itemCount = cart.length;
+                        //         $('#total_items_count').text(itemCount);
+                        //     }
+
+                        //     $('.remove-item-btn').on('click', function () {
+                        //         $(this).closest('.card.p-4').remove();
+                        //         updateTotalItemsCount();
+                        //         calculateTotal();
+                        //     });
+                        // });
                     });
             }
 
