@@ -53,6 +53,18 @@ body {
     transform: scale(1.05);
 }
 
+#trailer {
+    position: fixed;
+    pointer-events: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(128, 128, 128, 0.3); 
+    z-index: 1050; 
+    transition: transform 0.1s ease-out; 
+    transform: translate(-50%, -50%); 
+    display: none; 
+}
 
 
 .jumbotron {

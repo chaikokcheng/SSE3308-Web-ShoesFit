@@ -1,4 +1,46 @@
 
+$(document).ready(function() {
+    $('#contactForm').submit(function(e) {
+        e.preventDefault(); 
+        var formData = $(this).serialize(); 
+
+        $.ajax({
+            type: 'POST',
+            url: 'contactform.php',
+            data: formData,
+            success: function(response) {
+                alert('Thank you for your message!');
+                $('#contactForm')[0].reset();
+            },
+            error: function() {
+                alert('Error sending your message.');
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var trailer = document.createElement('div');
+    trailer.id = 'trailer';
+    document.body.appendChild(trailer);
+
+    function moveTrailer(x, y) {
+        trailer.style.left = x + 'px';
+        trailer.style.top = y + 'px';
+        trailer.style.display = 'block'; 
+    }
+
+    document.addEventListener('mousemove', function(e) {
+        moveTrailer(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('mouseleave', function() {
+        trailer.style.display = 'none';
+    });
+});
+
+
+
 function fetchProducts(callback, category = '') {
     fetch('products.json')
         .then(response => response.json())
