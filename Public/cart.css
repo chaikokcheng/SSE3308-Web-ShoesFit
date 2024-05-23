@@ -45,6 +45,7 @@ body {
     border-color: black;
     color: white;
 }
+
 .cart-btn:hover  {
     background-color: lightgray;
     border-color: black;
@@ -72,6 +73,7 @@ body {
 .main_cart {
     background: #fff;
 }
+
 .multi_select_box{
     width:200px;
 }
