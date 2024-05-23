@@ -102,6 +102,48 @@
 
     <script src="main.js"></script>
     <script>
+        const decreaseNumber = (id, incdec, itemprice, itembaseprice) => {
+            const itemval = document.getElementById(incdec);
+            const itempriceElement = document.getElementById(itemprice);
+
+            if (itemval.value <= 1) {
+                itemval.value = 1;
+                Swal.fire({
+                    title: 'Quantity Error',
+                    text: 'Minimum quantity is 1',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                itemval.value = parseInt(itemval.value) - 1;
+                updateCartItemQuantity(id, itemval.value);
+                itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+                calculateTotal();
+            }
+        }
+
+        const increaseNumber = (id, incdec, itemprice, itembaseprice) => {
+            const itemval = document.getElementById(incdec);
+            const itempriceElement = document.getElementById(itemprice);
+            itemval.value = parseInt(itemval.value) + 1;
+            updateCartItemQuantity(id, itemval.value);
+            itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
+            calculateTotal();
+
+        }
+
+        function updateCartItemQuantity(itemId, newQuantity) {
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            if (itemIndex !== -1) {
+                console.log("INTIIAL + " + cart[itemIndex].quantity);
+                cart[itemIndex].quantity = newQuantity;
+                console.log("AFTER + " + cart[itemIndex].quantity);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const cartItemsContainer = document.getElementById('cart-items');
             const productTotalAmt = document.getElementById('product_total_amt');
@@ -150,7 +192,7 @@
                                             <div class="col-4">
                                                 <ul class="pagination justify-content-end set_quantity">
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="decreaseNumber('textbox${cartItem.id}','itemval${cartItem.id}',${product.price})">
+                                                        <button class="page-link" onclick="decreaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}', ${product.price})">
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                     </li>
@@ -158,7 +200,7 @@
                                                         <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
                                                     </li>
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="increaseNumber('textbox${cartItem.id}','itemval${cartItem.id}',${product.price})">
+                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemvalc', ${product.price})">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </li>
@@ -298,6 +340,8 @@
             document.getElementById('checkout-btn').addEventListener('click', () => {
                 alert('Checkout not implemented yet.');
             });
+
+
         });
     </script>
 
