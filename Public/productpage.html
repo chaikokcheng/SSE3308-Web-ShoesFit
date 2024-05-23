@@ -401,6 +401,16 @@
                                         ${product.sizes.map(size => `<button class="size-button">${size}</button>`).join('')}
                                     </div>`;
 
+                            const thumbnails = document.querySelectorAll('.product-thumb');
+                            const mainImage = document.getElementById('product-image-main');
+
+                            thumbnails.forEach(thumbnail => {
+                                thumbnail.addEventListener('click', function () {
+                                    const newSrc = this.getAttribute('src');
+                                    mainImage.setAttribute('src', newSrc);
+                                });
+                            });
+                            
                             let selectedColor = null;
                             let selectedSize = null;
 
@@ -472,7 +482,7 @@
             });
         });
 
-        
+
     </script>
 </body>
 
