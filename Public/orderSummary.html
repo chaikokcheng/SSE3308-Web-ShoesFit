@@ -91,7 +91,7 @@
                     <div class="col-6">
                         Shipping
                     </div>
-                    <div class="col-6 text-right" id="shipping_charge">
+                    <div class="col-6 text-right" id="shippingCharge">
                         <i>$ 10.00</i>
                     </div>
                 </div>
@@ -203,64 +203,37 @@
             if (cart.length === 0) {
                 cartSection.innerHTML = '<p>Your cart is empty.</p>';
             } else {
-            fetch('products.json')
-                .then(response => response.json())
-                .then(data => {
-                    const cartHTML = cart.map(cartItem => {
-                        const product = data.products.find(p => p.id === cartItem.productId);
-                        if (product) {
-                            total += product.price * cartItem.quantity;
-                            return
-                            //                      `
-                            //                 <div class="order-border" data-id="${product.id}">
-                            //                     <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
-                            //     <div class="order-details">
-                            //         <h6 style="font-size: 18px;">${product.name}</h6>
-                            //         <p class="shoe-colour">${cartItem.color}</p>
-                            //         <div class="cart-text">
-                            //             <p>Price: $ ${product.price}</p>
-                            //             <p>Qty: ${cartItem.quantity}</p>
-                            //             <p>Size: ${cartItem.size}</p>
-                            //         </div>
-                            //     </div>
-                            // </div>
-                            //         `
-                            `   
-                         <div class="card p-3 shadow " id="ordered-items">
-            <div class="row">
-                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
-                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
-                </div>
-                <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
-                    <div class="row">
-                        <div class="col-8 card-body">
-                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
-                            <p class="shoe-colour">${cartItem.color}</p>
-                        <div class="cart-text">
-                            <p>Qty: ${cartItem.quantity}</p>
-                            <p>Size: ${cartItem.size}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="row mt-auto">
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <br>
-                            <h3>$<span id="itemval">${product.price}</span></h3>
-                        </div>
+                fetch('products.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const cartHTML = cart.map(cartItem => {
+                            const product = data.products.find(p => p.id === cartItem.productId);
+                            if (product) {
+                                total += product.price * cartItem.quantity;
+                                return
+                                `
+                            <div class="order-border" data-id="${product.id}">
+                                <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
+                <div class="order-details">
+                    <h6 style="font-size: 18px;">${product.name}</h6>
+                    <p class="shoe-colour">${cartItem.color}</p>
+                    <div class="cart-text">
+                        <p>Price: $ ${product.price}</p>
+                        <p>Qty: ${cartItem.quantity}</p>
+                        <p>Size: ${cartItem.size}</p>
                     </div>
                 </div>
             </div>
-        </div>
-                         `
-                                ;
-                        }
-                        return '';
-                    }).join('');
+                    `
+                                    ;
+                            }
+                            return '';
+                        }).join('');
 
-                    cartSection.innerHTML = cartHTML;
-                    productAmt.innerText = total.toFixed(2);
-                    totalPrice.innerText = (total + shippingCharge).toFixed(2);
-                });
+                        orderedSection.innerHTML = cartHTML;
+                        productPrice.innerText = total.toFixed(2);
+                        totalAmount.innerText = (total + shippingCharge).toFixed(2);
+                    });
 
             }
         });
