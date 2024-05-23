@@ -76,6 +76,36 @@ fetchProducts((products) => {
 });
 
 
+//-----------------------------------------------------------------------------------------------------------------
+
+// Product Details Page + Cart Page
+function addToCart(productId, size, color, quantity) {
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    const itemId = `${productId}_${size}_${color}`;
+
+    const cartItem = {
+        id: itemId,
+        productId: productId,
+        size: size,
+        color: color,
+        quantity: quantity
+    };
+
+    const itemIndex = cart.findIndex(item => item.id === itemId);
+
+    if (itemIndex === -1) {
+        cart.push(cartItem);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Product added to cart!');
+    } else {
+        cart[itemIndex].quantity += quantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Product quantity updated in cart!');
+    }
+}
+
+//-----------------------------------------------------------------------------------------------------------------
+
 //shopping cart
 const calculateTotal = () => {
     let productTotalAmt = 0;
@@ -91,9 +121,6 @@ const calculateTotal = () => {
     document.getElementById('product_total_amt').innerText = productTotalAmt.toFixed(2);
     document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
 }
-
-
-
 
 $(document).ready(function () {
     calculateTotal();

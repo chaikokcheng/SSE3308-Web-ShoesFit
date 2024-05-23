@@ -144,6 +144,36 @@
             }
         }
 
+        function removeFromCart(itemId) {
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            cart = cart.filter(item => item.id !== itemId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload();
+        }
+
+        function changeVariation(itemId, newSize, newColor) {
+            console.log("CHANGE VARIATION: " + newSize + ", " + newColor);
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            const currentIndex = cart.findIndex(item => item.id === itemId);
+            console.log(currentIndex);
+            console.log("current item " + cart[currentIndex]);
+
+            const newItemId = `${cart[currentIndex].productId}_${newSize}_${newColor}`;
+
+            const newIndex = cart.findIndex(item => item.id === newItemId);
+
+            if (newIndex !== -1) {
+                console.log("Exist");
+                cart[newIndex].quantity += cart[currentIndex].quantity;
+                removeFromCart(itemId);
+            } else {
+                console.log("Doesnt exist");
+                cart[currentIndex].id = newItemId;
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const cartItemsContainer = document.getElementById('cart-items');
             const productTotalAmt = document.getElementById('product_total_amt');
@@ -200,7 +230,7 @@
                                                         <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
                                                     </li>
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemvalc', ${product.price})">
+                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}', ${product.price})">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </li>
@@ -230,9 +260,7 @@
 
                         $('.selectpicker').selectpicker();
 
-                        // latest
                         $(document).ready(function () {
-                            // Function to show error if at least one size and one color are not selected
                             function showErrorAndRestore(selectPicker, clickedOption) {
                                 Swal.fire({
                                     title: 'Selection Error',
@@ -250,7 +278,6 @@
                                 const clickedOption = selectPicker.find('option').eq(clickedIndex);
                                 const category = clickedOption.data('category');
 
-                                // Deselect other options in the same category if a new option is selected
                                 if (isSelected) {
                                     if (category === 'size') {
                                         selectPicker.find('option[data-category="size"]').not(clickedOption).prop('selected', false);
@@ -261,13 +288,20 @@
 
                                 selectPicker.selectpicker('refresh');
 
-                                // Ensure at least one size and one color are selected
                                 const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
                                 const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
 
                                 if (selectedSizes === 0 || selectedColors === 0) {
                                     showErrorAndRestore(selectPicker, clickedOption);
                                 }
+
+                                const selectedSize = $(this).find('option[data-category="size"]:selected').text().trim();
+                                const selectedColor = $(this).find('option[data-category="color"]:selected').text().trim();
+
+                                const itemId = $(this).closest('.card').data('id');
+
+                                console.log("ID : " + itemId);
+                                changeVariation(itemId, selectedSize, selectedColor);
                             });
 
                             // Initial check to ensure at least one size and one color are selected on page load
@@ -286,35 +320,6 @@
 
                             selectPicker.selectpicker('refresh');
                         });
-                        // latest
-
-                        // $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                        //     const selectedOptions = $(this).find('option:selected');
-                        //     const selectedSized = selectedOptions.filter('[data-category="size"]').length;
-                        //     const selectedColors = selectedOptions.filter('[data-category="color"]').length;
-
-                        //     if (selectedSized > 1 || selectedColors > 1) {
-                        //         Swal.fire({
-                        //             title: 'Selection Error',
-                        //             text: 'Please select only one size and one color.',
-                        //             icon: 'error',
-                        //             confirmButtonText: 'OK'
-                        //         });
-                        //         $(this).find('option').eq(clickedIndex).prop('selected', false);
-                        //         $(this).selectpicker('refresh');
-                        //     }
-
-                        //     function updateTotalItemsCount(cart) {
-                        //         const itemCount = cart.length;
-                        //         $('#total_items_count').text(itemCount);
-                        //     }
-
-                        //     $('.remove-item-btn').on('click', function () {
-                        //         $(this).closest('.card.p-4').remove();
-                        //         updateTotalItemsCount();
-                        //         calculateTotal();
-                        //     });
-                        // });
                     });
             }
 
@@ -324,13 +329,6 @@
                     removeFromCart(productId);
                 }
             });
-
-            function removeFromCart(itemId) {
-                let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-                cart = cart.filter(item => item.id !== itemId);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                location.reload();
-            }
 
             $('.remove-item-btn').on('click', function () {
                 const itemId = $(this).data('id');
