@@ -396,6 +396,10 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
+        localStorage.setItem("streetAddress");
+        localStorage.setItem("city");
+        localStorage.setItem("state");
+        localStorage.setItem("postcode");
         $('#myModal').modal('show');
     });
 });
