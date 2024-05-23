@@ -200,6 +200,9 @@
             const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
             $('#total_items_count').text(cart.length);
 
+            if (cart.length === 0) {
+                cartSection.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
             fetch('products.json')
                 .then(response => response.json())
                 .then(data => {
@@ -259,7 +262,7 @@
                     totalPrice.innerText = (total + shippingCharge).toFixed(2);
                 });
 
-
+            }
         });
     </script>
     <!-- <script src="main.js"></script> -->
