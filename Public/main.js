@@ -36,7 +36,6 @@ fetchProducts((products) => {
 // filterCategory('Formal');
 
 //shopping cart
-
 const calculateTotal = () => {
     let productTotalAmt = 0;
 
@@ -365,6 +364,16 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
+        const streetAddress = $('#streetAddress').val();
+        const city = $('#city').val();
+        const state = $('#state').val();
+        const postcode = $('#postcode').val();
+
+        localStorage.setItem("streetAddress", streetAddress);
+        localStorage.setItem("city", city);
+        localStorage.setItem("state", state);
+        localStorage.setItem("postcode", postcode);
+
         $('#myModal').modal('show');
     });
 });
