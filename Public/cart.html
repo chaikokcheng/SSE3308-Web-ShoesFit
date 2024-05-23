@@ -60,7 +60,6 @@
                     </div>
 
                     <div id="cart-items" class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 shadow">
-                        <!-- Cart items will be dynamically inserted here -->
                     </div>
 
                     <div class="col-md-12 col-lg-4 col-12 mx-auto mt-lg-0 mt-md-5">
@@ -133,9 +132,21 @@
                                         <div class="row">
                                             <div class="col-8 card-body">
                                                 <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
-                                                <p class="mb-2 card-text">Size: ${cartItem.size}</p>
-                                                <p class="mb-2 card-text">Color: ${cartItem.color}</p>
+                                                <div class="multi_select_box mb-2">
+                                                    <select class="multi_select selectpicker w-100" multiple data-live-search="true" title="Select Size">
+                                                    <optgroup label="Sizes">${product.sizes.map(size => `
+                                                       <option data-category="size" ${size === cartItem.size ? 'selected' : ''}>${size}
+                                                       </option>`).join('')}
+                                                    </optgroup>
+                                                    <optgroup label="Colors">${product.colors.map(color => `
+                                                       <option data-category="color" ${color.text === cartItem.color ? 'selected' : ''}>
+                                                        ${color.text}
+                                                        </option>`).join('')}
+                                                    </optgroup>
+                                                    </select>
+                                                </div>
                                             </div>
+                                            
                                             <div class="col-4">
                                                 <ul class="pagination justify-content-end set_quantity">
                                                     <li class="page-item">
@@ -173,6 +184,36 @@
                         cartItemsContainer.innerHTML = cartHTML;
                         productTotalAmt.innerText = total.toFixed(2);
                         totalCartAmt.innerText = (total + shippingCharge).toFixed(2);
+
+
+                        $('.selectpicker').selectpicker();
+                        $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                            const selectedOptions = $(this).find('option:selected');
+                            const selectedSized = selectedOptions.filter('[data-category="size"]').length;
+                            const selectedColors = selectedOptions.filter('[data-category="color"]').length;
+
+                            if (selectedSized > 1 || selectedColors > 1) {
+                                Swal.fire({
+                                    title: 'Selection Error',
+                                    text: 'Please select only one size and one color.',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                                $(this).find('option').eq(clickedIndex).prop('selected', false);
+                                $(this).selectpicker('refresh');
+                            }
+
+                            function updateTotalItemsCount(cart) {
+                                const itemCount = cart.length;
+                                $('#total_items_count').text(itemCount);
+                            }
+
+                            $('.remove-item-btn').on('click', function () {
+                                $(this).closest('.card.p-4').remove();
+                                updateTotalItemsCount();
+                                calculateTotal();
+                            });
+                        });
                     });
             }
 
