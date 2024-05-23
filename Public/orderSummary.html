@@ -122,7 +122,8 @@
     </div>
     <br>
 
-    <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
+    <!-- <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems"> -->
+        <div class="col-md-5"></div>
         <h1>ORDERED ITEMS</h1>
         <section id="orderedSection"></section>
         <!-- <div class="card p-3 shadow " id="ordered-items">
@@ -212,35 +213,18 @@
                                 total += product.price * cartItem.quantity;
                                 return
                                 `
-            
-                                <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5">
-                                <div class="card p-3 shadow">
-            <div class="row">
-                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                <div class="order-border" data-id="${product.id}">
                     <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
-                </div>
-                <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
-                    <div class="row">
-                        <div class="col-8 card-body">
-                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
-                            <p class="shoe-colour">${cartItem.color}</p>
+                    <div class="order-details">
+                        <h6 style="font-size: 18px;">${product.name}</h6>
+                        <p class="shoe-colour">${cartItem.color}</p>
                         <div class="cart-text">
+                            <p>Price: $ ${product.price}</p>
                             <p>Qty: ${cartItem.quantity}</p>
                             <p>Size: ${cartItem.size}</p>
                         </div>
-                        </div>
-                    </div>
-                    <div class="row mt-auto">
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <br>
-                            <h3>$<span id="itemval">${product.price}</span></h3>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
-    </div>
                     `;
                             }
                             return '';
