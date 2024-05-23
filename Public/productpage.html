@@ -447,8 +447,9 @@
                                 const color = selectedColor.getAttribute('title');
                                 const size = selectedSize.textContent;
                                 const quantity = parseInt(document.getElementById('quantity').value);
+                                const price = product.price;
 
-                                addToCart(productId, size, color, quantity);
+                                addToCart(productId, size, color, quantity, price);
                             });
                         }
                     });
