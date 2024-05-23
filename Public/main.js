@@ -330,6 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
             creditCardDetails.style.display = 'block';
             onlineBankingDetails.style.display = 'none';
             paymentButton.disabled = false;
+            // document.getElementById('paymentMethodInfo').textContent = 'Via: Credit/Debit Card';
         }
     });
 
@@ -338,6 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
             creditCardDetails.style.display = 'none';
             onlineBankingDetails.style.display = 'block';
             paymentButton.disabled = false;
+            // document.getElementById('paymentMethodInfo').textContent = 'Via: Credit/Debit Card';
         }
     });
 });
@@ -396,6 +398,15 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
+        // function updatePaymentMethod() {
+        //     let paymentMethod = $('input[name = "paymentMethod"]:cheked').val();
+        //     $('#paymentMethod').text('Via' + paymentMethod);
+        // }
+
+        // $('input[name = "paymentMethod"]').change(function () {
+        //     $('#paymentButton').prop('disabled', false);
+        // });
+
         const streetAddress = $('#streetAddress').val();
         const city = $('#city').val();
         const state = $('#state').val();
