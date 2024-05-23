@@ -44,7 +44,7 @@
     <br>
     <div class="container mt-3" id="greeting">
         <h6>Order Number: 9023J134</h6>
-        <h7>Hi Username,</h7><br>
+        <h7>Dear custormer,</h7><br>
         <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
             We hope your new shoes bring you all the comfort and style you deserve.
             Thank you for being a part of the ShoesFit family. We look forward to serving you again soon!
@@ -70,7 +70,7 @@
                         Product
                     </div>
                     <div class="col-6 text-right font-italic">
-                        $ <span id="productPrice"></span>
+                        $ <span id="productAmount"></span>
                     </div>
                     <!-- <div class="col-6">
                         Product
@@ -100,7 +100,7 @@
                         Total Amount
                     </div>
                     <div class="col-6 text-right">
-                        $ <span id="totalAmount"></span>
+                        $ <span id="totalPrice"></span>
                     </div>
                     <!-- <div class="col-6">
                         Total Amount
@@ -124,7 +124,7 @@
 
     <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
         <h1>ORDERED ITEMS</h1>
-        <section id="orderedSection"></section>
+        <div class="card p-3 shadow" id="ordered-details">
         <!-- <div class="card p-3 shadow " id="ordered-items">
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
@@ -191,9 +191,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const orderedSection = document.getElementById('orderedSection');
-            const productPrice = document.getElementById('productPrice');
-            const totalAmount = document.getElementById('totalAmount');
+            const orderedSection = document.getElementById('ordered-details');
+            const productAmt = document.getElementById('productAmount');
+            const totalPrice = document.getElementById('totalPrice');
             const shippingCharge = 10;
             let total = 0;
 
@@ -212,7 +212,7 @@
                                 total += product.price * cartItem.quantity;
                                 return
                                 `
-                                <div class="card p-3 shadow " id="ordered-items">
+            
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
                     <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
@@ -244,8 +244,8 @@
                         }).join('');
 
                         orderedSection.innerHTML = cartHTML;
-                        productPrice.innerText = total.toFixed(2);
-                        totalAmount.innerText = (total + shippingCharge).toFixed(2);
+                        productAmt.innerText = total.toFixed(2);
+                        totalPrice.innerText = (total + shippingCharge).toFixed(2);
                     });
 
             }
