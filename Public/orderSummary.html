@@ -216,7 +216,12 @@
                                 <h1> NIKE DUNK LOW</h1>
                                 `
                             }
-                        })
+                            return '';
+                        }).join('');
+
+                        orderedSection.innerHTML = cartHTML;
+                        productAmt.innerText = total.toFixed(2);
+                        totalPrice.innerText = (total + shippingCharge).toFixed(2);
                     })
             }
         })  
