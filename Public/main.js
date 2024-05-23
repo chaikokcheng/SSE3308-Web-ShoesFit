@@ -59,8 +59,8 @@ $(document).ready(function () {
         $('#total_items_count').text(itemCount);
     }
 
-    
-    $('.remove-item-btn').on('click', function() {
+
+    $('.remove-item-btn').on('click', function () {
 
         $(this).closest('.card.p-4').remove();
         updateTotalItemsCount();
@@ -396,10 +396,16 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
-        localStorage.setItem("streetAddress");
-        localStorage.setItem("city");
-        localStorage.setItem("state");
-        localStorage.setItem("postcode");
+        const streetAddress = $('#streetAddress').val();
+        const city = $('#city').val();
+        const state = $('#state').val();
+        const postcode = $('#postcode').val();
+
+        localStorage.setItem("streetAddress", streetAddress);
+        localStorage.setItem("city", city);
+        localStorage.setItem("state", state);
+        localStorage.setItem("postcode", postcode);
+
         $('#myModal').modal('show');
     });
 });
