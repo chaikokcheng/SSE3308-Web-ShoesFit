@@ -170,8 +170,8 @@
             let fullAddress = '';
             if (streetAddress) fullAddress += streetAddress;
             if (city) fullAddress += `, ${city}`;
-            if (state) fullAddress += `, ${state}`;
             if (postcode) fullAddress += `, ${postcode}`;
+            if (state) fullAddress += `, ${state}`;
 
             document.getElementById("fullAddress").innerHTML = fullAddress;
             document.getElementById("billingAddress").innerHTML = fullAddress;
@@ -211,10 +211,9 @@
                             const product = data.products.find(p => p.id === cartItem.productId);
                             if (product) {
                                 total += product.price * cartItem.quantity;
-                                return
-                                `
+                                return`
                                 <h1> NIKE DUNK LOW</h1>
-                                `
+                                `;
                             }
                             return '';
                         }).join('');
