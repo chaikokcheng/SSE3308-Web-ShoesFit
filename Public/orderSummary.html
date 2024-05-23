@@ -43,7 +43,7 @@
     </div>
     <br>
     <div class="container mt-3" id="greeting">
-        <h6>Order Number: AMY0961341</h6>
+        <h6>Order Number: 9023J134</h6>
         <h7>Hi Username,</h7><br>
         <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
             We hope your new shoes bring you all the comfort and style you deserve.
@@ -56,13 +56,11 @@
         <div class="row">
             <div class="col-sm-4">
                 <h5>DELIVERY ADDRESS</h5>
-                <p id="fullAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA, <br>43400 UPM SERDANG,<br>
-                    SELANGOR</p>
+                <p id="fullAddress"></p>
             </div>
             <div class="col-sm-4">
                 <h5>BILLING INFORMATION</h5>
-                <p id="billingAddress">9-012, KOLEJ CANSELOR,<br> UNIVERSITI PUTRA MALAYSIA,<br> 43400 UPM SERDANG,<br>
-                    SELANGOR</p>
+                <p id="billingAddress"></p>
                 <h6>Via: Online Banking</h6>
             </div>
             <div class="col-sm-4">
@@ -113,7 +111,7 @@
     <br>
 
     <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
-        <h1 >ORDERED ITEMS</h1>
+        <h1>ORDERED ITEMS</h1>
         <div class="card p-3 shadow " id="ordered-details">
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
@@ -148,7 +146,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="main.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            localStorage.setItem("streetAddress", "9-012, KOLEJ CANSELOR");
+            localStorage.setItem("city", "UPM SERDANG");
+            localStorage.setItem("state", "SELANGOR");
+            localStorage.setItem("postcode", "43400");
+
+            const streetAddress = localStorage.getItem("streetAddress");
+            const city = localStorage.getItem("city");
+            const state = localStorage.getItem("state");
+            const postcode = localStorage.getItem("postcode");
+
+            let fullAddress = '';
+            if (streetAddress) fullAddress += streetAddress;
+            if (city) fullAddress += `, ${city}`;
+            if (state) fullAddress += `, ${state}`;
+            if (postcode) fullAddress += `, ${postcode}`;
+
+            document.getElementById("fullAddress").innerHTML = fullAddress;
+            document.getElementById("billingAddress").innerHTML = fullAddress;
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const printBtn = document.getElementById("printBtn");
+            if (printBtn) {
+                printBtn.addEventListener("click", function () {
+                    console.log("Print button clicked");
+                    window.print();
+                });
+            }
+        });
+    </script>
+    <!-- <script src="main.js"></script> -->
 </body>
 
 </html>
