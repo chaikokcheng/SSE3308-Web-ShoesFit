@@ -1,4 +1,46 @@
 
+$(document).ready(function() {
+    $('#contactForm').submit(function(e) {
+        e.preventDefault(); 
+        var formData = $(this).serialize(); 
+
+        $.ajax({
+            type: 'POST',
+            url: 'contactform.php',
+            data: formData,
+            success: function(response) {
+                alert('Thank you for your message!');
+                $('#contactForm')[0].reset();
+            },
+            error: function() {
+                alert('Error sending your message.');
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var trailer = document.createElement('div');
+    trailer.id = 'trailer';
+    document.body.appendChild(trailer);
+
+    function moveTrailer(x, y) {
+        trailer.style.left = x + 'px';
+        trailer.style.top = y + 'px';
+        trailer.style.display = 'block'; 
+    }
+
+    document.addEventListener('mousemove', function(e) {
+        moveTrailer(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('mouseleave', function() {
+        trailer.style.display = 'none';
+    });
+});
+
+
+
 function fetchProducts(callback, category = '') {
     fetch('products.json')
         .then(response => response.json())
@@ -33,41 +75,9 @@ fetchProducts((products) => {
     displayProducts(products, 'newArrivals', 'Heels');
 });
 
+// filterCategory('Formal');
+
 //shopping cart
-$(document).ready(function () {
-    $('.selectpicker').selectpicker();
-
-    $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-        const selectedOptions = $(this).find('option:selected');
-        const selectedSized = selectedOptions.filter('[data-category="size"]').length;
-        const selectedColors = selectedOptions.filter('[data-category="color"]').length;
-
-        if (selectedSized > 1 || selectedColors > 1) {
-            Swal.fire({
-                title: 'Selection Error',
-                text: 'Please select only one size and one color.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            $(this).find('option').eq(clickedIndex).prop('selected', false);
-            $(this).selectpicker('refresh');
-        }
-    });
-
-    function updateTotalItemsCount(cart) {
-        const itemCount = cart.length;
-        $('#total_items_count').text(itemCount);
-    }
-
-
-    $('.remove-item-btn').on('click', function () {
-
-        $(this).closest('.card.p-4').remove();
-        updateTotalItemsCount();
-        calculateTotal();
-    });
-});
-
 const calculateTotal = () => {
     let productTotalAmt = 0;
 

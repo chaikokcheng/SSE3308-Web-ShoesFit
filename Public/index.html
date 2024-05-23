@@ -100,14 +100,16 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <h4>Contact Us</h4>
-                    <form>
+                    <form id="contactForm" method="POST">
                         <div class="form-group">
                             <input type="text" class="form-control mb-2" placeholder="Name" name="name">
                             <input type="email" class="form-control mb-2" placeholder="Email Address" name="email">
-                            <textarea class="form-control mb-2" rows="2" placeholder="Your Message"></textarea>
+                            <textarea class="form-control mb-2" rows="2" placeholder="Your Message" name="message"></textarea>
                             <button type="submit" class="btn btn-secondary">Send Message</button>
-                    </form>
+                        </div>
+                    </form>                    
                 </div>
+                
             </div>
         </div>
     </footer>
@@ -116,6 +118,7 @@
     <br><br>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
