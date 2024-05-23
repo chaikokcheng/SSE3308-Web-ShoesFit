@@ -92,43 +92,7 @@ const calculateTotal = () => {
     document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
 }
 
-const decreaseNumber = (incdec, itemprice, itembaseprice) => {
-    const itemval = document.getElementById(incdec);
-    const itempriceElement = document.getElementById(itemprice);
 
-    if (itemval.value <= 1) {
-        itemval.value = 1;
-        Swal.fire({
-            title: 'Quantity Error',
-            text: 'Minimum quantity is 1',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    } else {
-        itemval.value = parseInt(itemval.value) - 1;
-        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-        calculateTotal();
-    }
-}
-
-const increaseNumber = (incdec, itemprice, itembaseprice) => {
-    const itemval = document.getElementById(incdec);
-    const itempriceElement = document.getElementById(itemprice);
-
-    if (itemval.value >= 5) {
-        itemval.value = 5;
-        Swal.fire({
-            titel: 'Quantity Error',
-            text: 'Maximum quantity is 5',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    } else {
-        itemval.value = parseInt(itemval.value) + 1;
-        itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-        calculateTotal();
-    }
-}
 
 
 $(document).ready(function () {
@@ -339,6 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
             creditCardDetails.style.display = 'block';
             onlineBankingDetails.style.display = 'none';
             paymentButton.disabled = false;
+            // document.getElementById('paymentMethodInfo').textContent = 'Via: Credit/Debit Card';
         }
     });
 
@@ -347,6 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
             creditCardDetails.style.display = 'none';
             onlineBankingDetails.style.display = 'block';
             paymentButton.disabled = false;
+            // document.getElementById('paymentMethodInfo').textContent = 'Via: Credit/Debit Card';
         }
     });
 });
@@ -405,6 +371,15 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
+        // function updatePaymentMethod() {
+        //     let paymentMethod = $('input[name = "paymentMethod"]:cheked').val();
+        //     $('#paymentMethod').text('Via' + paymentMethod);
+        // }
+
+        // $('input[name = "paymentMethod"]').change(function () {
+        //     $('#paymentButton').prop('disabled', false);
+        // });
+
         const streetAddress = $('#streetAddress').val();
         const city = $('#city').val();
         const state = $('#state').val();
