@@ -43,7 +43,7 @@
     </div>
     <br>
     <div class="container mt-3" id="greeting">
-        <h6>Order Number: 9023J134</h6>
+        <h6>Order Number: <span id="orderNumber"></span></h6>
         <h7>Dear custormer,</h7><br>
         <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
             We hope your new shoes bring you all the comfort and style you deserve.
@@ -123,9 +123,9 @@
     <br>
 
     <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
-    <h1>ORDERED ITEMS</h1>
-    <section id="orderedSection"></section>
-    <!-- <div class="card p-3 shadow " id="ordered-items">
+        <h1>ORDERED ITEMS</h1>
+        <section id="orderedSection"></section>
+        <!-- <div class="card p-3 shadow " id="ordered-items">
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
                     <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
@@ -160,7 +160,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script>document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        function generateOrderNumber() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let orderNumber = '';
+            for (let i = 0; i < 8; i++) {
+                orderNumber += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return orderNumber;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const orderNumberElement = document.getElementById("orderNumber");
+            const generatedOrderNumber = generateOrderNumber();
+            orderNumberElement.innerText = generatedOrderNumber;
+
             const streetAddress = localStorage.getItem("streetAddress");
             const city = localStorage.getItem("city");
             const state = localStorage.getItem("state");
@@ -168,8 +182,8 @@
 
             let fullAddress = '';
             if (streetAddress) fullAddress += streetAddress;
-            if (city) fullAddress += `, ${city}`;
-            if (postcode) fullAddress += `, ${postcode}`;
+            if (city) fullAddress += `, <br> ${city}`;
+            if (postcode) fullAddress += `,<br> ${postcode}`;
             if (state) fullAddress += `, ${state}`;
 
             document.getElementById("fullAddress").innerHTML = fullAddress;
@@ -210,7 +224,7 @@
                             const product = data.products.find(p => p.id === cartItem.productId);
                             if (product) {
                                 total += product.price * cartItem.quantity;
-                                return`
+                                return `
                                 <div class="card p-3 shadow" id="ordered-items">
             <div class="row">
                 <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
@@ -219,7 +233,7 @@
                 <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
                     <div class="row">
                         <div class="col-8 card-body">
-                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
+                            <h4 class="mb-3 card-title text-align-left" style:"font-weight:900">${product.name}</h4>
                             <p class="shoe-colour">${cartItem.color}</p>
                         <div class="cart-text">
                             <p>Qty: ${cartItem.quantity}</p>
@@ -230,7 +244,7 @@
                     <div class="row mt-auto">
                         <div class="col-12 d-flex justify-content-end align-items-end">
                             <br>
-                            <h3>$<span id="itemval">${product.price}</span></h3>
+                            <h3 style="font-size: 30px, font-weight:bold">$<span id="itemval">${product.price}</span></h3>
                         </div>
                     </div>
                 </div>
