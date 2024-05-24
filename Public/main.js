@@ -420,33 +420,3 @@ function filterCategory(category) {
 }
 // filterCategory('Formal');
 
-//Order Summary
-// document.addEventListener("DOMContentLoaded", function () {
-//     const streetAddress = localStorage.getItem("streetAddress");
-//     const city = localStorage.getItem("city");
-//     const state = localStorage.getItem("state");
-//     const postcode = localStorage.getItem("postcode");
-
-//     let fullAdress = '';
-//     if (streetAddress) fullAddress += streetAddress;
-//     if (city) fullAddress += ', ${city}';
-//     if (state) fullAddress += ', ${state}';
-//     if (postcode) fullAddress += ', ${postcode}';
-
-//     if (fullAdress) document.getElementById("fullAddress").textContent = fullAddress;
-//     document.getElementById("billingAddress").textContent = fullAddress;
-// });
-//
-// const printBtn = document.getElementById("printBtn");
-// if (printBtn) {
-//     printBtn.addEventListener("click", function () {
-//         window.print();
-//     });
-// }
-
-// printBtn.addEventListener("click", function () {
-//     console.log("Print button clicked");
-//     window.print();
-// });
-
-//Order Summary
