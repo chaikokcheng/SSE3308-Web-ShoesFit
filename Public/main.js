@@ -398,15 +398,6 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
-        // function updatePaymentMethod() {
-        //     let paymentMethod = $('input[name = "paymentMethod"]:cheked').val();
-        //     $('#paymentMethod').text('Via' + paymentMethod);
-        // }
-
-        // $('input[name = "paymentMethod"]').change(function () {
-        //     $('#paymentButton').prop('disabled', false);
-        // });
-
         const streetAddress = $('#streetAddress').val();
         const city = $('#city').val();
         const state = $('#state').val();
