@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="cart.css">
-    <!-- <link rel="stylesheet" type="text/css" href="main.css"> -->
 
 </head>
 
@@ -53,10 +52,18 @@
                 <div class="row mt-3 gx-4">
                     <div class="col-md-8">
                         <h2 class="py-2 font-weight-bold text-left">YOUR SHOPPING CART</h2>
-                        <p class=" text-muted text-left">TOTAL [<span id="total_items_count">x</span> items]
-                            <br>
-                            Items in your cart are not reserved - checkout now to make them yours
-                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted text-left mb-0">
+                                    TOTAL [<span id="total_items_count">x</span> items]<br>
+                                    Items in your cart are not reserved - checkout now to make them yours
+                                </p>
+                            </div>
+                            <div>
+                                <button id="clear-cart-btn" class="btn btn-danger text-uppercase">Clear Cart</button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div id="cart-items" class="col-md-12 col-lg-8 col-12 mx-auto main_cart mb-lg-0 mb-5 shadow">
@@ -102,45 +109,42 @@
 
     <script src="main.js"></script>
     <script>
-        const decreaseNumber = (id, incdec, itemprice, itembaseprice) => {
+        const decreaseNumber = (id, incdec, itemprice) => {
             const itemval = document.getElementById(incdec);
             const itempriceElement = document.getElementById(itemprice);
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
-            if (itemval.value <= 1) {
-                itemval.value = 1;
-                Swal.fire({
-                    title: 'Quantity Error',
-                    text: 'Minimum quantity is 1',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            } else {
-                itemval.value = parseInt(itemval.value) - 1;
-                updateCartItemQuantity(id, itemval.value);
-                itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-                calculateTotal();
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex !== -1) {
+                if (cart[itemIndex].quantity <= 1) {
+                    Swal.fire({
+                        title: 'Quantity Error',
+                        text: 'Minimum quantity is 1',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    cart[itemIndex].quantity--;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    itemval.value = cart[itemIndex].quantity;
+                    itempriceElement.innerHTML = (parseFloat(cart[itemIndex].price) * cart[itemIndex].quantity).toFixed(2);
+                    calculateTotal();
+                }
             }
         }
 
-        const increaseNumber = (id, incdec, itemprice, itembaseprice) => {
+        const increaseNumber = (id, incdec, itemprice) => {
             const itemval = document.getElementById(incdec);
             const itempriceElement = document.getElementById(itemprice);
-            itemval.value = parseInt(itemval.value) + 1;
-            updateCartItemQuantity(id, itemval.value);
-            itempriceElement.innerHTML = (parseFloat(itembaseprice) * parseInt(itemval.value)).toFixed(2);
-            calculateTotal();
-
-        }
-
-        function updateCartItemQuantity(itemId, newQuantity) {
             let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 
-            const itemIndex = cart.findIndex(item => item.id === itemId);
+            const itemIndex = cart.findIndex(item => item.id === id);
             if (itemIndex !== -1) {
-                console.log("INTIIAL + " + cart[itemIndex].quantity);
-                cart[itemIndex].quantity = newQuantity;
-                console.log("AFTER + " + cart[itemIndex].quantity);
+                cart[itemIndex].quantity++;
                 localStorage.setItem('cart', JSON.stringify(cart));
+                itemval.value = cart[itemIndex].quantity;
+                itempriceElement.innerHTML = (parseFloat(cart[itemIndex].price) * cart[itemIndex].quantity).toFixed(2);
+                calculateTotal();
             }
         }
 
@@ -151,27 +155,90 @@
             location.reload();
         }
 
-        function changeVariation(itemId, newSize, newColor) {
-            console.log("CHANGE VARIATION: " + newSize + ", " + newColor);
+        let changeVariationRunning = false;
+
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        const changeVariation = debounce((itemId, newSize, newColor) => {
+            if (changeVariationRunning) return;
+            console.log("Change variation");
+            changeVariationRunning = true;
             let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            const currentIndex = cart.findIndex(item => item.id === itemId);
-            console.log(currentIndex);
-            console.log("current item " + cart[currentIndex]);
+            console.log("Cart before variation change:", cart);
 
-            const newItemId = `${cart[currentIndex].productId}_${newSize}_${newColor}`;
+            const currentIndex = cart.findIndex(item => item.id == itemId);
 
-            const newIndex = cart.findIndex(item => item.id === newItemId);
+            console.log("Current Index:", currentIndex);
+            console.log("New Size:", newSize);
+            console.log("New Color:", newColor);
+            console.log("Cart:", cart);
 
-            if (newIndex !== -1) {
-                console.log("Exist");
-                cart[newIndex].quantity += cart[currentIndex].quantity;
-                removeFromCart(itemId);
-            } else {
-                console.log("Doesnt exist");
-                cart[currentIndex].id = newItemId;
+            if (currentIndex === -1) {
+                console.log("Item not found in cart.");
+                changeVariationRunning = false;
+                return;
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
+            const newItemId = `${cart[currentIndex].productId}_${newSize}_${newColor}`.trim();
+            cart[currentIndex].size = newSize;
+            cart[currentIndex].color = newColor;
+
+            console.log("New Item Id:", newItemId);
+
+            const existingItemIndex = cart.findIndex(item => item.id === newItemId);
+
+            if (existingItemIndex !== -1 && existingItemIndex !== currentIndex) {
+                console.log("Exist");
+                const newItemQuantity = cart[currentIndex].quantity + cart[existingItemIndex].quantity;
+                cart[existingItemIndex].quantity = newItemQuantity;
+                cart.splice(currentIndex, 1);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                location.reload();
+            } else {
+                console.log("Doesn't exist");
+                const itempriceElement = document.getElementById(`textbox${newItemId}`);
+                if (itempriceElement) {
+                    itempriceElement.innerHTML = (parseFloat(cart[currentIndex].productId.price) * parseInt(cart[currentIndex].quantity)).toFixed(2);
+                }
+
+                addToCart(cart[currentIndex].productId, newSize, newColor, cart[currentIndex].quantity, cart[currentIndex].price);
+                removeFromCart(itemId);
+                console.log("Cart after variation change:", cart);
+                changeVariationRunning = false;
+            }
+
+        }, 300);
+
+
+
+        function onChangeVariation(itemId, newSize, newColor) {
+            // Determine the updated item ID based on the current item information
+            const cardElement = $(`[data-id="${itemId}"]`);
+            const updatedItemId = cardElement.data('id');
+            console.log("UPDATED ITEM ID: " + updatedItemId);
+            changeVariation(updatedItemId, newSize, newColor);
+        }
+
+
+        function calculateTotal() {
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            const productTotalAmt = document.getElementById('product_total_amt');
+            const totalCartAmt = document.getElementById('total_cart_amt');
+            const shippingCharge = 10;
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+
+            productTotalAmt.innerText = total.toFixed(2);
+            totalCartAmt.innerText = (total + shippingCharge).toFixed(2);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -222,7 +289,7 @@
                                             <div class="col-4">
                                                 <ul class="pagination justify-content-end set_quantity">
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="decreaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}', ${product.price})">
+                                                        <button class="page-link" onclick="decreaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                     </li>
@@ -230,7 +297,7 @@
                                                         <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
                                                     </li>
                                                     <li class="page-item">
-                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}', ${product.price})">
+                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </li>
@@ -257,9 +324,21 @@
                         productTotalAmt.innerText = total.toFixed(2);
                         totalCartAmt.innerText = (total + shippingCharge).toFixed(2);
 
-
                         $('.selectpicker').selectpicker();
+                        // Event listener for when the dropdown is shown
+                        $('.multi_select').on('changed.bs.select', function () {
+                            const selectPicker = $(this);
 
+                            // Attach event listener to each option for the click event
+                            selectPicker.find('option').each(function () {
+                                $(this).on('click', function () {
+                                    const selectedSize = selectPicker.find('option[data-category="size"]:selected').text().trim();
+                                    const selectedColor = selectPicker.find('option[data-category="color"]:selected').text().trim();
+                                    const itemId = selectPicker.closest('.card').data('id');
+                                    onChangeVariation(itemId, selectedSize, selectedColor);
+                                });
+                            });
+                        });
                         $(document).ready(function () {
                             function showErrorAndRestore(selectPicker, clickedOption) {
                                 Swal.fire({
@@ -299,9 +378,9 @@
                                 const selectedColor = $(this).find('option[data-category="color"]:selected').text().trim();
 
                                 const itemId = $(this).closest('.card').data('id');
+                                console.log("TEST " + itemId);
 
-                                console.log("ID : " + itemId);
-                                changeVariation(itemId, selectedSize, selectedColor);
+                                onChangeVariation(itemId, selectedSize, selectedColor);
                             });
 
                             // Initial check to ensure at least one size and one color are selected on page load
@@ -321,7 +400,11 @@
                             selectPicker.selectpicker('refresh');
                         });
                     });
+
+
             }
+
+
 
             cartItemsContainer.addEventListener('click', (e) => {
                 if (e.target.classList.contains('remove-item-btn')) {
@@ -335,11 +418,22 @@
                 removeFromCart(itemId);
             });
 
-            document.getElementById('checkout-btn').addEventListener('click', () => {
-                alert('Checkout not implemented yet.');
+            document.getElementById('clear-cart-btn').addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to clear the cart?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, clear it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.removeItem('cart');
+                        location.reload();
+                    }
+                });
             });
-
-
         });
     </script>
 

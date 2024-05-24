@@ -79,7 +79,7 @@ fetchProducts((products) => {
 //-----------------------------------------------------------------------------------------------------------------
 
 // Product Details Page + Cart Page
-function addToCart(productId, size, color, quantity) {
+function addToCart(productId, size, color, quantity, price) {
     let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
     const itemId = `${productId}_${size}_${color}`;
 
@@ -88,7 +88,8 @@ function addToCart(productId, size, color, quantity) {
         productId: productId,
         size: size,
         color: color,
-        quantity: quantity
+        quantity: quantity,
+        price: price
     };
 
     const itemIndex = cart.findIndex(item => item.id === itemId);
@@ -107,21 +108,6 @@ function addToCart(productId, size, color, quantity) {
 //-----------------------------------------------------------------------------------------------------------------
 
 //shopping cart
-const calculateTotal = () => {
-    let productTotalAmt = 0;
-
-    $('.card.p-4').each(function () {
-        const itemPrice = parseFloat($(this).find('.price_money span').text());
-        const itemQuantity = parseInt($(this).find('.set_quantity input').val());
-        productTotalAmt += itemPrice * itemQuantity;
-    });
-
-    const shippingCharge = parseFloat(document.getElementById('shipping_charge').innerText);
-
-    document.getElementById('product_total_amt').innerText = productTotalAmt.toFixed(2);
-    document.getElementById('total_cart_amt').innerText = (productTotalAmt + shippingCharge).toFixed(2);
-}
-
 $(document).ready(function () {
     calculateTotal();
 });

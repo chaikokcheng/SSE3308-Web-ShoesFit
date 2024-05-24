@@ -71,6 +71,13 @@
         h2 {
             padding-bottom: 50px;
         }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            background-color: rgba(0, 0, 0, 0.3);
+            width: 60px;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -151,8 +158,8 @@
                         <h6 class="card-subtitle text-muted">John Doe</h6>
                         <small class="text-muted">2024-05-16</small>
                     </div>
-                    <p class="mt-2 mb-2"><strong>SKU:</strong> 123456</p>
-                    <img src="images/ninja_van.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
+                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 7, Black</p>
+                    <img src="images/formalKnight.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
                     <p class="card-text">This product exceeded my expectations. The quality is top-notch and it works
                         perfectly. I've been using it for a few weeks now and have had no issues. Highly recommend to
                         anyone in need of this product.</p>
@@ -172,7 +179,7 @@
                         <h6 class="card-subtitle text-muted">Jane Smith</h6>
                         <small class="text-muted">2024-05-15</small>
                     </div>
-                    <p class="mt-2 mb-2"><strong>SKU:</strong> 654321</p>
+                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 6, White</p>
                     <img src="images/sportAdidasOriginalsHB.png" alt="User Picture" class="img-fluid mb-3"
                         style="width: 80px;">
                     <p class="card-text">I was really impressed with the build quality of this product. It feels very
@@ -187,176 +194,7 @@
         <div id="similar-products-section" class="container mt-5 pb-5">
             <h2>Similar Products</h2>
             <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 1">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 1</h5>
-                                        <p class="card-text">$49.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 2">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 2</h5>
-                                        <p class="card-text">$59.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 3</h5>
-                                        <p class="card-text">$69.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 4">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 4</h5>
-                                        <p class="card-text">$79.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 5">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 5</h5>
-                                        <p class="card-text">$49.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNIkeDunkLow.png" alt="Product 6">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 6</h5>
-                                        <p class="card-text">$59.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportAdidasOriginalsHB.png" alt="Product 7">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 7</h5>
-                                        <p class="card-text">$69.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <img class="card-img-top" src="images/sportNB530.png" alt="Product 8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product 8</h5>
-                                        <p class="card-text">$79.99</p>
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary mr-2">Buy Now</button>
-                                            <button class="btn btn-secondary">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="carousel-inner"></div>
                 <a class="carousel-control-prev" href="#similarProductsCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -375,6 +213,12 @@
     <script src="main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            function fetchSimilarProducts() {
+                return fetch('products.json')
+                    .then(response => response.json())
+                    .then(data => data.products);
+            }
+
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
 
@@ -400,6 +244,16 @@
                                     <div id="sizes" class="mt-3">
                                         ${product.sizes.map(size => `<button class="size-button">${size}</button>`).join('')}
                                     </div>`;
+
+                            const thumbnails = document.querySelectorAll('.product-thumb');
+                            const mainImage = document.getElementById('product-image-main');
+
+                            thumbnails.forEach(thumbnail => {
+                                thumbnail.addEventListener('click', function () {
+                                    const newSrc = this.getAttribute('src');
+                                    mainImage.setAttribute('src', newSrc);
+                                });
+                            });
 
                             let selectedColor = null;
                             let selectedSize = null;
@@ -447,12 +301,74 @@
                                 const color = selectedColor.getAttribute('title');
                                 const size = selectedSize.textContent;
                                 const quantity = parseInt(document.getElementById('quantity').value);
+                                const price = product.price;
 
-                                addToCart(productId, size, color, quantity);
+                                addToCart(productId, size, color, quantity, price);
                             });
                         }
                     });
             }
+
+            function generateSimilarProductHTML(product) {
+                return `
+                <div class="col-md-3">
+                    <div class="card">
+                        <img class="card-img-top" src="${product.img}" alt="${product.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text">$${product.price}</p>
+                            <div class="rating">
+                                ${generateStarRating(product.rating)}
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <button class="btn btn-primary mr-2">Buy Now</button>
+                                <button class="btn btn-secondary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function generateStarRating(rating) {
+                const fullStar = '<i class="fas fa-star"></i>';
+                const halfStar = '<i class="fas fa-star-half-alt"></i>';
+                const emptyStar = '<i class="far fa-star"></i>';
+                const roundedRating = Math.round(rating * 2) / 2;
+                const stars = [];
+
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= roundedRating) {
+                        stars.push(fullStar);
+                    } else if (i - roundedRating === 0.5) {
+                        stars.push(halfStar);
+                    } else {
+                        stars.push(emptyStar);
+                    }
+                }
+
+                return stars.join('');
+            }
+
+            fetchSimilarProducts().then(products => {
+                const similarProductsSection = document.getElementById('similar-products-section').querySelector('.carousel-inner');
+
+                let carouselItem = '';
+                products.forEach((product, index) => {
+                    if (index % 4 === 0) {
+                        if (index === 0) {
+                            carouselItem += '<div class="carousel-item active"><div class="row">';
+                        } else {
+                            carouselItem += '</div></div><div class="carousel-item"><div class="row">';
+                        }
+                    }
+                    carouselItem += generateSimilarProductHTML(product);
+                });
+                carouselItem += '</div></div>';
+
+                similarProductsSection.innerHTML = carouselItem;
+            });
+
 
             const decreaseBtn = document.getElementById("decrease");
             const increaseBtn = document.getElementById("increase");
@@ -470,8 +386,6 @@
                 quantityInput.value = currentValue + 1;
             });
         });
-
-        
     </script>
 </body>
 

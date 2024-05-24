@@ -6,6 +6,7 @@
             "category": "Sport",
             "description": "Optimized for performance and agility.",
             "price": 110,
+            "rating": 4,
             "img": "images/sportNIkeDunkLow.png",
             "colors": [
                 {
@@ -30,6 +31,7 @@
             "category": "Sport",
             "description": "Classic design meets modern comfort.",
             "price": 100,
+            "rating": 5,
             "img": "images/sportNB530.png",
             "colors": [
                 {
@@ -58,6 +60,7 @@
             "category": "Sport",
             "description": "Retro style, superior court performance.",
             "price": 85,
+            "rating": 4.2,
             "img": "images/sportAdidasOriginalsHB.png",
             "colors": [
                 {
@@ -82,6 +85,7 @@
             "category": "Formal",
             "description": "Sleek slip-ons for professional elegance.",
             "price": 25,
+            "rating": 3.8,
             "img": "images/formalKnight.png",
             "colors": [
                 {
@@ -110,6 +114,7 @@
             "category": "Formal",
             "description": "Tradition and comfort in classic footwear.",
             "price": 300,
+            "rating": 4.6,
             "img": "images/formalCHmen.png",
             "colors": [
                 {
@@ -138,6 +143,7 @@
             "category": "Heels",
             "description": "Chic heeled sandals for every occasion.",
             "price": 65,
+            "rating": 4.8,
             "img": "images/heelCKTexturedTie.png",
             "colors": [
                 {
@@ -166,6 +172,7 @@
             "category": "Heels",
             "description": "Elegant pumps with signature style.",
             "price": 1080,
+            "rating": 4.9,
             "img": "images/heelJCAziaPump75.png",
             "colors": [
                 {
