@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     $('#contactForm').submit(function(e) {
         e.preventDefault(); 
@@ -12,8 +11,8 @@ $(document).ready(function() {
                 alert('Thank you for your message!');
                 $('#contactForm')[0].reset();
             },
-            error: function() {
-                alert('Error sending your message.');
+            error: function(xhr, status, error) {
+                alert('Error sending your message: ' + xhr.responseText);
             }
         });
     });
