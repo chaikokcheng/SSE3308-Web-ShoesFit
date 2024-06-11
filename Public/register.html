@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <title>Login</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+        #setRegister {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="login-logo d-flex justify-content-center align-items-center py-3" href="#">
+        <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 100px; margin-right: 20px;">ShoesFit
+    </a>
+
+    <div class="col-5 mx-auto m-5 px-5 pb-5 pt-2 bg-light rounded-3 shadow">
+        <h2 class="fs-6 fw-bold font-weight-bold mb-4">Register</h2>
+        <form action="#" id="loginForm">
+            <div class="row gy-2 overflow-hidden">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="form-floating mb-3 col-6">
+                            <label for="fname" class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="fname" id="fname" required>
+                        </div>
+                        <div class="form-floating mb-3 col-6">
+                            <label for="lname" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="lname" id="lname" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-floating mb-3 col-6">
+                            <label for="phoneNo" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNo" required>
+                        </div>
+                        <div class="form-floating mb-3 col-6">
+                            <label for="birthDate" class="form-label">Date of Birth (dd/mm/yyyy)</label>
+                            <input type="date" class="form-control" id="birthDate" required>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control password hidden" name="password" id="password"
+                            value="" required>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <label for="con-password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control password hidden" name="con-password"
+                            id="con-password" value="" required>
+                    </div>
+
+
+                    <div class="col-md-8 col-sm-10 mx-auto pt-2 ">
+
+                        <input type="submit" class="btn btn-danger col-12 shadow-sm" value="register"
+                            style="border-radius: 15px;" id="registerButton">
+
+                        <h6 class="text-muted text-center" style="margin-top: 20%;">Already have an account? <a href="login.html"
+                                id="loginPage">Login</a></h6>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
