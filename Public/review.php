@@ -29,15 +29,15 @@ if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
-
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        $fname = $user['fname'];
-        $lname = $user['lname'];
-        $email = $user['email'];
-    } else {
-        die("User not found.");
-    }
+}
+if ($result->num_rows == 1) {
+    $user = $result->fetch_assoc();
+    $fname = $user['fname'];
+    $lname = $user['lname'];
+    $email = $user['email'];
+    
+} else {
+    die("User not found."); 
 }
 
 // Handle form submission for adding review
