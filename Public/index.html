@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="profile.html" title="User Profile">
+                    <a class="nav-link"  title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -115,6 +115,11 @@
         </div>
     </footer>
 
+    <div id="sidebar" class="sidebar">
+        <a href="#" class="closebtn" id="closebtn"><span>close</span>&times;</a>
+        <a href="profile.php" id="profile">Profile</a>
+        <a href="review.php"id="orderHistory">Order History</a>
+    </div>
 
     <br><br>
 
@@ -139,6 +144,20 @@
     }
 
     filterCategory('Formal');
+
+
+    document.getElementById("profile-icon").onclick = function () {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.width === "200px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "200px";
+        }
+    }
+
+    document.getElementById("closebtn").onclick = function () {
+        document.getElementById("sidebar").style.width = "0";
+    }
 
     
 </script>

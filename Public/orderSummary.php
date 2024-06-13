@@ -1,3 +1,41 @@
+<?php
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $config = require 'config.php';
+
+    $servername = $config['servername'];
+    $username = $config['username'];
+    $password = $config['password'];
+    $dbname = $config['dbname'];
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $orderNumber = $_POST['orderNumber'];
+    $fullAddress = $_POST['fullAddress'];
+    $productDetails = $_POST['productDetails'];
+    $totalAmount = $_POST['totalAmount'];
+
+
+    $sql = "INSERT INTO order_history (order_number, address, product_details, total_amount) VALUES ('$orderNumber', '$fullAddress', '$productDetails', '$totalAmount')";
+    $response = array();
+
+    if ($conn->query($sql) === TRUE) {
+        $response["message"] = "Order saved successfully";
+        $response["orderId"] = $conn->insert_id;
+    } else {
+        $response["error"] = "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    echo json_encode($response);
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +69,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="profile.html" title="User Profile">
+                    <a class="nav-link" href="#" title="User Profile">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
