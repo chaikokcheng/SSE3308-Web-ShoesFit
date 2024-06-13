@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Retrieve data from POST
-$orderNumber = $conn->real_escape_string($_POST['orderNumber']);
+$orderNumber = $_POST['orderNumber'];
 $productName = $_POST['productName'];
 $quantity = $_POST['quantity'];
 $size = $_POST['size'];
@@ -161,15 +161,13 @@ $conn->close();
     </form>
 
     <div id="messages">
-        <?php if (!empty($errors)) : ?>
-            <?php foreach ($errors as $error) : ?>
-                <div class="alert alert-danger text-center">
-                    <?= $error ?>
-                </div>
-            <?php endforeach; ?>
-        <?php elseif (!empty($successMessage)) : ?>
+        <?php if (isset($errorMessage)) : ?>
+            <div class="alert alert-danger text-center">
+                <?php echo $errorMessage; ?>
+            </div>
+        <?php elseif (isset($successMessage)) : ?>
             <div class="alert alert-success text-center">
-                <?= $successMessage ?>
+                <?php echo  $successMessage; ?>
             </div>
         <?php endif; ?>
     </div>
@@ -191,7 +189,23 @@ $conn->close();
             }
             return orderNumber;
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve or generate the order number
+            let orderNumber = localStorage.getItem("orderNumber");
 
+            if (!orderNumber) {
+                orderNumber = generateOrderNumber();
+                localStorage.setItem("orderNumber", orderNumber);
+            }
+
+            // Update HTML and hidden input
+            const orderNumberElement = document.getElementById("orderNumber");
+            const orderNumberDisplay = document.getElementById("orderNumberDisplay");
+            orderNumberElement.value = orderNumber;
+            orderNumberDisplay.innerText = orderNumber;
+        });
+    </script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const orderNumberElement = document.getElementById("orderNumber");
             const generatedOrderNumber = generateOrderNumber();
