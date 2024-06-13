@@ -34,6 +34,7 @@ if ($result->num_rows == 1) {
     $fname = $user['fname'];
     $lname = $user['lname'];
     $email = $user['email'];
+    
 } else {
     die("User not found."); 
 }
