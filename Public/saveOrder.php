@@ -22,7 +22,7 @@ $color = $_POST['color'];
 $totalPrice = $_POST['totalPrice'];
 
 // Prepare SQL statement
-$stmt = $conn->prepare("INSERT INTO orders (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
 
 // Execute the statement
