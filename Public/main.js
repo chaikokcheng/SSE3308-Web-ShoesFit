@@ -383,11 +383,13 @@ inputs.forEach(input => {
 
 $(document).ready(function () {
     $('#paymentButton').click(function () {
+        const emailInput = $('#emailInput').val();
         const streetAddress = $('#streetAddress').val();
         const city = $('#city').val();
         const state = $('#state').val();
         const postcode = $('#postcode').val();
 
+        localStorage.setItem("emailInput", emailInput);
         localStorage.setItem("streetAddress", streetAddress);
         localStorage.setItem("city", city);
         localStorage.setItem("state", state);

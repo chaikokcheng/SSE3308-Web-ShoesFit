@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Retrieve data from POST
-$orderNumber = $_POST['orderNumber'];
+$emailInput = $_POST['emailInput'];
 $productName = $_POST['productName'];
 $quantity = $_POST['quantity'];
 $size = $_POST['size'];
@@ -22,8 +22,8 @@ $color = $_POST['color'];
 $totalPrice = $_POST['totalPrice'];
 
 // Prepare SQL statement
-$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
+$stmt = $conn->prepare("INSERT INTO order_history (emailInput, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssisss", $emailInput, $productName, $quantity, $size, $color, $totalPrice);
 
 //Execute the statement
 if ($stmt->execute()) {
@@ -80,7 +80,8 @@ $conn->close();
     <br>
     <form id="orderForm" method="POST" action="orderSummary.php">
         <div class="container mt-3" id="greeting">
-            <h6>Order Number: <span id="orderNumber"></span></h6>
+            <h6>User's Email: <span id="emailInput"></span>
+            </h6>
             <h7>Dear custormer,</h7><br>
             <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
                 We hope your new shoes bring you all the comfort and style you deserve.
@@ -147,12 +148,13 @@ $conn->close();
         </div>
         <br>
         <!-- Hidden inputs to capture order data -->
-        <input type="hidden" id="orderNumber" name="orderNumber">
+        <input type="hidden" id="emailInput" name="emailInput">
         <input type="hidden" id="productName" name="productName">
         <input type="hidden" id="quantity" name="quantity">
         <input type="hidden" id="size" name="size">
         <input type="hidden" id="color" name="color">
         <input type="hidden" id="totalPriceInput" name="totalPrice">
+        
         <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
             <h1>ORDERED ITEMS</h1>
             <section id="orderedSection"></section>
@@ -180,37 +182,14 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script>
-        function generateOrderNumber() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let orderNumber = '';
-            for (let i = 0; i < 8; i++) {
-                orderNumber += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return orderNumber;
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            // Retrieve or generate the order number
-            let orderNumber = localStorage.getItem("orderNumber");
 
-            if (!orderNumber) {
-                orderNumber = generateOrderNumber();
-                localStorage.setItem("orderNumber", orderNumber);
-            }
-
-            // Update HTML and hidden input
-            const orderNumberElement = document.getElementById("orderNumber");
-            const orderNumberDisplay = document.getElementById("orderNumberDisplay");
-            orderNumberElement.value = orderNumber;
-            orderNumberDisplay.innerText = orderNumber;
-        });
-    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const orderNumberElement = document.getElementById("orderNumber");
-            const generatedOrderNumber = generateOrderNumber();
-            orderNumberElement.innerText = generatedOrderNumber;
+            // const orderNumberElement = document.getElementById("orderNumber");
+            // const generatedOrderNumber = generateOrderNumber();
+            // orderNumberElement.innerText = generatedOrderNumber;
 
+            const emailInput = localStorage.getItem("emailInput");
             const streetAddress = localStorage.getItem("streetAddress");
             const city = localStorage.getItem("city");
             const state = localStorage.getItem("state");
@@ -222,6 +201,7 @@ $conn->close();
             if (postcode) fullAddress += `,<br> ${postcode}`;
             if (state) fullAddress += `, ${state}`;
 
+            document.getElementById("emailInput").innerHTML = emailInput;
             document.getElementById("fullAddress").innerHTML = fullAddress;
             document.getElementById("billingAddress").innerHTML = fullAddress;
         });
@@ -296,6 +276,7 @@ $conn->close();
                         totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
                         // Populate form hidden inputs with final data
+                        document.getElementById("emailInput").value = emailInput;
                         document.getElementById("productName").value = cart[0].productName; // Assuming you store product name in cart
                         document.getElementById("quantity").value = cart[0].quantity; // Assuming you store quantity in cart
                         document.getElementById("size").value = cart[0].size; // Assuming you store size in cart
