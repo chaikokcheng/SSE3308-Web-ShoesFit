@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Retrieve data from POST
-$emailInput = $_POST['emailInput'];
+$orderNumber = $conn->real_escape_string($_POST['orderNumber']);
 $productName = $_POST['productName'];
 $quantity = $_POST['quantity'];
 $size = $_POST['size'];
@@ -22,8 +22,8 @@ $color = $_POST['color'];
 $totalPrice = $_POST['totalPrice'];
 
 // Prepare SQL statement
-$stmt = $conn->prepare("INSERT INTO order_history (emailInput, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisss", $emailInput, $productName, $quantity, $size, $color, $totalPrice);
+$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
 
 //Execute the statement
 if ($stmt->execute()) {
@@ -45,7 +45,8 @@ $conn->close();
     <title>Order Summary</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="orderSummary.css">
 </head>
@@ -56,7 +57,8 @@ $conn->close();
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -80,8 +82,7 @@ $conn->close();
     <br>
     <form id="orderForm" method="POST" action="orderSummary.php">
         <div class="container mt-3" id="greeting">
-            <h6>User's Email: <span id="emailInput"></span>
-            </h6>
+            <h6>Order Number: <span id="orderNumber"></span></h6>
             <h7>Dear custormer,</h7><br>
             <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
                 We hope your new shoes bring you all the comfort and style you deserve.
@@ -148,20 +149,19 @@ $conn->close();
         </div>
         <br>
         <!-- Hidden inputs to capture order data -->
-        <input type="hidden" id="emailInput" name="emailInput">
+        <input type="hidden" id="orderNumber" name="orderNumber">
         <input type="hidden" id="productName" name="productName">
         <input type="hidden" id="quantity" name="quantity">
         <input type="hidden" id="size" name="size">
         <input type="hidden" id="color" name="color">
         <input type="hidden" id="totalPriceInput" name="totalPrice">
-        
         <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
             <h1>ORDERED ITEMS</h1>
             <section id="orderedSection"></section>
 
         </div>
     </form>
-
+    
     <div id="messages">
         <?php if (isset($errorMessage)) : ?>
             <div class="alert alert-danger text-center">
@@ -173,7 +173,6 @@ $conn->close();
             </div>
         <?php endif; ?>
     </div>
-
     <div class="container py-5">
         <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
     </div>
@@ -182,14 +181,21 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // const orderNumberElement = document.getElementById("orderNumber");
-            // const generatedOrderNumber = generateOrderNumber();
-            // orderNumberElement.innerText = generatedOrderNumber;
+        function generateOrderNumber() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let orderNumber = '';
+            for (let i = 0; i < 8; i++) {
+                orderNumber += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return orderNumber;
+        }
 
-            const emailInput = localStorage.getItem("emailInput");
+        document.addEventListener("DOMContentLoaded", function () {
+            const orderNumberElement = document.getElementById("orderNumber");
+            const generatedOrderNumber = generateOrderNumber();
+            orderNumberElement.innerText = generatedOrderNumber;
+
             const streetAddress = localStorage.getItem("streetAddress");
             const city = localStorage.getItem("city");
             const state = localStorage.getItem("state");
@@ -201,17 +207,16 @@ $conn->close();
             if (postcode) fullAddress += `,<br> ${postcode}`;
             if (state) fullAddress += `, ${state}`;
 
-            document.getElementById("emailInput").innerHTML = emailInput;
             document.getElementById("fullAddress").innerHTML = fullAddress;
             document.getElementById("billingAddress").innerHTML = fullAddress;
         });
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const printBtn = document.getElementById("printBtn");
             if (printBtn) {
-                printBtn.addEventListener("click", function() {
+                printBtn.addEventListener("click", function () {
                     console.log("Print button clicked");
                     window.print();
                 });
@@ -276,7 +281,6 @@ $conn->close();
                         totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
                         // Populate form hidden inputs with final data
-                        document.getElementById("emailInput").value = emailInput;
                         document.getElementById("productName").value = cart[0].productName; // Assuming you store product name in cart
                         document.getElementById("quantity").value = cart[0].quantity; // Assuming you store quantity in cart
                         document.getElementById("size").value = cart[0].size; // Assuming you store size in cart

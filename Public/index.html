@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">        
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" title="User Profile" id="profile-icon">
+                    <a class="nav-link"  title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -102,18 +102,15 @@
                     <h4>Contact Us</h4>
                     <form id="contactForm" method="POST" action="contactform.php">
                         <div class="form-group">
-                            <input type="text" class="form-control mb-2" id="name" placeholder="Name" name="name"
-                                required>
-                            <input type="email" class="form-control mb-2" id="email" placeholder="Email Address"
-                                name="email" required>
-                            <textarea class="form-control mb-2" id="message" rows="2" placeholder="Your Message"
-                                name="message" required></textarea>
+                            <input type="text" class="form-control mb-2" id="name" placeholder="Name" name="name" required>
+                            <input type="email" class="form-control mb-2" id="email" placeholder="Email Address" name="email" required>
+                            <textarea class="form-control mb-2" id="message" rows="2" placeholder="Your Message" name="message" required></textarea>
                             <button type="submit" class="btn btn-secondary">Send Message</button>
                         </div>
                     </form>
-
+                                     
                 </div>
-
+                
             </div>
         </div>
     </footer>
@@ -134,37 +131,37 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script>
-        function filterCategory(category) {
-            fetchProducts((products) => {
-                displayProducts(products, 'productList', category);
-                calculateDeliveryDate();
-            });
+    function filterCategory(category) {
+        fetchProducts((products) => {
+            displayProducts(products, 'productList', category);
+            calculateDeliveryDate(); 
+        });
 
-            document.querySelectorAll('.btn-outline-secondary').forEach(button => {
-                button.classList.remove('active');
-            });
+        document.querySelectorAll('.btn-outline-secondary').forEach(button => {
+            button.classList.remove('active');
+        });
 
-            document.querySelector(`button[data-category="${category}"]`).classList.add('active');
+        document.querySelector(`button[data-category="${category}"]`).classList.add('active');
+    }
+
+    filterCategory('Formal');
+
+
+    document.getElementById("profile-icon").onclick = function () {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.width === "200px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "200px";
         }
+    }
 
-        filterCategory('Formal');
+    document.getElementById("closebtn").onclick = function () {
+        document.getElementById("sidebar").style.width = "0";
+    }
 
-
-        document.getElementById("profile-icon").onclick = function () {
-            var sidebar = document.getElementById("sidebar");
-            if (sidebar.style.width === "200px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "200px";
-            }
-        }
-
-        document.getElementById("closebtn").onclick = function () {
-            document.getElementById("sidebar").style.width = "0";
-        }
-
-
-    </script>
+    
+</script>
 </body>
 
 </html>
