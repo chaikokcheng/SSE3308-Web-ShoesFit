@@ -83,9 +83,12 @@
             object-fit: cover;
             height: 120px;
         }
-
-        .similar-card-title {
-            
+        #review{
+            text-decoration: none;
+            color: white;
+        }
+        #review:hover{
+            color: black;
         }
     </style>
 </head>
@@ -108,7 +111,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" title="User Profile">
+                    <a class="nav-link" href="profile.html" title="User Profile">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -116,7 +119,6 @@
         </div>
     </nav>
 
-    <hr>
     <main>
         <div id="product-section" class="container py-5">
             <div class="row">
@@ -148,58 +150,11 @@
             </div>
         </div>
 
-
-        <hr>
-
-        <div id="reviews-section" class="container mt-5">
-            <h2>Product Reviews</h2>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="rating mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                    <h5 class="card-title">Great Product!</h5>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="card-subtitle text-muted">John Doe</h6>
-                        <small class="text-muted">2024-05-16</small>
-                    </div>
-                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 7, Black</p>
-                    <img src="images/formalKnight.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
-                    <p class="card-text">This product exceeded my expectations. The quality is top-notch and it works
-                        perfectly. I've been using it for a few weeks now and have had no issues. Highly recommend to
-                        anyone in need of this product.</p>
-                </div>
-            </div>
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="rating mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                    <h5 class="card-title">Amazing Quality</h5>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="card-subtitle text-muted">Jane Smith</h6>
-                        <small class="text-muted">2024-05-15</small>
-                    </div>
-                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 6, White</p>
-                    <img src="images/sportAdidasOriginalsHB.png" alt="User Picture" class="img-fluid mb-3"
-                        style="width: 80px;">
-                    <p class="card-text">I was really impressed with the build quality of this product. It feels very
-                        sturdy and well-made. The performance is also excellent, and it meets all of my needs. Would
-                        definitely buy again.</p>
-                </div>
-            </div>
+        
+        <div style="align-items: center;padding-bottom: 3%;">
+        <button type="button" class="btn btn-primary"><a href="review.php"id="review">Rate A Review</a></button>
         </div>
-
         <hr>
-
         <div id="similar-products-section" class="container mt-5 pb-5">
             <h2>Similar Products</h2>
             <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
@@ -394,7 +349,9 @@
                 let currentValue = parseInt(quantityInput.value);
                 quantityInput.value = currentValue + 1;
             });
-        });
+
+});
+    
     </script>
 </body>
 
