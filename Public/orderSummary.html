@@ -208,19 +208,6 @@
                 fetch('products.json')
                     .then(response => response.json())
                     .then(data => {
-                        const orderDetails = {
-                            orderNumber: document.getElementById('orderNumber').innerText,
-                            productName: cart.map(item => {
-                                const product = data.products.find(p => p.id === item.productId);
-                                return product ? product.name : '';
-                            }).join(', '),
-                            quantity: cart.map(item => item.quantity).join(', '),
-                            color: cart.map(item => item.color).join(', '),
-                            size: cart.map(item => item.size).join(', '),
-                            shippingCharge: shippingCharge.toFixed(2),
-                            totalAmount: (total + shippingCharge).toFixed(2)
-                        };
-
                         const cartHTML = cart.map(cartItem => {
                             const product = data.products.find(p => p.id === cartItem.productId);
                             if (product) {
@@ -260,42 +247,8 @@
                         productAmt.innerText = total.toFixed(2);
                         totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
-                       
-                        fetch('saveOrder.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(orderDetails)
-                        })
-                            .then(response => response.json())
-                            .then(data => console.log(data))
-                            .catch(error => console.error('Error:', error));
-                        // Prepare order details
-                        // const orderDetails = {
-                        //     orderNumber: generatedOrderNumber,
-                        //     // fullAddress: fullAddress,
-                        //     // billingAddress: fullAddress,
-                        //     // paymentMethod: 'Credit Card', // Replace with actual payment method if applicable
-                        //     productAmount: total.toFixed(2),
-                        //     shippingCharge: shippingCharge,
-                        //     totalPrice: (total + shippingCharge).toFixed(2),
-                        //     orderedItems: cart
-                        // };
-                        // Send order details to PHP script
-                        // fetch('saveOrder.php', {
-                        //         method: 'POST',
-                        //         headers: {
-                        //             'Content-Type': 'application/json'
-                        //         },
-                        //         body: JSON.stringify(orderDetails)
-                        //     })
-                        // .then(response => response.text())
-                        // .then(data => console.log(data))
-                        // .catch(error => console.error('Error:', error));
+
                     })
-                    // .catch(error => console.error('Error fetching product data:', error));
-                    .catch(error => console.error('Error fetching product data:', error));
             }
         })
     </script>
