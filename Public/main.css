@@ -445,7 +445,6 @@ h6 {
 
 /* login register*/
 
-
 #sidebar {
     height: 100%;
     width: 0;
@@ -456,7 +455,7 @@ h6 {
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;
-    z-index: 1030; /* Ensure sidebar appears on top */
+    z-index: 1030; 
 }
 
 .sidebar a {
@@ -468,7 +467,7 @@ h6 {
     transition: 0.3s;
 }
 
-.sidebar a#profile:hover, .sidebar a#orderHistory:hover {
+.sidebar a#profile:hover, .sidebar a#orderHistory:hover, .sidebar a#logout:hover {
     color: #000000;
     background-color: #ffffff;
 }
@@ -476,8 +475,18 @@ h6 {
 .closebtn {
     position: absolute;
     top: 0;
-    font-size: 15px; 
+    
 }
-.closebtn span {
-    margin-right: 100px; /* Adjust as needed to control the space between "close" and &times; */
+#closebtn span {
+    margin-right: 110px;
+    font-size: 16px;  
 }
+
+#logout {
+    position: absolute;
+    font-size: 16px;
+    bottom: 15px;
+    width: 100%;
+}
+
+/* login register*/
