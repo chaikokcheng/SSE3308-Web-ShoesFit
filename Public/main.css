@@ -413,7 +413,7 @@ h6 {
 /* payment */
 
 
-/* login */
+/* login register*/
 .login-logo {
     font-size: 2.5rem;
     font-weight: bold;
@@ -438,3 +438,10 @@ h6 {
 .login-logo:hover img {
     transform: scale(1.05);
 }
+
+#loginPage {
+    text-decoration: underline;
+}
+
+
+/* login register*/
