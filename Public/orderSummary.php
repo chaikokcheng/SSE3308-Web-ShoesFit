@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Retrieve data from POST
-$orderNumber = $_POST['orderNumber'];
+$orderNumber = $conn->real_escape_string($_POST['orderNumber']);
 $productName = $_POST['productName'];
 $quantity = $_POST['quantity'];
 $size = $_POST['size'];
@@ -25,11 +25,11 @@ $totalPrice = $_POST['totalPrice'];
 $stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
 $stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
 
-// Execute the statement
+//Execute the statement
 if ($stmt->execute()) {
-    echo "Order inserted successfully!";
+    $successMessage = "Order inserted successfully!";
 } else {
-    echo "Error: " . $conn->error;
+    echo "Error: " . $conn->ersror;
 }
 
 // Close statement and connection
@@ -45,8 +45,7 @@ $conn->close();
     <title>Order Summary</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="orderSummary.css">
 </head>
@@ -57,8 +56,7 @@ $conn->close();
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -162,6 +160,20 @@ $conn->close();
         </div>
     </form>
 
+    <div id="messages">
+        <?php if (!empty($errors)) : ?>
+            <?php foreach ($errors as $error) : ?>
+                <div class="alert alert-danger text-center">
+                    <?= $error ?>
+                </div>
+            <?php endforeach; ?>
+        <?php elseif (!empty($successMessage)) : ?>
+            <div class="alert alert-success text-center">
+                <?= $successMessage ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
     <div class="container py-5">
         <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
     </div>
@@ -180,7 +192,7 @@ $conn->close();
             return orderNumber;
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const orderNumberElement = document.getElementById("orderNumber");
             const generatedOrderNumber = generateOrderNumber();
             orderNumberElement.innerText = generatedOrderNumber;
@@ -202,10 +214,10 @@ $conn->close();
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const printBtn = document.getElementById("printBtn");
             if (printBtn) {
-                printBtn.addEventListener("click", function () {
+                printBtn.addEventListener("click", function() {
                     console.log("Print button clicked");
                     window.print();
                 });
