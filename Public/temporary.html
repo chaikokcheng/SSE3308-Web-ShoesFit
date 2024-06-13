@@ -83,12 +83,24 @@
             object-fit: cover;
             height: 120px;
         }
-        #review{
-            text-decoration: none;
-            color: white;
+
+        .similar-card-title {}
+
+        .star-rating {
+            font-size: 24px;
+            color: #ffd700;
+            /* gold color for stars */
+            cursor: pointer;
         }
-        #review:hover{
-            color: black;
+
+        .star-rating .star {
+            transition: color 0.3s ease;
+        }
+
+        .star-rating .star:hover,
+        .star-rating .star.active {
+            color: #f39c12;
+            /* darker gold color on hover/active */
         }
     </style>
 </head>
@@ -119,42 +131,81 @@
         </div>
     </nav>
 
-    <main>
-        <div id="product-section" class="container py-5">
-            <div class="row">
-                <div id="product-images" class="col-2">
-                    <img class="d-block w-100 product-thumb" src="images/sportNIkeDunkLow.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportAdidasOriginalsHB.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportNB530.png" alt="Image 3">
-                    <img class="d-block w-100 product-thumb" src="images/heelJCAziaPump75.png">
-                </div>
-                <div id="product-image-main-container" class="col-6">
-                </div>
-                <div class="d-flex flex-column col-4">
-                    <div id="product-details"></div>
-                    <div class="quantity-control my-3">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <button id="decrease" class="btn btn-secondary">-</button>
-                            </div>
-                            <div class="col-auto">
-                                <input id="quantity" type="text" class="form-control" value="1">
-                            </div>
-                            <div class="col-auto">
-                                <button id="increase" class="btn btn-secondary">+</button>
-                            </div>
-                        </div>
+    <hr>
+
+        <div id="reviews-section" class="container mt-5">
+            <h2>Product Reviews</h2>
+            <div id="review-list"></div>
+            <hr>
+            <!-- Review Form -->
+            <form id="review-form" class="mt-4">
+                <h3>Add Your Review</h3>
+                <div class="form-group">
+                    <label for="review-rating">Rating:</label>
+                    <div id="review-rating" class="star-rating">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
                     </div>
-                    <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                </div>
+                <div class="form-group">
+                    <label for="review-content">Your Review:</label>
+                    <textarea class="form-control" id="review-content" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+        <!-- <div id="reviews-section" class="container mt-5">
+            <h2>Product Reviews</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5 class="card-title">Great Product!</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">John Doe</h6>
+                        <small class="text-muted">2024-05-16</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 7, Black</p>
+                    <img src="images/formalKnight.png" alt="User Picture" class="img-fluid mb-3" style="width: 80px;">
+                    <p class="card-text">This product exceeded my expectations. The quality is top-notch and it works
+                        perfectly. I've been using it for a few weeks now and have had no issues. Highly recommend to
+                        anyone in need of this product.</p>
                 </div>
             </div>
-        </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5 class="card-title">Amazing Quality</h5>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-subtitle text-muted">Jane Smith</h6>
+                        <small class="text-muted">2024-05-15</small>
+                    </div>
+                    <p class="mt-2 mb-2"><strong>Variation:</strong>US 6, White</p>
+                    <img src="images/sportAdidasOriginalsHB.png" alt="User Picture" class="img-fluid mb-3"
+                        style="width: 80px;">
+                    <p class="card-text">I was really impressed with the build quality of this product. It feels very
+                        sturdy and well-made. The performance is also excellent, and it meets all of my needs. Would
+                        definitely buy again.</p>
+                </div>
+            </div>
+        </div> -->
 
-        
-        <div style="align-items: center;padding-bottom: 3%;">
-        <button type="button" class="btn btn-primary"><a href="review.php"id="review">Rate A Review</a></button>
-        </div>
         <hr>
+
         <div id="similar-products-section" class="container mt-5 pb-5">
             <h2>Similar Products</h2>
             <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
@@ -176,6 +227,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             function fetchSimilarProducts() {
                 return fetch('products.json')
@@ -269,10 +321,139 @@
 
                                 addToCart(productId, size, color, quantity, price);
                             });
+
+                            fetchReviews(productId);
                         }
-                    });
+                        else {
+                    console.error('Product not found');
+                }
+                    })
+                    .catch(error => console.error('Error fetching product details:', error));
+            }
+            function fetchReviews(productId) {
+                fetch(`fetch_reviews.php?product_id=${productId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            displayReviews(data.reviews);
+                        } else {
+                            console.error('Failed to fetch reviews');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching reviews:', error));
+            }
+            // Function to display reviews
+            function displayReviews(reviews) {
+                const reviewList = document.getElementById('review-list');
+                let reviewHTML = '';
+                reviews.forEach(review => {
+                    reviewHTML += `
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="rating">${generateStarRating(review.rating)}</div>
+                        <h5 class="card-title">${review.user_name}</h5>
+                        <p class="card-text">${review.content}</p>
+                        <p class="text-muted">${review.review_date}</p>
+                    </div>
+                </div>
+            `;
+                });
+                reviewList.innerHTML = reviewHTML;
             }
 
+            // Generate star ratings HTML
+            function generateStarRating(rating) {
+                const fullStar = '<i class="fas fa-star"></i>';
+                const halfStar = '<i class="fas fa-star-half-alt"></i>';
+                const emptyStar = '<i class="far fa-star"></i>';
+                const roundedRating = Math.round(rating * 2) / 2;
+                const stars = [];
+
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= roundedRating) {
+                        stars.push(fullStar);
+                    } else if (i - roundedRating === 0.5) {
+                        stars.push(halfStar);
+                    } else {
+                        stars.push(emptyStar);
+                    }
+                }
+
+                return stars.join('');
+            }
+            reviewForm = document.getElementById('review-form');
+            reviewForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const rating = document.querySelectorAll('.star-rating .star.active').length;
+                const reviewContent = document.getElementById('review-content').value.trim();
+
+                if (rating === 0 || reviewContent === '') {
+                    alert('Please provide a rating and review content.');
+                    return;
+                }
+
+                const formData = new FormData(reviewForm);
+                formData.append('product_id', productId);
+
+                fetch('submit_review.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('review-content').value = '';
+                            fetchReviews(productId);
+                        } else {
+                            console.error('Failed to submit review:', data.error);
+                        }
+                    })
+                    .catch(error => console.error('Error submitting review:', error));
+            });
+            // Handle star rating selection
+            document.querySelectorAll('.star-rating .star').forEach(star => {
+                star.addEventListener('click', function () {
+                    const rating = parseInt(this.getAttribute('data-value'));
+                    document.querySelectorAll('.star-rating .star').forEach(s => {
+                        s.classList.toggle('active', parseInt(s.getAttribute('data-value')) <= rating);
+                    });
+                });
+            });
+
+            // Handle review form submission
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const rating = document.querySelector('.star-rating .star.active').length;
+                const reviewContent = document.getElementById('review-content').value.trim();
+
+                if (rating === 0 || reviewContent === '') {
+                    alert('Please provide a rating and review content.');
+                    return;
+                }
+
+                const formData = new FormData(reviewForm);
+                formData.append('product_id', productId);
+
+                fetch('submit_review.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Clear form fields
+                            document.getElementById('review-content').value = '';
+                            // Refresh reviews
+                            fetchReviews(productId);
+                        } else {
+                            console.error('Failed to submit review:', data.error);
+                        }
+                    })
+                    .catch(error => console.error('Error submitting review:', error));
+            });
             function generateSimilarProductHTML(product) {
                 return `
                 <div class="col-md-3">
@@ -349,9 +530,9 @@
                 let currentValue = parseInt(quantityInput.value);
                 quantityInput.value = currentValue + 1;
             });
+        }
+        );
 
-});
-    
     </script>
 </body>
 
