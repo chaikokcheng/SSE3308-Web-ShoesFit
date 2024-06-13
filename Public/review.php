@@ -29,7 +29,7 @@ if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
-
+}
 if ($result->num_rows == 1) {
     $user = $result->fetch_assoc();
     $fname = $user['fname'];
