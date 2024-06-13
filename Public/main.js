@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function fetchProducts(callback, category = '') {
-    fetch('products.json')
+    fetch('fetch_products.php')
         .then(response => response.json())
         .then(data => callback(data.products, category))
         .catch(error => console.error('Error loading the products:', error));
@@ -55,7 +55,7 @@ function displayProducts(products, containerId, category = '') {
         productList.innerHTML += `
             <div class="col-md-4">
                 <a href="productpage.html?id=${product.id}" class="card mb-4 shadow-sm text-decoration-none">
-                    <img class="card-img-top" alt="${product.name}" src="${product.img}">
+                    <img class="card-img-top custom-card-img" alt="${product.name}" src="${product.img}">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">${product.description}</p>
