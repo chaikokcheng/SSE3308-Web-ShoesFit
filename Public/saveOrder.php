@@ -1,5 +1,4 @@
-<?php
-// Database configuration
+<!-- <?php
 $config = require 'config.php';
 
 $servername = $config['servername'];
@@ -7,50 +6,45 @@ $username = $config['username'];
 $password = $config['password'];
 $dbname = $config['dbname'];
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
+    die("Connection failed: " . $conn->connect_error);
 }
 
-/// Get the JSON data from the request
-$data = json_decode(file_get_contents('php://input'), true);
+// Retrieve data from POST
+$orderNumber = $_POST['orderNumber'];
+$productName = $_POST['productName'];
+$quantity = $_POST['quantity'];
+$size = $_POST['size'];
+$color = $_POST['color'];
+$totalPrice = $_POST['totalPrice'];
 
-// if (json_last_error() !== JSON_ERROR_NONE) {
-//     die("Error decoding JSON: " . json_last_error_msg());
-// }
-// // Debugging
-// error_log("Received Data: " . print_r($orderDetails, true));
+// Prepare SQL statement
+$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
 
-// Extract order details
-// $order_number = $conn->real_escape_string($orderDetails['orderNumber']);
-// $product_amount = $conn->real_escape_string($orderDetails['productAmount']);
-// $shipping_charge = $conn->real_escape_string($orderDetails['shippingCharge']);
-// $total_price = $conn->real_escape_string($orderDetails['totalPrice']);
-// $ordered_items = $conn->real_escape_string(json_encode($orderDetails['orderedItems']));
-
-$orderNumber = $conn->real_escape_string($data['orderNumber']);
-$productNames = $conn->real_escape_string($data['productName']);
-$quantities = $conn->real_escape_string($data['quantity']);
-$colors = $conn->real_escape_string($data['color']);
-$sizes = $conn->real_escape_string($data['size']);
-$shippingCharge = $conn->real_escape_string($data['shippingCharge']);
-$totalAmount = $conn->real_escape_string($data['totalAmount']);
-
-
-$sql = "INSERT INTO order_history (order_number, product_name, quantity, color, size, shipping_charge, total_price)
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssss", $orderNumber, $productNames, $quantities, $colors, $sizes, $shippingCharge, $totalAmount);
-
+// Execute the statement
 if ($stmt->execute()) {
-    echo json_encode(["status" => "success", "message" => "Order saved successfully"]);
+    echo "Order inserted successfully!";
 } else {
-    echo json_encode(["status" => "error", "message" => "Error: " . $stmt->error]);
+    echo "Error: " . $conn->error;
 }
 
+// Close statement and connection
 $stmt->close();
 $conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html> -->

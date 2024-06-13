@@ -1,3 +1,41 @@
+<?php
+$config = require 'config.php';
+
+$servername = $config['servername'];
+$username = $config['username'];
+$password = $config['password'];
+$dbname = $config['dbname'];
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve data from POST
+$orderNumber = $_POST['orderNumber'];
+$productName = $_POST['productName'];
+$quantity = $_POST['quantity'];
+$size = $_POST['size'];
+$color = $_POST['color'];
+$totalPrice = $_POST['totalPrice'];
+
+// Prepare SQL statement
+$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
+
+// Execute the statement
+if ($stmt->execute()) {
+    echo "Order inserted successfully!";
+} else {
+    echo "Error: " . $conn->error;
+}
+
+// Close statement and connection
+$stmt->close();
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,103 +80,87 @@
         <h1>YOUR SHOES IS ON ITS WAY TO YOU</h1>
     </div>
     <br>
-    <div class="container mt-3" id="greeting">
-        <h6>Order Number: <span id="orderNumber"></span></h6>
-        <h7>Dear custormer,</h7><br>
-        <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
-            We hope your new shoes bring you all the comfort and style you deserve.
-            Thank you for being a part of the ShoesFit family. We look forward to serving you again soon!
-        </p>
-    </div>
-    <br>
-    <div class="container mt-3" id="summary">
-        <h1>ORDER SUMMARY</h1>
-        <div class="row">
-            <div class="col-sm-4">
-                <h5>DELIVERY ADDRESS</h5>
-                <p id="fullAddress"></p>
-            </div>
-            <div class="col-sm-4">
-                <h5>BILLING INFORMATION</h5>
-                <p id="billingAddress"></p>
-                <h6 id="paymentMethod"></h6>
-            </div>
-            <div class="col-sm-4">
-                <h5>ORDER SUMMARY</h5>
-                <div class="row">
-                    <div class="col-6">
-                        Product
-                    </div>
-                    <div class="col-6 text-right font-italic">
-                        $ <span id="productAmount"></span>
-                    </div>
+    <form id="orderForm" method="POST" action="orderSummary.php">
+        <div class="container mt-3" id="greeting">
+            <h6>Order Number: <span id="orderNumber"></span></h6>
+            <h7>Dear custormer,</h7><br>
+            <p>Big thanks for choosing ShoesFit! Your trust and support mean the world to us.
+                We hope your new shoes bring you all the comfort and style you deserve.
+                Thank you for being a part of the ShoesFit family. We look forward to serving you again soon!
+            </p>
+        </div>
+        <br>
+        <div class="container mt-3" id="summary">
+            <h1>ORDER SUMMARY</h1>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h5>DELIVERY ADDRESS</h5>
+                    <p id="fullAddress"></p>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        Promo Code
-                    </div>
-                    <div class="col-6 text-right">
-                        <i>$ -0.00</i>
-                    </div>
+                <div class="col-sm-4">
+                    <h5>BILLING INFORMATION</h5>
+                    <p id="billingAddress"></p>
+                    <h6 id="paymentMethod"></h6>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        Shipping
+                <div class="col-sm-4">
+                    <h5>ORDER SUMMARY</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            Product
+                        </div>
+                        <div class="col-6 text-right font-italic">
+                            $ <span id="productAmount"></span>
+                        </div>
                     </div>
-                    <div class="col-6 text-right" id="shippingCharge">
-                        <i>$ 10.00</i>
+                    <div class="row">
+                        <div class="col-6">
+                            Promo Code
+                        </div>
+                        <div class="col-6 text-right">
+                            <i>$ -0.00</i>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        Total Amount
+                    <div class="row">
+                        <div class="col-6">
+                            Shipping
+                        </div>
+                        <div class="col-6 text-right" id="shippingCharge">
+                            <i>$ 10.00</i>
+                        </div>
                     </div>
-                    <div class="col-6 text-right">
-                        $ <span id="totalPrice"></span>
+                    <div class="row">
+                        <div class="col-6">
+                            Total Amount
+                        </div>
+                        <div class="col-6 text-right">
+                            $ <span id="totalPrice"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        Total Saving
-                    </div>
-                    <div class="col-6 text-right">
-                        <i>$ 0.00</i>
+                    <div class="row">
+                        <div class="col-6">
+                            Total Saving
+                        </div>
+                        <div class="col-6 text-right">
+                            <i>$ 0.00</i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <br>
+        <br>
+        <!-- Hidden inputs to capture order data -->
+        <input type="hidden" id="orderNumber" name="orderNumber">
+        <input type="hidden" id="productName" name="productName">
+        <input type="hidden" id="quantity" name="quantity">
+        <input type="hidden" id="size" name="size">
+        <input type="hidden" id="color" name="color">
+        <input type="hidden" id="totalPriceInput" name="totalPrice">
+        <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
+            <h1>ORDERED ITEMS</h1>
+            <section id="orderedSection"></section>
 
-    <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
-        <h1>ORDERED ITEMS</h1>
-        <section id="orderedSection"></section>
-        <!-- <div class="card p-3 shadow " id="ordered-items">
-            <div class="row">
-                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
-                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
-                </div>
-                <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
-                    <div class="row">
-                        <div class="col-8 card-body">
-                            <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
-                            <p class="shoe-colour">${cartItem.color}</p>
-                        <div class="cart-text">
-                            <p>Qty: ${cartItem.quantity}</p>
-                            <p>Size: ${cartItem.size}</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="row mt-auto">
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <br>
-                            <h3>$<span id="itemval">${product.price}</span></h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-    </div>
+        </div>
+    </form>
 
     <div class="container py-5">
         <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
@@ -208,19 +230,6 @@
                 fetch('products.json')
                     .then(response => response.json())
                     .then(data => {
-                        const orderDetails = {
-                            orderNumber: document.getElementById('orderNumber').innerText,
-                            productName: cart.map(item => {
-                                const product = data.products.find(p => p.id === item.productId);
-                                return product ? product.name : '';
-                            }).join(', '),
-                            quantity: cart.map(item => item.quantity).join(', '),
-                            color: cart.map(item => item.color).join(', '),
-                            size: cart.map(item => item.size).join(', '),
-                            shippingCharge: shippingCharge.toFixed(2),
-                            totalAmount: (total + shippingCharge).toFixed(2)
-                        };
-
                         const cartHTML = cart.map(cartItem => {
                             const product = data.products.find(p => p.id === cartItem.productId);
                             if (product) {
@@ -260,44 +269,22 @@
                         productAmt.innerText = total.toFixed(2);
                         totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
-                       
-                        fetch('saveOrder.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(orderDetails)
-                        })
-                            .then(response => response.json())
-                            .then(data => console.log(data))
-                            .catch(error => console.error('Error:', error));
-                        // Prepare order details
-                        // const orderDetails = {
-                        //     orderNumber: generatedOrderNumber,
-                        //     // fullAddress: fullAddress,
-                        //     // billingAddress: fullAddress,
-                        //     // paymentMethod: 'Credit Card', // Replace with actual payment method if applicable
-                        //     productAmount: total.toFixed(2),
-                        //     shippingCharge: shippingCharge,
-                        //     totalPrice: (total + shippingCharge).toFixed(2),
-                        //     orderedItems: cart
-                        // };
-                        // Send order details to PHP script
-                        // fetch('saveOrder.php', {
-                        //         method: 'POST',
-                        //         headers: {
-                        //             'Content-Type': 'application/json'
-                        //         },
-                        //         body: JSON.stringify(orderDetails)
-                        //     })
-                        // .then(response => response.text())
-                        // .then(data => console.log(data))
-                        // .catch(error => console.error('Error:', error));
+                        // Populate form hidden inputs with final data
+                        document.getElementById("productName").value = cart[0].productName; // Assuming you store product name in cart
+                        document.getElementById("quantity").value = cart[0].quantity; // Assuming you store quantity in cart
+                        document.getElementById("size").value = cart[0].size; // Assuming you store size in cart
+                        document.getElementById("color").value = cart[0].color; // Assuming you store color in cart
+                        document.getElementById("totalPriceInput").value = (total + 10).toFixed(2); // Total price with shipping
+
+                        // Automatically submit the form
+                        document.getElementById("orderForm").submit();
                     })
-                    // .catch(error => console.error('Error fetching product data:', error));
-                    .catch(error => console.error('Error fetching product data:', error));
+                    .catch(error => {
+                        console.error('Error fetching products:', error);
+                    })
             }
-        })
+
+        });
     </script>
 
 

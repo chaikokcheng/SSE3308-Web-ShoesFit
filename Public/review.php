@@ -43,11 +43,17 @@ if ($result->num_rows == 1) {
 // Handle form submission for adding review
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $review_content = $conn->real_escape_string($_POST['review_content']);
-    $rating = floatval($_POST['rating']); // Convert rating to float
+    
+    // Check if 'rating' is set in POST data
+    if (isset($_POST['rating'])) {
+        $rating = floatval($_POST['rating']); // Convert rating to float
+    } else {
+        $rating = null; // Set rating to null if not provided (for seller or other cases)
+    }
 
     // Insert query for item_review including rating
-    $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating,date_created) 
-                   VALUES ('$fname', '$lname', '$email', '$review_content', '$rating', NOW())";
+    $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created) 
+                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", NOW())";
 
     if ($conn->query($insert_sql) === TRUE) {
         $successMessage = "Review added successfully.";
@@ -64,13 +70,15 @@ $reviews_result = $conn->query($reviews_sql);
 $conn->close();
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>review</title>
+    <title>Product Reviews</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
@@ -161,6 +169,7 @@ $conn->close();
             <!-- Review Form -->
             <form id="review-form" action="review.php" method="post" class="mt-4">
                 <h3>Add Your Review</h3>
+                <?php if ($email !== 'seller@email.com'): ?>
                 <div class="form-group">
                     <label for="rating">Rating:</label>
                     <div id="rating" class="rating">
@@ -172,6 +181,7 @@ $conn->close();
                         <input type="hidden" name="rating" id="rating-value" required>
                     </div>
                 </div>
+                <?php endif; ?>
                 <div class="form-group">
                     <label for="review-content">Your Review:</label>
                     <textarea class="form-control" id="review-content" name="review_content" rows="3" required></textarea>
@@ -179,76 +189,58 @@ $conn->close();
                 <button type="submit" class="btn btn-primary">Submit Review</button>
             </form>
         </div>
-
-
     </main>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const stars = document.querySelectorAll('.star');
-    const ratingValue = document.querySelector('#rating-value');
-    const reviewForm = document.querySelector('#review-form');
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.star');
+            const ratingValue = document.querySelector('#rating-value');
+            const reviewForm = document.querySelector('#review-form');
+            const ratingSection = document.querySelector('#rating');
 
-    // Function to toggle visibility of rating section
-    function toggleRatingSection(show) {
-        const ratingSection = document.querySelector('#rating');
-        if (show) {
-            ratingSection.style.display = 'block';
-        } else {
-            ratingSection.style.display = 'none';
-        }
-    }
-
-    // Initially hide/show rating based on logged-in user's email
-    if ('<?php echo $email; ?>' === 'seller@email.com') {
-        toggleRatingSection(false); // Hide rating if seller is logged in
-    } else {
-        toggleRatingSection(true); // Show rating otherwise
-    }
-
-    // Function to set stars based on rating (from database or user click)
-    function setStars(rating) {
-        stars.forEach((star, index) => {
-            const starIndex = stars.length - index - 1; // Calculate star index from right to left
-            if (starIndex < rating) {
-                star.innerHTML = '<i class="fas fa-star"></i>'; // Solid star for selected rating
-            } else {
-                star.innerHTML = '<i class="far fa-star"></i>'; // Outline star for non-selected rating
+            // Function to set stars based on rating (from database or user click)
+            function setStars(rating) {
+                stars.forEach((star, index) => {
+                    const starIndex = stars.length - index - 1; // Calculate star index from right to left
+                    if (starIndex < rating) {
+                        star.innerHTML = '<i class="fas fa-star"></i>'; // Solid star for selected rating
+                    } else {
+                        star.innerHTML = '<i class="far fa-star"></i>'; // Outline star for non-selected rating
+                    }
+                });
             }
+
+            // Retrieve and set initial rating from database (or default to 0 if no rating)
+            const currentRating = <?php echo isset($_POST['rating']) ? json_encode($_POST['rating']) : '0'; ?>;
+            setStars(currentRating);
+
+            // Event listener for clicking on stars
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    const rating = stars.length - index; // Calculate rating from left to right
+                    ratingValue.value = rating; // Update hidden input value
+
+                    setStars(rating);
+                });
+            });
+
+            // Hide rating section if seller is logged in
+            const email = '<?php echo $email; ?>';
+            if (email === 'seller@email.com') {
+                ratingSection.style.display = 'none'; // Hide rating if seller is logged in
+            }
+
+            // Optional: You can also prevent form submission if rating section is hidden
+            reviewForm.addEventListener('submit', function(event) {
+                if (ratingSection.style.display === 'none') {
+                    event.preventDefault(); // Prevent form submission
+                    alert('You are not allowed to submit a review with a rating.');
+                }
+            });
         });
-    }
-
-    // Retrieve and set initial rating from database (or default to 0 if no rating)
-    const currentRating = <?php echo isset($_POST['rating']) ? json_encode($_POST['rating']) : '0'; ?>; // Replace with actual rating value from PHP
-    setStars(currentRating);
-
-    // Event listener for clicking on stars
-    stars.forEach((star, index) => {
-        star.addEventListener('click', () => {
-            const rating = stars.length - index; // Calculate rating from left to right
-            ratingValue.value = rating; // Update hidden input value
-
-            setStars(rating);
-        });
-    });
-
-    // Optional: You can also prevent form submission if rating section is hidden
-    reviewForm.addEventListener('submit', function(event) {
-        if (document.querySelector('#rating').style.display === 'none') {
-            event.preventDefault(); // Prevent form submission
-            alert('You are not allowed to submit a review.');
-        }
-    });
-});
-
-
-
-
-
-</script>
+    </script>
 </body>
-
 </html>
