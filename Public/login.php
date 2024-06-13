@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $config = require 'config.php';
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
 
         if ($password === $user['password']) {
-            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email'] = $user['email'];
             header("Location: index.html");
             exit;
         } else {
