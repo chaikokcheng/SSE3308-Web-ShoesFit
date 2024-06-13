@@ -443,5 +443,41 @@ h6 {
     text-decoration: underline;
 }
 
-
 /* login register*/
+
+
+#sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #000000;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+    z-index: 1030; /* Ensure sidebar appears on top */
+}
+
+.sidebar a {
+    padding: 22px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a#profile:hover, .sidebar a#orderHistory:hover {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+.closebtn {
+    position: absolute;
+    top: 0;
+    font-size: 15px; 
+}
+.closebtn span {
+    margin-right: 100px; /* Adjust as needed to control the space between "close" and &times; */
+}
