@@ -187,7 +187,7 @@
             const productId = urlParams.get('id');
 
             if (productId) {
-                fetch(`fetch_products.php?id=${productId}`)
+                fetch(`fetch_details.php?id=${productId}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');

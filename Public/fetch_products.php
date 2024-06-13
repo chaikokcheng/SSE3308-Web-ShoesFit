@@ -1,59 +1,41 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
+// Assuming this is fetch_products.php
+header('Content-Type: application/json');
 
-    $config = require 'config.php';
-    $servername = $config['servername'];
-    $username = $config['username'];
-    $password = $config['password'];
-    $dbname = $config['dbname'];
+$config = require 'config.php';
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+$servername = $config['servername'];
+$username = $config['username'];
+$password = $config['password'];
+$dbname = $config['dbname'];
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    if (isset($_GET['id'])) {
-        $productId = intval($_GET['id']);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        $product = array();
+$sql = "SELECT id, name, category, description, price, img FROM products";
+$result = $conn->query($sql);
 
-        $sql = "SELECT * FROM products WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $productId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            $product = $result->fetch_assoc();
-
-            $sql = "SELECT * FROM product_colors WHERE product_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $productId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $colors = $result->fetch_all(MYSQLI_ASSOC);
-            $product['colors'] = $colors;
-
-            $sql = "SELECT * FROM product_sizes WHERE product_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $productId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $sizes = $result->fetch_all(MYSQLI_ASSOC);
-            $product['sizes'] = $sizes;
-
-            header('Content-Type: application/json');
-            echo json_encode($product);
-        } else {
-            echo json_encode(['error' => 'Product not found']);
-        }
-
-        $stmt->close();
-    } else {
-        echo json_encode(['error' => 'No product ID provided']);
+if ($result->num_rows > 0) {
+    $products = [];
+    while ($row = $result->fetch_assoc()) {
+        $products[] = [
+            'id' => $row['id'],
+            'name' => $row['name'],
+            'category' => $row['category'],
+            'description' => $row['description'],
+            'price' => $row['price'],
+            'img' => $row['img']
+        ];
     }
 
     $conn->close();
+    
+    echo json_encode(['products' => $products]);
+} else {
+    echo json_encode(['error' => 'No products found']);
 }
+
 ?>
