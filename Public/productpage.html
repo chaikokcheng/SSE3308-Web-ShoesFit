@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nike Dunk Low Retro</title>
+    <title>ShoesFit</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
@@ -187,90 +187,99 @@
             const productId = urlParams.get('id');
 
             if (productId) {
-                fetch('products.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const product = data.products.find(p => p.id == productId);
-                        if (product) {
-                            const productDetailsSection = document.getElementById('product-details');
+                fetch(`fetch_products.php?id=${productId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(
+                        product => {
+                            if (product.error) {
+                                console.error(product.error);
+                            } else {
+                                const productDetailsSection = document.getElementById('product-details');
 
-                            document.getElementById('product-image-main-container').innerHTML = `<img id="product-image-main" src="${product.img}" alt="Main Product Image">`;
+                                document.title = product.name;
 
-                            productDetailsSection.innerHTML = `
+                                document.getElementById('product-image-main-container').innerHTML = `<img id="product-image-main" src="${product.img}" alt="Main Product Image">`;
+
+                                productDetailsSection.innerHTML = `
                                     <h1 id="product-name">${product.name}</h1>
                                     <p id="product-desc">${product.description}</p>
                                     <p id="price">$${product.price}</p>
                                     <div id="colors" class="mt-3">
                                         ${product.colors.map(color => `
-                                        <button class="color-button" style="background-image: url('${color.img}');" data-image="${color.img}" title="${color.text}">
+                                        <button class="color-button" style="background-image: url('${color.color_img}');" data-image="${color.color_img}" title="${color.color_text}">
                                         </button>`).join('')}
                                     </div>
                                     <div id="sizes" class="mt-3">
-                                        ${product.sizes.map(size => `<button class="size-button">${size}</button>`).join('')}
+                                        ${product.sizes.map(size => `<button class="size-button">${size.size}</button>`).join('')}
                                     </div>`;
 
-                            const thumbnails = document.querySelectorAll('.product-thumb');
-                            const mainImage = document.getElementById('product-image-main');
+                                const thumbnails = document.querySelectorAll('.product-thumb');
+                                const mainImage = document.getElementById('product-image-main');
 
-                            thumbnails.forEach(thumbnail => {
-                                thumbnail.addEventListener('click', function () {
-                                    const newSrc = this.getAttribute('src');
-                                    mainImage.setAttribute('src', newSrc);
+                                thumbnails.forEach(thumbnail => {
+                                    thumbnail.addEventListener('click', function () {
+                                        const newSrc = this.getAttribute('src');
+                                        mainImage.setAttribute('src', newSrc);
+                                    });
                                 });
-                            });
 
-                            let selectedColor = null;
-                            let selectedSize = null;
+                                let selectedColor = null;
+                                let selectedSize = null;
 
-                            const colorButtons = document.querySelectorAll('.color-button');
-                            colorButtons.forEach(button => {
-                                button.addEventListener('click', function () {
-                                    if (selectedColor) {
-                                        selectedColor.classList.remove('selected');
+                                const colorButtons = document.querySelectorAll('.color-button');
+                                colorButtons.forEach(button => {
+                                    button.addEventListener('click', function () {
+                                        if (selectedColor) {
+                                            selectedColor.classList.remove('selected');
+                                        }
+
+                                        this.classList.add('selected');
+                                        selectedColor = this;
+
+                                        const newImageSrc = this.getAttribute('data-image');
+                                        document.getElementById('product-image-main').setAttribute('src', newImageSrc);
+                                    });
+                                });
+
+                                const sizeButtons = document.querySelectorAll('.size-button');
+                                sizeButtons.forEach(button => {
+                                    button.addEventListener('click', function () {
+                                        if (selectedSize) {
+                                            selectedSize.classList.remove('selected');
+                                        }
+
+                                        this.classList.add('selected');
+                                        selectedSize = this;
+
+                                    });
+                                });
+
+                                document.querySelector('.add-to-cart').addEventListener('click', function () {
+                                    if (!selectedColor) {
+                                        alert('Please select a color.');
+                                        return;
                                     }
 
-                                    this.classList.add('selected');
-                                    selectedColor = this;
-
-                                    const newImageSrc = this.getAttribute('data-image');
-                                    document.getElementById('product-image-main').setAttribute('src', newImageSrc);
-                                });
-                            });
-
-                            const sizeButtons = document.querySelectorAll('.size-button');
-                            sizeButtons.forEach(button => {
-                                button.addEventListener('click', function () {
-                                    if (selectedSize) {
-                                        selectedSize.classList.remove('selected');
+                                    if (!selectedSize) {
+                                        alert('Please select a size.');
+                                        return;
                                     }
 
-                                    this.classList.add('selected');
-                                    selectedSize = this;
+                                    const productId = product.id;
+                                    const color = selectedColor.getAttribute('title');
+                                    const size = selectedSize.textContent;
+                                    const quantity = parseInt(document.getElementById('quantity').value);
+                                    const price = product.price;
 
+                                    addToCart(productId, size, color, quantity, price);
                                 });
-                            });
-
-                            document.querySelector('.add-to-cart').addEventListener('click', function () {
-                                if (!selectedColor) {
-                                    alert('Please select a color.');
-                                    return;
-                                }
-
-                                if (!selectedSize) {
-                                    alert('Please select a size.');
-                                    return;
-                                }
-
-                                const productId = product.id;
-                                const color = selectedColor.getAttribute('title');
-                                const size = selectedSize.textContent;
-                                const quantity = parseInt(document.getElementById('quantity').value);
-                                const price = product.price;
-
-                                addToCart(productId, size, color, quantity, price);
-                            });
-                        }
-                    });
+                            }
+                        });
             }
 
             function generateSimilarProductHTML(product) {
