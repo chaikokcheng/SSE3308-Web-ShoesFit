@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
 
-        if (password_verify($password, $user['password'])) {
+        if ($password === $user['password']) {
             $_SESSION['user_id'] = $user['id'];
             header("Location: index.html");
             exit;
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="submit" class="btn col-12 shadow-sm" value="login" style="border-radius: 15px;" id="loginButton">
                         
 
-                        <a href="index.html"><button type="button" class="btn col-12 shadow-sm" style="border-radius: 15px;">login</button></a>
+                        <!-- <a href="index.html"><button type="button" class="btn col-12 shadow-sm" style="border-radius: 15px;">login</button></a> -->
 
                         <h6 class="text-muted text-center" style="margin-top: 20%;">Haven't registered? <a href="register.php"
                                 id="registerPage">Register</a></h6>

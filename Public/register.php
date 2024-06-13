@@ -39,9 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+        $sql = "INSERT INTO users (fname, lname, ph_num, dob, email, password, con_password) VALUES ('$fname', '$lname', '$phoneNo', '$birthDate', '$email', '$password', '$con_password')";
 
-        $sql = "INSERT INTO users (fname, lname, ph_num, dob, email, password) VALUES ('$fname', '$lname', '$phoneNo', '$birthDate', '$email', '$hashed_password')";
 
         if ($conn->query($sql) === TRUE) {
             $successMessage = "You are registered successfully.";
