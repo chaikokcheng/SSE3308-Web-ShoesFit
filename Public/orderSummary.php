@@ -29,7 +29,7 @@ $stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color
 if ($stmt->execute()) {
     $successMessage = "Order inserted successfully!";
 } else {
-    echo "Error: " . $conn->ersror;
+    echo "Error: " . $conn->error;
 }
 
 // Close statement and connection
