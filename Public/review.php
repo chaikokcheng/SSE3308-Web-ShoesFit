@@ -42,9 +42,10 @@ if ($result->num_rows == 1) {
     die("User not found.");
 }
 
-// Handle form submission for adding review
+// Handle form submission for adding review or reply
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $review_content = $conn->real_escape_string($_POST['review_content']);
+    $parent_id = isset($_POST['parent_id']) ? intval($_POST['parent_id']) : NULL;
 
     // Check if 'rating' is set in POST data
     if (isset($_POST['rating'])) {
@@ -56,9 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get current datetime in the correct timezone
     $current_datetime = date('Y-m-d H:i:s');
 
-    // Insert query for item_review including rating
-    $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created) 
-                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime')";
+    // Insert query for item_review including rating and parent_id
+    $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id) 
+                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ")";
 
     if ($conn->query($insert_sql) === TRUE) {
         $successMessage = "Review added successfully.";
@@ -68,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch reviews from item_review table
-$reviews_sql = "SELECT * FROM item_review";
+$reviews_sql = "SELECT * FROM item_review ORDER BY date_created DESC";
 $reviews_result = $conn->query($reviews_sql);
 
 // Close connection
@@ -98,6 +99,14 @@ $conn->close();
 
         .star.filled {
             color: #000;
+        }
+
+        .reply-form {
+            margin-left: 20px;
+        }
+
+        .replies {
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -133,28 +142,45 @@ $conn->close();
             <div id="review-list">
                 <?php
                 if ($reviews_result->num_rows > 0) {
+                    // Fetch all reviews
+                    $reviews = [];
                     while ($row = $reviews_result->fetch_assoc()) {
-                        echo '<div class="review card mb-3">';
-                        echo '<div class="card-body">';
-                        echo '<h5 class="card-title"><strong>' . htmlspecialchars($row['fname']) . ' ' . htmlspecialchars($row['lname']) . '</strong></h5>';
-                        if ($row['fname'] !== 'Seller') {
-                            echo '<div class="rating">';
-                            for ($i = 1; $i <= 5; $i++) {
-                                if ($i <= $row['rating']) {
-                                    echo '<i class="fas fa-star filled"></i>';
-                                } else {
-                                    echo '<i class="far fa-star"></i>';
-                                }
-                            }
-                            echo '</div>';
-                        }
-                        echo '<div class="col-auto text-right">';
-                        echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y, g:i a', strtotime($row['date_created'])) . '</small></p>'; // Format and display date and time
-                        echo '</div>';
-                        echo '<p class="card-text">' . htmlspecialchars($row['review']) . '</p>';
-                        echo '</div>';
-                        echo '</div>';
+                        $reviews[] = $row;
                     }
+                    // Function to display reviews and their replies recursively
+                    function display_reviews($reviews, $parent_id = null, $depth = 0)
+                    {
+                        foreach ($reviews as $review) {
+                            if ($review['parent_id'] == $parent_id) {
+                                echo '<div class="review card mb-3" style="margin-left: ' . (20 * $depth) . 'px;">';
+                                echo '<div class="card-body">';
+                                echo '<h5 class="card-title"><strong>' . htmlspecialchars($review['fname']) . ' ' . htmlspecialchars($review['lname']) . '</strong></h5>';
+                                // Show rating only if it's not a reply
+                                if ($review['parent_id'] === NULL && $review['fname'] !== 'Seller') {
+                                    echo '<div class="rating">';
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($i <= $review['rating']) {
+                                            echo '<i class="fas fa-star filled"></i>';
+                                        } else {
+                                            echo '<i class="far fa-star"></i>';
+                                        }
+                                    }
+                                    echo '</div>';
+                                }
+                                echo '<div class="col-auto text-right">';
+                                echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y, g:i a', strtotime($review['date_created'])) . '</small></p>';
+                                echo '</div>';
+                                echo '<p class="card-text">' . htmlspecialchars($review['review']) . '</p>';
+                                echo '<a href="#" class="reply-link" data-review-id="' . $review['id'] . '">Reply</a>';
+                                echo '</div>';
+                                // Display replies
+                                display_reviews($reviews, $review['id'], $depth + 1);
+                                echo '</div>';
+                            }
+                        }
+                    }
+                    // Display top-level reviews
+                    display_reviews($reviews);
                 } else {
                     echo '<p>No reviews yet.</p>';
                 }
@@ -185,6 +211,19 @@ $conn->close();
                 <button type="submit" class="btn btn-primary">Submit Review</button>
             </form>
         </div>
+
+        <!-- Reply Form Template -->
+        <div id="reply-form-template" style="display: none;">
+            <form class="reply-form" action="review.php" method="post">
+                <h3>Reply</h3>
+                <div class="form-group">
+                    <label for="review-content">Your Reply:</label>
+                    <textarea class="form-control" name="review_content" rows="3" required></textarea>
+                </div>
+                <input type="hidden" name="parent_id" value="">
+                <button type="submit" class="btn btn-primary">Submit Reply</button>
+            </form>
+        </div>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -211,7 +250,6 @@ $conn->close();
                 });
             }
 
-
             stars.forEach((star, index) => {
                 star.addEventListener('click', () => {
                     const rating = index + 1;
@@ -233,6 +271,19 @@ $conn->close();
                     event.preventDefault(); // Prevent form submission
                     alert('You are not allowed to submit a review with a rating.');
                 }
+            });
+
+            // Handle reply links
+            document.querySelectorAll('.reply-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const reviewId = this.getAttribute('data-review-id');
+                    const replyFormTemplate = document.querySelector('#reply-form-template').cloneNode(true);
+                    replyFormTemplate.style.display = 'block';
+                    replyFormTemplate.querySelector('input[name="parent_id"]').value = reviewId;
+                    this.parentNode.appendChild(replyFormTemplate);
+                    this.style.display = 'none'; // Hide reply link after clicking
+                });
             });
         });
     </script>
