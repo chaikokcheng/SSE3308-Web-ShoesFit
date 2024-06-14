@@ -9,6 +9,9 @@ $username = $config['username'];
 $password = $config['password'];
 $dbname = $config['dbname'];
 
+// Set timezone to Malaysia time
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -35,15 +38,14 @@ if ($result->num_rows == 1) {
     $fname = $user['fname'];
     $lname = $user['lname'];
     $email = $user['email'];
-    
 } else {
-    die("User not found."); 
+    die("User not found.");
 }
 
 // Handle form submission for adding review
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $review_content = $conn->real_escape_string($_POST['review_content']);
-    
+
     // Check if 'rating' is set in POST data
     if (isset($_POST['rating'])) {
         $rating = floatval($_POST['rating']); // Convert rating to float
@@ -51,9 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rating = null; // Set rating to null if not provided (for seller or other cases)
     }
 
+    // Get current datetime in the correct timezone
+    $current_datetime = date('Y-m-d H:i:s');
+
     // Insert query for item_review including rating
     $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created) 
-                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", NOW())";
+                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime')";
 
     if ($conn->query($insert_sql) === TRUE) {
         $successMessage = "Review added successfully.";
@@ -70,8 +75,6 @@ $reviews_result = $conn->query($reviews_sql);
 $conn->close();
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,22 +89,15 @@ $conn->close();
     <style>
         .rating {
             display: inline-block;
-            unicode-bidi: bidi-override;
-            direction: rtl;
         }
 
-        .rating .star {
-            display: inline-block;
-            padding: 5px;
+        .star {
             cursor: pointer;
+            color: #ddd;
         }
 
-        .rating .star:hover {
-            color: #ffc107; /* Change to desired hover color */
-        }
-
-        .rating .star.active {
-            color: #ffc107; /* Change to desired active color */
+        .star.filled {
+            color: #000;
         }
     </style>
 </head>
@@ -111,8 +107,7 @@ $conn->close();
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -142,19 +137,20 @@ $conn->close();
                         echo '<div class="review card mb-3">';
                         echo '<div class="card-body">';
                         echo '<h5 class="card-title"><strong>' . htmlspecialchars($row['fname']) . ' ' . htmlspecialchars($row['lname']) . '</strong></h5>';
-                        // echo '<h6 class="card-subtitle mb-2 text-muted">' . htmlspecialchars($row['email']) . '</h6>';
-                        echo '<div class="rating">';
-                        for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= $row['rating']) {
-                                echo '<i class="fas fa-star"></i>'; // Use solid star icon for filled rating
-                            } else {
-                                echo '<i class="far fa-star"></i>'; // Use outline star icon for empty rating
+                        if ($row['fname'] !== 'Seller') {
+                            echo '<div class="rating">';
+                            for ($i = 1; $i <= 5; $i++) {
+                                if ($i <= $row['rating']) {
+                                    echo '<i class="fas fa-star filled"></i>';
+                                } else {
+                                    echo '<i class="far fa-star"></i>';
+                                }
                             }
+                            echo '</div>';
                         }
-                        echo '</div>';
                         echo '<div class="col-auto text-right">';
                         echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y, g:i a', strtotime($row['date_created'])) . '</small></p>'; // Format and display date and time
-                        echo '</div>'; 
+                        echo '</div>';
                         echo '<p class="card-text">' . htmlspecialchars($row['review']) . '</p>';
                         echo '</div>';
                         echo '</div>';
@@ -169,18 +165,18 @@ $conn->close();
             <!-- Review Form -->
             <form id="review-form" action="review.php" method="post" class="mt-4">
                 <h3>Add Your Review</h3>
-                <?php if ($email !== 'seller@email.com'): ?>
-                <div class="form-group">
-                    <label for="rating">Rating:</label>
-                    <div id="rating" class="rating">
-                        <span class="star" data-rating="1"><i class="far fa-star"></i></span>
-                        <span class="star" data-rating="2"><i class="far fa-star"></i></span>
-                        <span class="star" data-rating="3"><i class="far fa-star"></i></span>
-                        <span class="star" data-rating="4"><i class="far fa-star"></i></span>
-                        <span class="star" data-rating="5"><i class="far fa-star"></i></span>
-                        <input type="hidden" name="rating" id="rating-value" required>
+                <?php if ($fname !== 'Seller') : ?>
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <div id="rating" class="rating">
+                            <span class="star" data-rating="1"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="2"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="3"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="4"><i class="far fa-star"></i></span>
+                            <span class="star" data-rating="5"><i class="far fa-star"></i></span>
+                            <input type="hidden" name="rating" id="rating-value" required>
+                        </div>
                     </div>
-                </div>
                 <?php endif; ?>
                 <div class="form-group">
                     <label for="review-content">Your Review:</label>
@@ -195,42 +191,40 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.star');
             const ratingValue = document.querySelector('#rating-value');
             const reviewForm = document.querySelector('#review-form');
             const ratingSection = document.querySelector('#rating');
 
-            // Function to set stars based on rating (from database or user click)
             function setStars(rating) {
                 stars.forEach((star, index) => {
-                    const starIndex = stars.length - index - 1; // Calculate star index from right to left
-                    if (starIndex < rating) {
-                        star.innerHTML = '<i class="fas fa-star"></i>'; // Solid star for selected rating
+                    if (index < rating) {
+                        star.querySelector('i').classList.remove('far');
+                        star.querySelector('i').classList.add('fas');
+                        star.querySelector('i').classList.add('filled');
                     } else {
-                        star.innerHTML = '<i class="far fa-star"></i>'; // Outline star for non-selected rating
+                        star.querySelector('i').classList.remove('fas');
+                        star.querySelector('i').classList.remove('filled');
+                        star.querySelector('i').classList.add('far');
                     }
                 });
             }
 
-            // Retrieve and set initial rating from database (or default to 0 if no rating)
-            const currentRating = <?php echo isset($_POST['rating']) ? json_encode($_POST['rating']) : '0'; ?>;
-            setStars(currentRating);
 
-            // Event listener for clicking on stars
             stars.forEach((star, index) => {
                 star.addEventListener('click', () => {
-                    const rating = stars.length - index; // Calculate rating from left to right
-                    ratingValue.value = rating; // Update hidden input value
+                    const rating = index + 1;
+                    ratingValue.value = rating;
 
                     setStars(rating);
                 });
             });
 
-            // Hide rating section if seller is logged in
-            const email = '<?php echo $email; ?>';
-            if (email === 'seller@email.com') {
-                ratingSection.style.display = 'none'; // Hide rating if seller is logged in
+            // Hide rating section if user's first name is Seller
+            const fname = '<?php echo $fname; ?>';
+            if (fname === 'Seller') {
+                ratingSection.style.display = 'none'; // Hide rating if user is a seller
             }
 
             // Optional: You can also prevent form submission if rating section is hidden
@@ -243,4 +237,5 @@ $conn->close();
         });
     </script>
 </body>
+
 </html>
