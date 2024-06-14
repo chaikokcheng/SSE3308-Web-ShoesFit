@@ -1,41 +1,41 @@
 <?php
-$config = require 'config.php';
+// $config = require 'config.php';
 
-$servername = $config['servername'];
-$username = $config['username'];
-$password = $config['password'];
-$dbname = $config['dbname'];
+// $servername = $config['servername'];
+// $username = $config['username'];
+// $password = $config['password'];
+// $dbname = $config['dbname'];
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// // Check connection
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 
-// Retrieve data from POST
-$orderNumber = $conn->real_escape_string($_POST['orderNumber']);
-$productName = $_POST['productName'];
-$quantity = $_POST['quantity'];
-$size = $_POST['size'];
-$color = $_POST['color'];
-$totalPrice = $_POST['totalPrice'];
+// // Retrieve data from POST
+// $orderNumber = $conn->real_escape_string($_POST['orderNumber']);
+// $productName = $_POST['productName'];
+// $quantity = $_POST['quantity'];
+// $size = $_POST['size'];
+// $color = $_POST['color'];
+// $totalPrice = $_POST['totalPrice'];
 
-// Prepare SQL statement
-$stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
+// // Prepare SQL statement
+// $stmt = $conn->prepare("INSERT INTO order_history (order_number, product_name, quantity, size, color, total_price) VALUES (?, ?, ?, ?, ?, ?)");
+// $stmt->bind_param("ssisss", $orderNumber, $productName, $quantity, $size, $color, $totalPrice);
 
-//Execute the statement
-if ($stmt->execute()) {
-    $successMessage = "Order inserted successfully!";
-} else {
-    echo "Error: " . $conn->error;
-}
+// //Execute the statement
+// if ($stmt->execute()) {
+//     $successMessage = "Order inserted successfully!";
+// } else {
+//     echo "Error: " . $conn->error;
+// }
 
-// Close statement and connection
-$stmt->close();
-$conn->close();
-?>
+// // Close statement and connection
+// $stmt->close();
+// $conn->close();
+// ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -155,11 +155,12 @@ $conn->close();
         <input type="hidden" id="size" name="size">
         <input type="hidden" id="color" name="color">
         <input type="hidden" id="totalPriceInput" name="totalPrice">
+
         <div class="col-md-11 col-12 mx-auto mb-lg-0 mb-5 orderedItems">
             <h1>ORDERED ITEMS</h1>
             <section id="orderedSection"></section>
-
         </div>
+
     </form>
     
     <div id="messages">
@@ -173,6 +174,7 @@ $conn->close();
             </div>
         <?php endif; ?>
     </div>
+
     <div class="container py-5">
         <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
     </div>
@@ -280,19 +282,19 @@ $conn->close();
                         productAmt.innerText = total.toFixed(2);
                         totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
-                        // Populate form hidden inputs with final data
-                        document.getElementById("productName").value = cart[0].productName; // Assuming you store product name in cart
-                        document.getElementById("quantity").value = cart[0].quantity; // Assuming you store quantity in cart
-                        document.getElementById("size").value = cart[0].size; // Assuming you store size in cart
-                        document.getElementById("color").value = cart[0].color; // Assuming you store color in cart
-                        document.getElementById("totalPriceInput").value = (total + 10).toFixed(2); // Total price with shipping
+                        // // Populate form hidden inputs with final data
+                        // document.getElementById("productName").value = cart[0].productName; // Assuming you store product name in cart
+                        // document.getElementById("quantity").value = cart[0].quantity; // Assuming you store quantity in cart
+                        // document.getElementById("size").value = cart[0].size; // Assuming you store size in cart
+                        // document.getElementById("color").value = cart[0].color; // Assuming you store color in cart
+                        // document.getElementById("totalPriceInput").value = (total + 10).toFixed(2); // Total price with shipping
 
-                        // Automatically submit the form
-                        document.getElementById("orderForm").submit();
+                        // // Automatically submit the form
+                        // document.getElementById("orderForm").submit();
                     })
-                    .catch(error => {
-                        console.error('Error fetching products:', error);
-                    })
+                    // .catch(error => {
+                    //     console.error('Error fetching products:', error);
+                    // })
             }
 
         });
