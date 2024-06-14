@@ -461,7 +461,7 @@ h6 {
 .sidebar a {
     padding: 22px 20px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 18px;
     color: #ffffff;
     display: block;
     transition: 0.3s;
@@ -479,7 +479,7 @@ h6 {
 
 #closebtn span {
     margin-right: 110px;
-    font-size: 16px;  
+    font-size: 12px;  
 }
 
 #logout {
