@@ -83,11 +83,13 @@
             object-fit: cover;
             height: 120px;
         }
-        #review{
+
+        #review {
             text-decoration: none;
             color: white;
         }
-        #review:hover{
+
+        #review:hover {
             color: black;
         }
     </style>
@@ -123,10 +125,6 @@
         <div id="product-section" class="container py-5">
             <div class="row">
                 <div id="product-images" class="col-2">
-                    <img class="d-block w-100 product-thumb" src="images/sportNIkeDunkLow.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportAdidasOriginalsHB.png">
-                    <img class="d-block w-100 product-thumb" src="images/sportNB530.png" alt="Image 3">
-                    <img class="d-block w-100 product-thumb" src="images/heelJCAziaPump75.png">
                 </div>
                 <div id="product-image-main-container" class="col-6">
                 </div>
@@ -150,9 +148,9 @@
             </div>
         </div>
 
-        
+
         <div style="align-items: center;padding-bottom: 3%;">
-        <button type="button" class="btn btn-primary"><a href="review.php"id="review">Rate A Review</a></button>
+            <button type="button" class="btn btn-primary"><a href="review.php" id="review">Rate A Review</a></button>
         </div>
         <hr>
         <div id="similar-products-section" class="container mt-5 pb-5">
@@ -199,6 +197,14 @@
                             if (product.error) {
                                 console.error(product.error);
                             } else {
+
+                                const productImagesSection = document.getElementById('product-images');
+                                productImagesSection.innerHTML = `
+                                    <img class="d-block w-100 product-thumb" src="${product.images[0].image}">
+                                    <img class="d-block w-100 product-thumb" src="${product.images[1].image}">
+                                    <img class="d-block w-100 product-thumb" src="${product.images[2].image}">
+                                    <img class="d-block w-100 product-thumb" src="${product.images[3].image}">`;
+
                                 const productDetailsSection = document.getElementById('product-details');
 
                                 document.title = product.name;
@@ -359,8 +365,8 @@
                 quantityInput.value = currentValue + 1;
             });
 
-});
-    
+        });
+
     </script>
 </body>
 
