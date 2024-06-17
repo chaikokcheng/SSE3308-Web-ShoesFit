@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-// Check if user is logged in
+
 if (!isset($_SESSION['email'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
+    header('Location: login.php'); 
     exit();
 }
 
-// Database configuration
+
 $config = require 'config.php';
 
 $servername = $config['servername'];
@@ -15,17 +15,17 @@ $username = $config['username'];
 $password = $config['password'];
 $dbname = $config['dbname'];
 
-// Create connection
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 $email = $_SESSION['email'];
 
-// Fetch user data based on email
+
 $sql = "SELECT * FROM users WHERE email = '$email'";
 $result = $conn->query($sql);
 
@@ -36,28 +36,33 @@ if ($result->num_rows == 1) {
     $phoneNo = $user['ph_num'];
     $birthDate = $user['dob'];
 } else {
-    die("User not found."); // Handle case where user is not found, although it should ideally not happen
+    die("User not found."); 
 }
 
-// Handle form submission for updating profile
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and escape inputs
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+    
     $fname = $conn->real_escape_string($_POST['fname']);
     $lname = $conn->real_escape_string($_POST['lname']);
     $phoneNo = $conn->real_escape_string($_POST['phoneNo']);
     $birthDate = $conn->real_escape_string($_POST['birthDate']);
 
-    // Update query
+   
     $update_sql = "UPDATE users SET fname = '$fname', lname = '$lname', ph_num = '$phoneNo', dob = '$birthDate' WHERE email = '$email'";
 
     if ($conn->query($update_sql) === TRUE) {
-        $successMessage = "Profile updated successfully.";
+        $_SESSION['successMessage'] = "Profile updated successfully.";
+        header('Location: profile.php');
+        exit();
     } else {
         $errorMessage = "Error updating profile: " . $conn->error;
     }
 }
 
-// Close connection
+
+$isEdit = isset($_GET['edit']) ? true : false;
+
+
 $conn->close();
 ?>
 
@@ -108,9 +113,12 @@ $conn->close();
             <div class="alert alert-danger text-center">
                 <?php echo $errorMessage; ?>
             </div>
-        <?php elseif (isset($successMessage)) : ?>
+        <?php elseif (isset($_SESSION['successMessage'])) : ?>
             <div class="alert alert-success text-center">
-                <?php echo  $successMessage; ?>
+                <?php 
+                    echo $_SESSION['successMessage']; 
+                    unset($_SESSION['successMessage']);
+                ?>
             </div>
         <?php endif; ?>
     </div>
@@ -121,31 +129,35 @@ $conn->close();
                 <img src="images/profile_pic.jpg" class="rounded-circle shadow-4" style="width: 200px;" alt="Avatar" />
             </div>
             <div class="col-8">
-                <form action="profile.php" method="post">
+                <form action="profile.php?edit=1" method="post">
                     <div class="row gy-2 overflow-hidden">
                         <div class="col-12">
                             <div class="row">
                                 <div class="form-floating mb-3 col-6">
                                     <label for="fname" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" name="fname" id="fname" required>
+                                    <input type="text" class="form-control" name="fname" id="fname" value="<?php echo htmlspecialchars($fname); ?>" <?php echo $isEdit ? '' : 'readonly'; ?> required>
                                 </div>
                                 <div class="form-floating mb-3 col-6">
                                     <label for="lname" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" name="lname" id="lname" required>
+                                    <input type="text" class="form-control" name="lname" id="lname" value="<?php echo htmlspecialchars($lname); ?>" <?php echo $isEdit ? '' : 'readonly'; ?> required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-floating mb-3 col-6">
                                     <label for="phoneNo" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" name="phoneNo" id="phoneNo" required>
+                                    <input type="tel" class="form-control" name="phoneNo" id="phoneNo" value="<?php echo htmlspecialchars($phoneNo); ?>" <?php echo $isEdit ? '' : 'readonly'; ?> required>
                                 </div>
                                 <div class="form-floating mb-3 col-6">
                                     <label for="birthDate" class="form-label">Date of Birth (dd/mm/yyyy)</label>
-                                    <input type="date" class="form-control" name="birthDate" id="birthDate" required>
+                                    <input type="date" class="form-control" name="birthDate" id="birthDate" value="<?php echo htmlspecialchars($birthDate); ?>" <?php echo $isEdit ? '' : 'readonly'; ?> required>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-secondary">Update Information</button>
+                            <?php if ($isEdit) : ?>
+                                <button type="submit" name="update" class="btn btn-secondary">Update Information</button>
+                            <?php else : ?>
+                                <a href="profile.php?edit=1" class="btn btn-primary">Edit Profile</a>
+                            <?php endif; ?>
                         </div>
                 </form>
             </div>
