@@ -1,7 +1,13 @@
 <?php
 session_start();
 
-// Database configuration
+
+if (!isset($_SESSION['email'])) {
+    header('Location: login.php'); 
+    exit();
+}
+
+
 $config = require 'config.php';
 
 $servername = $config['servername'];
@@ -15,17 +21,12 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Initialize variables
-$fname = '';
-$lname = '';
-$email = '';
-$successMessage = '';
-$errorMessage = '';
+$email = $_SESSION['email'];
 
 // Fetch user data based on session email
 if (isset($_SESSION['email'])) {
@@ -86,6 +87,7 @@ $conn->close();
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="main.css">
     <style>
         .rating {
@@ -127,7 +129,7 @@ $conn->close();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" title="User Profile">
+                    <a class="nav-link" title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
