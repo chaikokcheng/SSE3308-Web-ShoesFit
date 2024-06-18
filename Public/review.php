@@ -32,39 +32,49 @@ if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
-}
-if ($result->num_rows == 1) {
-    $user = $result->fetch_assoc();
-    $fname = $user['fname'];
-    $lname = $user['lname'];
-    $email = $user['email'];
-} else {
-    die("User not found.");
+    if ($result->num_rows == 1) {
+        $user = $result->fetch_assoc();
+        $fname = $user['fname'];
+        $lname = $user['lname'];
+        $email = $user['email'];
+    } else {
+        die("User not found.");
+    }
 }
 
 // Handle form submission for adding review or reply
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['review_content'])) {
     $review_content = $conn->real_escape_string($_POST['review_content']);
     $parent_id = isset($_POST['parent_id']) ? intval($_POST['parent_id']) : NULL;
 
-    // Check if 'rating' is set in POST data
     if (isset($_POST['rating'])) {
         $rating = floatval($_POST['rating']); // Convert rating to float
     } else {
         $rating = null; // Set rating to null if not provided (for seller or other cases)
     }
 
-    // Get current datetime in the correct timezone
     $current_datetime = date('Y-m-d H:i:s');
 
-    // Insert query for item_review including rating and parent_id
-    $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id) 
-                   VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ")";
+    if (isset($_POST['edit_review_id'])) {
+        // Update existing review
+        $edit_review_id = intval($_POST['edit_review_id']);
+        $update_sql = "UPDATE item_review SET review = '$review_content', rating = " . ($rating !== null ? "'$rating'" : "NULL") . ", date_created = '$current_datetime' WHERE id = '$edit_review_id' AND email = '$email'";
 
-    if ($conn->query($insert_sql) === TRUE) {
-        $successMessage = "Review added successfully.";
+        if ($conn->query($update_sql) === TRUE) {
+            $successMessage = "Review updated successfully.";
+        } else {
+            $errorMessage = "Error updating review: " . $conn->error;
+        }
     } else {
-        $errorMessage = "Error adding review: " . $conn->error;
+        // Insert new review
+        $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id) 
+                       VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ")";
+
+        if ($conn->query($insert_sql) === TRUE) {
+            $successMessage = "Review added successfully.";
+        } else {
+            $errorMessage = "Error adding review: " . $conn->error;
+        }
     }
 }
 
@@ -150,12 +160,12 @@ $conn->close();
                     // Function to display reviews and their replies recursively
                     function display_reviews($reviews, $parent_id = null, $depth = 0)
                     {
+                        global $email;
                         foreach ($reviews as $review) {
                             if ($review['parent_id'] == $parent_id) {
                                 echo '<div class="review card mb-3" style="margin-left: ' . (20 * $depth) . 'px;">';
                                 echo '<div class="card-body">';
                                 echo '<h5 class="card-title"><strong>' . htmlspecialchars($review['fname']) . ' ' . htmlspecialchars($review['lname']) . '</strong></h5>';
-                                // Show rating only if it's not a reply
                                 if ($review['parent_id'] === NULL && $review['fname'] !== 'Seller') {
                                     echo '<div class="rating">';
                                     for ($i = 1; $i <= 5; $i++) {
@@ -171,15 +181,16 @@ $conn->close();
                                 echo '<p class="card-text"><small class="text-muted">Posted on ' . date('F j, Y, g:i a', strtotime($review['date_created'])) . '</small></p>';
                                 echo '</div>';
                                 echo '<p class="card-text">' . htmlspecialchars($review['review']) . '</p>';
+                                if ($review['email'] == $email) {
+                                    echo '<a href="#" class="edit-link" data-review-id="' . $review['id'] . '">Edit</a> | ';
+                                }
                                 echo '<a href="#" class="reply-link" data-review-id="' . $review['id'] . '">Reply</a>';
                                 echo '</div>';
-                                // Display replies
                                 display_reviews($reviews, $review['id'], $depth + 1);
                                 echo '</div>';
                             }
                         }
                     }
-                    // Display top-level reviews
                     display_reviews($reviews);
                 } else {
                     echo '<p>No reviews yet.</p>';
@@ -209,6 +220,7 @@ $conn->close();
                     <textarea class="form-control" id="review-content" name="review_content" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Review</button>
+                <input type="hidden" name="edit_review_id" id="edit-review-id" value="">
             </form>
         </div>
 
@@ -259,21 +271,18 @@ $conn->close();
                 });
             });
 
-            // Hide rating section if user's first name is Seller
             const fname = '<?php echo $fname; ?>';
             if (fname === 'Seller') {
                 ratingSection.style.display = 'none'; // Hide rating if user is a seller
             }
 
-            // Optional: You can also prevent form submission if rating section is hidden
             reviewForm.addEventListener('submit', function(event) {
                 if (ratingSection.style.display === 'none') {
-                    event.preventDefault(); // Prevent form submission
+                    event.preventDefault();
                     alert('You are not allowed to submit a review with a rating.');
                 }
             });
 
-            // Handle reply links
             document.querySelectorAll('.reply-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -283,6 +292,19 @@ $conn->close();
                     replyFormTemplate.querySelector('input[name="parent_id"]').value = reviewId;
                     this.parentNode.appendChild(replyFormTemplate);
                     this.style.display = 'none'; // Hide reply link after clicking
+                });
+            });
+
+            document.querySelectorAll('.edit-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const reviewId = this.getAttribute('data-review-id');
+                    const reviewContent = this.parentNode.querySelector('.card-text').textContent;
+
+                    document.querySelector('#review-content').value = reviewContent;
+                    document.querySelector('#edit-review-id').value = reviewId;
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             });
         });
