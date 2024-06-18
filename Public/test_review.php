@@ -232,13 +232,21 @@ $conn->close();
                 <input type="hidden" name="edit_review_id" id="edit-review-id" value="">
             </form>
         </div>
+
+        <div id="reply-form-template" style="display: none;">
+            <form class="reply-form" action="review.php" method="post">
+                <h3>Reply</h3>
+                <div class="form-group">
+                    <label for="review-content">Your Reply:</label>
+                    <textarea class="form-control" name="review_content" rows="3" required></textarea>
+                </div>
+                <input type="hidden" name="parent_id" value="">
+                <button type="submit" class="btn btn-primary">Submit Reply</button>
+            </form>
+        </div>
     </main>
 
-    <footer class="bg-light text-center text-lg-start">
-        <div class="text-center p-3">
-            © 2023 ShoesFit. All rights reserved.
-        </div>
-    </footer>
+   
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -268,9 +276,11 @@ $conn->close();
                     event.preventDefault();
                     const reviewId = this.getAttribute('data-review-id');
                     const reviewText = this.closest('.card-body').querySelector('.card-text').innerText;
+                    const reviewDate = this.closest('.card-body').querySelector('.text-muted').innerText;
                     const ratingValue = this.closest('.card-body').querySelector('.filled') ? this.closest('.card-body').querySelectorAll('.filled').length : 0;
 
                     document.getElementById('review-content').value = reviewText;
+                    document.getElementById('review-content').placeholder = reviewDate;
                     document.getElementById('edit-review-id').value = reviewId;
                     document.getElementById('review-form-title').innerText = 'Edit Your Review';
                     if (ratingValue) {
@@ -284,7 +294,10 @@ $conn->close();
                     }
 
                     // Scroll to the review form
-                    document.getElementById('review-form').scrollIntoView({ behavior: 'smooth' });
+                    window.scrollTo({
+                        top: document.getElementById('review-form').offsetTop,
+                        behavior: 'smooth'
+                    });
                 });
             });
 
@@ -315,20 +328,18 @@ $conn->close();
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
                     const reviewId = this.getAttribute('data-review-id');
-                    const reviewForm = document.getElementById('review-form');
-                    const clonedForm = reviewForm.cloneNode(true);
-                    clonedForm.classList.add('reply-form');
-                    clonedForm.querySelector('h3').innerText = 'Reply to Review';
-                    clonedForm.querySelector('button').innerText = 'Submit Reply';
-                    clonedForm.querySelector('#edit-review-id').remove();
-                    const parentIdInput = document.createElement('input');
-                    parentIdInput.type = 'hidden';
-                    parentIdInput.name = 'parent_id';
-                    parentIdInput.value = reviewId;
-                    clonedForm.appendChild(parentIdInput);
-                    this.closest('.card').appendChild(clonedForm);
-                    this.style.display = 'none';
+                    const replyFormTemplate = document.querySelector('#reply-form-template').cloneNode(true);
+                    replyFormTemplate.style.display = 'block';
+                    replyFormTemplate.querySelector('input[name="parent_id"]').value = reviewId;
+                    this.parentNode.appendChild(replyFormTemplate);
+                    this.style.display = 'none'; // Hide reply link after clicking
                 });
+            });
+            
+            document.getElementById('review-content').addEventListener('focus', function() {
+                if (this.placeholder === this.value) {
+                    this.value = '';
+                }
             });
         });
     </script>
