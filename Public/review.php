@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Database configuration
 $config = require 'config.php';
 
 $servername = $config['servername'];
@@ -9,25 +8,20 @@ $username = $config['username'];
 $password = $config['password'];
 $dbname = $config['dbname'];
 
-// Set timezone to Malaysia time
 date_default_timezone_set('Asia/Kuala_Lumpur');
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Initialize variables
 $fname = '';
 $lname = '';
 $email = '';
 $successMessage = '';
 $errorMessage = '';
 
-// Fetch user data based on session email
 if (isset($_SESSION['email'])) {
     $email = $_SESSION['email'];
     $sql = "SELECT * FROM users WHERE email = '$email'";
@@ -42,10 +36,9 @@ if (isset($_SESSION['email'])) {
     }
 }
 
-// Retrieve product ID from query parameter (make sure to sanitize this)
 $productId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-// Fetch product details
+
 $product = null;
 if ($productId) {
     $product_sql = "SELECT * FROM products WHERE id = $productId";
@@ -57,7 +50,6 @@ if ($productId) {
     }
 }
 
-// Handle form submission for adding/editing/deleting review or reply
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['review_content'])) {
         $review_content = $conn->real_escape_string($_POST['review_content']);
@@ -67,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $current_datetime = date('Y-m-d H:i:s');
 
         if (isset($_POST['edit_review_id']) && !empty($_POST['edit_review_id'])) {
-            // Update existing review
             $edit_review_id = intval($_POST['edit_review_id']);
             $update_sql = "UPDATE item_review SET review = '$review_content', rating = " . ($rating !== null ? "'$rating'" : "NULL") . ", date_created = '$current_datetime' WHERE id = '$edit_review_id' AND email = '$email'";
 
@@ -77,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errorMessage = "Error updating review: " . $conn->error;
             }
         } else {
-            // Insert new review
             $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id, product_id) 
                            VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ", '$product_id')";
 
@@ -88,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     } elseif (isset($_POST['delete_review_id'])) {
-        // Handle review deletion
         $delete_review_id = intval($_POST['delete_review_id']);
         $delete_sql = "DELETE FROM item_review WHERE id = '$delete_review_id' AND email = '$email'";
 
@@ -100,11 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Fetch reviews from item_review table for the specific product
 $reviews_sql = "SELECT * FROM item_review WHERE product_id = $productId ORDER BY date_created DESC";
 $reviews_result = $conn->query($reviews_sql);
 
-// Close connection
 $conn->close();
 ?>
 
@@ -156,11 +143,12 @@ $conn->close();
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">        
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -171,7 +159,7 @@ $conn->close();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" title="User Profile">
+                    <a class="nav-link"  title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -188,16 +176,16 @@ $conn->close();
                 <h2 style="padding-bottom: 3%;">Product Reviews</h2>
             <?php endif; ?>
 
-            <!-- Display existing reviews -->
+
             <div id="review-list">
                 <?php
                 if ($reviews_result->num_rows > 0) {
-                    // Fetch all reviews
+
                     $reviews = [];
                     while ($row = $reviews_result->fetch_assoc()) {
                         $reviews[] = $row;
                     }
-                    // Function to display reviews and their replies recursively
+
                     function display_reviews($reviews, $parent_id = null, $depth = 0)
                     {
                         global $email;
@@ -206,7 +194,7 @@ $conn->close();
                                 echo '<div class="review card mb-3" style="margin-left: ' . (20 * $depth) . 'px;">';
                                 echo '<div class="card-body">';
                                 echo '<h5 class="card-title"><strong>' . htmlspecialchars($review['fname']) . ' ' . htmlspecialchars($review['lname']) . '</strong></h5>';
-                                // Show rating only if it's not a reply
+
                                 if ($review['parent_id'] === NULL && $review['fname'] !== 'Seller') {
                                     echo '<div class="rating">';
                                     for ($i = 1; $i <= 5; $i++) {
@@ -228,13 +216,12 @@ $conn->close();
                                 }
                                 echo '<a href="#" class="reply-link" data-review-id="' . $review['id'] . '">Reply</a>';
                                 echo '</div>';
-                                // Display replies
+
                                 display_reviews($reviews, $review['id'], $depth + 1);
                                 echo '</div>';
                             }
                         }
                     }
-                    // Display top-level reviews
                     display_reviews($reviews);
                 } else {
                     echo '<p>No reviews yet.</p>';
@@ -243,7 +230,6 @@ $conn->close();
             </div>
             <hr>
 
-            <!-- Review Form -->
             <form id="review-form" action="review.php?id=<?php echo $productId; ?>" method="post" class="mt-4">
                 <h3 id="review-form-title">Add Your Review</h3>
                 <?php if ($fname !== 'Seller') : ?>
@@ -269,7 +255,6 @@ $conn->close();
             </form>
         </div>
 
-        <!-- Reply Form Template -->
         <div id="reply-form-template" style="display: none;">
             <form class="reply-form" action="review.php?id=<?php echo $productId; ?>" method="post">
                 <h3>Reply</h3>
@@ -283,13 +268,19 @@ $conn->close();
             </form>
         </div>
     </main>
+    <div id="sidebar" class="sidebar">
+        <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
+        <a href="profile.php" id="profile">Profile</a>
+        <a href="orderHistory.php"id="orderHistory">Order History</a>
+        <a href="login.php" id="logout"><span>LOGOUT</span></a>
+    </div>
 
+    <br><br>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle star rating selection
             document.querySelectorAll('.star').forEach(star => {
                 star.addEventListener('click', function() {
                     const ratingValue = this.getAttribute('data-rating');
@@ -306,7 +297,6 @@ $conn->close();
                 });
             });
 
-            // Handle edit review
             document.querySelectorAll('.edit-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -318,7 +308,6 @@ $conn->close();
                     document.getElementById('edit-review-id').value = reviewId;
                     document.getElementById('review-form-title').innerText = 'Edit Your Review';
 
-                    // Set the star rating
                     document.querySelectorAll('.star').forEach(star => {
                         star.classList.remove('filled');
                     });
@@ -327,7 +316,6 @@ $conn->close();
                     }
                     document.getElementById('rating-value').value = reviewRating;
 
-                    // Scroll to the review form
                     window.scrollTo({
                         top: document.getElementById('review-form').offsetTop,
                         behavior: 'smooth'
@@ -335,7 +323,6 @@ $conn->close();
                 });
             });
 
-            // Handle delete review
             document.querySelectorAll('.delete-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -344,14 +331,12 @@ $conn->close();
                         $.post('review.php?id=<?php echo $productId; ?>', {
                             delete_review_id: reviewId
                         }, function(response) {
-                            // Reload the reviews section after deletion
                             location.reload();
                         });
                     }
                 });
             });
 
-            // Handle reply to review
             document.querySelectorAll('.reply-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -360,10 +345,22 @@ $conn->close();
                     replyFormTemplate.style.display = 'block';
                     replyFormTemplate.querySelector('input[name="parent_id"]').value = reviewId;
                     this.parentNode.appendChild(replyFormTemplate);
-                    this.style.display = 'none'; // Hide reply link after clicking
+                    this.style.display = 'none';
                 });
             });
         });
+        document.getElementById("profile-icon").onclick = function () {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.width === "200px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "200px";
+        }
+    }
+
+    document.getElementById("closebtn").onclick = function () {
+        document.getElementById("sidebar").style.width = "0";
+    }
     </script>
 </body>
 

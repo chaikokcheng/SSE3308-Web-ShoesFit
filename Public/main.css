@@ -455,7 +455,7 @@ h6 {
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;
-    z-index: 1030; /* Ensure sidebar appears on top */
+    z-index: 1030; 
 }
 
 .sidebar a {

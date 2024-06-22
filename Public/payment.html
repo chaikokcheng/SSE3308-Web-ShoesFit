@@ -15,9 +15,7 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">        
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
@@ -33,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" title="User Profile">
+                    <a class="nav-link"  title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -223,18 +221,6 @@
             <div class="col-md-5">
                 <h3>YOUR CART</h3>
                 <section id="cartSection"></section>
-                <!-- <div class="order-border">
-                    <img src="images/sportNIkeDunkLow.png" alt="Product Image" class="shoeImage-size">
-                    <div class="order-details">
-                        <h6>NIKE</h6>
-                        <p class="shoe-name">Dunk Low Retro - Black</p>
-                        <div class="cart-text">
-                            <p>Price: $ 110.00</p>
-                            <p>Qty: 1</p>
-                            <p>Size: US 5</p>
-                        </div>
-                    </div>
-                </div> -->
                 <br>
                 <button type="btn" class="cart-btn" data-bs-toggle="modal" data-bs-target="codeModal">USE A PROMO
                     CODE</button>
@@ -310,7 +296,14 @@
             </div>
         </div>
     </div>
+    <div id="sidebar" class="sidebar">
+        <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
+        <a href="profile.php" id="profile">Profile</a>
+        <a href="orderHistory.php"id="orderHistory">Order History</a>
+        <a href="login.php" id="logout"><span>LOGOUT</span></a>
+    </div>
 
+    <br><br>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -363,6 +356,18 @@
             }
 
         });
+        document.getElementById("profile-icon").onclick = function () {
+        var sidebar = document.getElementById("sidebar");
+        if (sidebar.style.width === "200px") {
+            sidebar.style.width = "0";
+        } else {
+            sidebar.style.width = "200px";
+        }
+        }
+
+        document.getElementById("closebtn").onclick = function () {
+            document.getElementById("sidebar").style.width = "0";
+        }
     </script>
 
 </body>
