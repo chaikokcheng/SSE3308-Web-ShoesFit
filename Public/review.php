@@ -99,11 +99,7 @@
 
                 // Display product name and image
                 echo "<h2>{$product['name']}</h2>";
-                echo "<img src='{$product['img']}' alt='{$product['name']}' class='img-fluid'>";
-
-                // Display existing review functionality
-                // Example:
-                echo "<div>Existing review functionality</div>";
+                echo "<img src='{$product['img']}' alt='{$product['name']}' class='img-fluid'><br><br>";
 
                 // Example: Display reviews for this product from 'item_review' table
                 $reviews_sql = "SELECT ir.*, u.fname, u.lname FROM item_review ir 
