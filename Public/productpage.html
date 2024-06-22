@@ -148,10 +148,8 @@
             </div>
         </div>
 
-
         <div style="align-items: center;padding-bottom: 3%;">
-            <!-- <button type="button" class="btn btn-primary"><a href="review.php" id="review">Rate A Review</a></button> -->
-                         <button type="button" class="btn btn-primary" onclick="window.location.href='review.php?id=${product.id}'">Rate A Review</button>
+            <button type="button" class="btn btn-primary" id="review-button">Rate A Review</button>
         </div>
         <hr>
         <div id="similar-products-section" class="container mt-5 pb-5">
@@ -170,7 +168,7 @@
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="main.js"></script>
@@ -198,7 +196,6 @@
                             if (product.error) {
                                 console.error(product.error);
                             } else {
-
                                 const productImagesSection = document.getElementById('product-images');
                                 productImagesSection.innerHTML = `
                                     <img class="d-block w-100 product-thumb" src="${product.images[0].image}">
@@ -262,7 +259,6 @@
 
                                         this.classList.add('selected');
                                         selectedSize = this;
-
                                     });
                                 });
 
@@ -284,6 +280,10 @@
                                     const price = product.price;
 
                                     addToCart(productId, size, color, quantity, price);
+                                });
+                                const reviewButton = document.getElementById('review-button');
+                                reviewButton.addEventListener('click', function () {
+                                    window.location.href = `review.php?id=${productId}`;
                                 });
                             }
                         });
@@ -367,7 +367,6 @@
             });
 
         });
-
     </script>
 </body>
 
