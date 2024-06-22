@@ -42,44 +42,52 @@ if (isset($_SESSION['email'])) {
     }
 }
 
-// Handle form submission for adding review or reply
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['review_content'])) {
-    $review_content = $conn->real_escape_string($_POST['review_content']);
-    $parent_id = isset($_POST['parent_id']) ? intval($_POST['parent_id']) : NULL;
+// Handle form submission for adding/editing/deleting review or reply
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['review_content'])) {
+        $review_content = $conn->real_escape_string($_POST['review_content']);
+        $parent_id = isset($_POST['parent_id']) ? intval($_POST['parent_id']) : NULL;
+        $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : NULL;
+        $current_datetime = date('Y-m-d H:i:s');
 
-    if (isset($_POST['rating'])) {
-        $rating = floatval($_POST['rating']); // Convert rating to float
-    } else {
-        $rating = null; // Set rating to null if not provided (for seller or other cases)
-    }
+        if (isset($_POST['edit_review_id']) && !empty($_POST['edit_review_id'])) {
+            // Update existing review
+            $edit_review_id = intval($_POST['edit_review_id']);
+            $update_sql = "UPDATE item_review SET review = '$review_content', rating = " . ($rating !== null ? "'$rating'" : "NULL") . ", date_created = '$current_datetime' WHERE id = '$edit_review_id' AND email = '$email'";
 
-    $current_datetime = date('Y-m-d H:i:s');
-
-    if (isset($_POST['edit_review_id'])) {
-        // Update existing review
-        $edit_review_id = intval($_POST['edit_review_id']);
-        $update_sql = "UPDATE item_review SET review = '$review_content', rating = " . ($rating !== null ? "'$rating'" : "NULL") . ", date_created = '$current_datetime' WHERE id = '$edit_review_id' AND email = '$email'";
-
-        if ($conn->query($update_sql) === TRUE) {
-            $successMessage = "Review updated successfully.";
+            if ($conn->query($update_sql) === TRUE) {
+                $successMessage = "Review updated successfully.";
+            } else {
+                $errorMessage = "Error updating review: " . $conn->error;
+            }
         } else {
-            $errorMessage = "Error updating review: " . $conn->error;
+            // Insert new review
+            $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id) 
+                           VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ")";
+
+            if ($conn->query($insert_sql) === TRUE) {
+                $successMessage = "Review added successfully.";
+            } else {
+                $errorMessage = "Error adding review: " . $conn->error;
+            }
         }
-    } else {
-        // Insert new review
-        $insert_sql = "INSERT INTO item_review (fname, lname, email, review, rating, date_created, parent_id) 
-                       VALUES ('$fname', '$lname', '$email', '$review_content', " . ($rating !== null ? "'$rating'" : "NULL") . ", '$current_datetime', " . ($parent_id !== null ? "'$parent_id'" : "NULL") . ")";
+    } elseif (isset($_POST['delete_review_id'])) {
+        // Handle review deletion
+        $delete_review_id = intval($_POST['delete_review_id']);
+        $delete_sql = "DELETE FROM item_review WHERE id = '$delete_review_id' AND email = '$email'";
 
-        if ($conn->query($insert_sql) === TRUE) {
-            $successMessage = "Review added successfully.";
+        if ($conn->query($delete_sql) === TRUE) {
+            $successMessage = "Review deleted successfully.";
         } else {
-            $errorMessage = "Error adding review: " . $conn->error;
+            $errorMessage = "Error deleting review: " . $conn->error;
         }
     }
 }
 
 // Fetch reviews from item_review table
-$reviews_sql = "SELECT * FROM item_review ORDER BY date_created DESC";
+$reviews_sql = "SELECT ir.*, u.fname, u.lname FROM item_review ir 
+                JOIN users u ON ir.email = u.email 
+                ORDER BY ir.date_created DESC";
 $reviews_result = $conn->query($reviews_sql);
 
 // Close connection
@@ -183,6 +191,7 @@ $conn->close();
                                 echo '<p class="card-text">' . htmlspecialchars($review['review']) . '</p>';
                                 if ($review['email'] == $email) {
                                     echo '<a href="#" class="edit-link" data-review-id="' . $review['id'] . '">Edit</a> | ';
+                                    echo '<a href="#" class="delete-link" data-review-id="' . $review['id'] . '">Delete</a> | ';
                                 }
                                 echo '<a href="#" class="reply-link" data-review-id="' . $review['id'] . '">Reply</a>';
                                 echo '</div>';
@@ -201,7 +210,7 @@ $conn->close();
 
             <!-- Review Form -->
             <form id="review-form" action="review.php" method="post" class="mt-4">
-                <h3>Add Your Review</h3>
+                <h3 id="review-form-title">Add Your Review</h3>
                 <?php if ($fname !== 'Seller') : ?>
                     <div class="form-group">
                         <label for="rating">Rating:</label>
@@ -224,7 +233,6 @@ $conn->close();
             </form>
         </div>
 
-        <!-- Reply Form Template -->
         <div id="reply-form-template" style="display: none;">
             <form class="reply-form" action="review.php" method="post">
                 <h3>Reply</h3>
@@ -238,51 +246,84 @@ $conn->close();
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star');
-            const ratingValue = document.querySelector('#rating-value');
-            const reviewForm = document.querySelector('#review-form');
-            const ratingSection = document.querySelector('#rating');
-
-            function setStars(rating) {
-                stars.forEach((star, index) => {
-                    if (index < rating) {
-                        star.querySelector('i').classList.remove('far');
-                        star.querySelector('i').classList.add('fas');
-                        star.querySelector('i').classList.add('filled');
-                    } else {
-                        star.querySelector('i').classList.remove('fas');
-                        star.querySelector('i').classList.remove('filled');
-                        star.querySelector('i').classList.add('far');
+            // Handle star rating selection
+            document.querySelectorAll('.star').forEach(star => {
+                star.addEventListener('click', function() {
+                    const ratingValue = this.getAttribute('data-rating');
+                    document.getElementById('rating-value').value = ratingValue;
+                    document.querySelectorAll('.star').forEach(s => {
+                        s.classList.remove('filled');
+                    });
+                    this.classList.add('filled');
+                    let previousSibling = this.previousElementSibling;
+                    while (previousSibling) {
+                        previousSibling.classList.add('filled');
+                        previousSibling = previousSibling.previousElementSibling;
                     }
                 });
-            }
+            });
 
-            stars.forEach((star, index) => {
-                star.addEventListener('click', () => {
-                    const rating = index + 1;
-                    ratingValue.value = rating;
+            // Handle edit review
+            document.querySelectorAll('.edit-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const reviewId = this.getAttribute('data-review-id');
+                    const reviewText = this.closest('.card-body').querySelector('.card-text').innerText;
+                    const reviewDate = this.closest('.card-body').querySelector('.text-muted').innerText;
+                    const ratingValue = this.closest('.card-body').querySelector('.filled') ? this.closest('.card-body').querySelectorAll('.filled').length : 0;
 
-                    setStars(rating);
+                    document.getElementById('review-content').value = reviewText;
+                    document.getElementById('review-content').placeholder = reviewDate;
+                    document.getElementById('edit-review-id').value = reviewId;
+                    document.getElementById('review-form-title').innerText = 'Edit Your Review';
+                    if (ratingValue) {
+                        document.getElementById('rating-value').value = ratingValue;
+                        document.querySelectorAll('.star').forEach(s => {
+                            s.classList.remove('filled');
+                        });
+                        for (let i = 1; i <= ratingValue; i++) {
+                            document.querySelector(`.star[data-rating="${i}"]`).classList.add('filled');
+                        }
+                    }
+
+                    // Scroll to the review form
+                    window.scrollTo({
+                        top: document.getElementById('review-form').offsetTop,
+                        behavior: 'smooth'
+                    });
                 });
             });
 
-            const fname = '<?php echo $fname; ?>';
-            if (fname === 'Seller') {
-                ratingSection.style.display = 'none'; // Hide rating if user is a seller
-            }
-
-            reviewForm.addEventListener('submit', function(event) {
-                if (ratingSection.style.display === 'none') {
+            // Handle delete review
+            document.querySelectorAll('.delete-link').forEach(link => {
+                link.addEventListener('click', function(event) {
                     event.preventDefault();
-                    alert('You are not allowed to submit a review with a rating.');
-                }
+                    const reviewId = this.getAttribute('data-review-id');
+                    if (confirm('Are you sure you want to delete this review?')) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = 'review.php';
+
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'delete_review_id';
+                        input.value = reviewId;
+
+                        form.appendChild(input);
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
             });
 
+            // Handle reply to review
             document.querySelectorAll('.reply-link').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
@@ -294,18 +335,11 @@ $conn->close();
                     this.style.display = 'none'; // Hide reply link after clicking
                 });
             });
-
-            document.querySelectorAll('.edit-link').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const reviewId = this.getAttribute('data-review-id');
-                    const reviewContent = this.parentNode.querySelector('.card-text').textContent;
-
-                    document.querySelector('#review-content').value = reviewContent;
-                    document.querySelector('#edit-review-id').value = reviewId;
-
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
+            
+            document.getElementById('review-content').addEventListener('focus', function() {
+                if (this.placeholder === this.value) {
+                    this.value = '';
+                }
             });
         });
     </script>
