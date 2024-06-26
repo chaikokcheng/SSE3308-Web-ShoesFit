@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-8 col-sm-10 mx-auto pt-2 ">
 
                         
-                        <input type="submit" class="btn col-12 shadow-sm" value="login" style="border-radius: 15px;" id="loginButton">
+                        <input type="submit" class="btn col-12 shadow-sm" value="Login" style="border-radius: 15px;" id="loginButton">
                         
 
                         <!-- <a href="index.html"><button type="button" class="btn col-12 shadow-sm" style="border-radius: 15px;">login</button></a> -->

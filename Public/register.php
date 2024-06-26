@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-8 col-sm-10 mx-auto pt-2 ">
 
-                        <input type="submit" class="btn col-12 shadow-sm" value="register"
+                        <input type="submit" class="btn col-12 shadow-sm" value="Register"
                             style="border-radius: 15px;" id="registerButton">
 
                         <h6 class="text-muted text-center" style="margin-top: 20%;">Already have an account? <a
