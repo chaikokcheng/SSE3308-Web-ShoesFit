@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
-    color: #333;
+    background-color: #ee0909; 
+    color: #333; 
 }
 
 .navbar {
@@ -51,49 +51,55 @@ body {
     transform: scale(1.05);
 }
 
-.cart-btn {
+.cart-btn{
     background-color: black;
     border-color: black;
     color: white;
 }
 
-.cart-btn:hover {
+.cart-btn:hover  {
     background-color: lightgray;
     border-color: black;
-    color: black;
+    color: black; 
 }
 
 .cart-btn:active {
     border-color: gray !important;
-    background-color: gray !important;
+    background-color: gray !important; 
     box-shadow: 0 0 5px gray !important;
 }
 
 
 .navbar-brand img {
-    height: 30px;
+    height: 30px; 
     margin-bottom: 10px;
-    vertical-align: middle;
+    vertical-align: middle; 
     transition: transform 0.3s ease-in-out;
 }
 
 .navbar-brand:hover img {
-    transform: scale(1.05);
+    transform: scale(1.05); 
+}
+
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
 }
 
 .main_cart {
     background: #fff;
 }
 
-.multi_select_box {
-    width: 200px;
+.multi_select_box{
+    width:200px;
 }
 
-.multi_select_box select {
+.multi_select_box select{
     width: 40%;
 }
 
-.multi_select_box button {
+.multi_select_box button{
     background-color: darkblue;
     color: #fff;
     padding: 15px 25px;
@@ -160,7 +166,7 @@ body {
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;
-    z-index: 1030;
+    z-index: 1030; 
 }
 
 .sidebar a {
@@ -172,13 +178,24 @@ body {
     transition: 0.3s;
 }
 
-.sidebar a#profile:hover,
-.sidebar a#orderHistory:hover,
-.sidebar a#logout:hover {
+.sidebar a#profile:hover, .sidebar a#orderHistory:hover, .sidebar a#logout:hover {
     color: #000000;
     background-color: #ffffff;
 }
 
-.card:hover {
-    transform: none !important;
+.closebtn {
+    position: absolute;
+    top: 0; 
+}
+
+#closebtn span {
+    margin-right: 110px;
+    font-size: 12px;  
+}
+
+#logout {
+    position: absolute;
+    font-size: 16px;
+    bottom: 15px;
+    width: 100%;
 }
