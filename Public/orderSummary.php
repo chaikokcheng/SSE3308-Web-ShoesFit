@@ -13,6 +13,8 @@ $username = $config['username'];
 $password = $config['password'];
 $dbname = $config['dbname'];
 
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
@@ -40,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($data['cart'], $data['totalPrice'])) {
         $cart = $data['cart'];
         $totalPrice = $data['totalPrice'];
-        $orderDate = date('Y-m-d');
+        $orderDate = date('Y-m-d H:i:s');
 
         // Insert the order into the ORDERS table
         $insertOrderSql = "INSERT INTO orders (cust_email, order_date, total_amount) VALUES (?, ?, ?)";
@@ -96,9 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error preparing order insert statement: " . $conn->error;
         }
-    } else {
-        echo "Invalid cart data.";
-        file_put_contents('debug.log', "Invalid cart data: " . print_r($data, true), FILE_APPEND);
     }
 }
 
@@ -116,7 +115,7 @@ $conn->close();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="orderSummary.css">
+    <link rel="stylesheet" type="text/css" href="summaryStyle.css">
 </head>
 
 <body>
@@ -231,38 +230,25 @@ $conn->close();
         <input type="hidden" name="size" id="size">
         <input type="hidden" name="color" id="color">
         <input type="hidden" name="totalPrice" id="totalPrice">
-
-        <!-- <div class="container py-5">
-            <a href="orderHistory.php"><button type="submit" name="viewHistory" id="historyBtn" class="btn btn-primary btn-sm pull-left">View Your Order History</button>
-        </div></a> -->
     </form>
 
     <div class="container py-5">
         <button type="button" , id="printBtn" class="btn btn-primary btn-sm pull-left">Print Your Order</button>
     </div>
 
-    <!-- <div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar">
         <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
         <a href="profile.php" id="profile">Profile</a>
-        <a href="orderHistory.php" id="orderHistory">Order History</a>
+        <a href="orderHistory.php"id="orderHistory">Order History</a>
         <a href="login.php" id="logout"><span>LOGOUT</span></a>
-    </div> -->
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // function generateOrderNumber() {
-        //     var orderNumber = Math.floor(Math.random() * 1000000);
-        //     return orderNumber;
-        // }
-
         document.addEventListener("DOMContentLoaded", function() {
-            // var orderNumber = generateOrderNumber();
-
-            // document.getElementById("orderNumber").value = orderNumber;
-
             const streetAddress = localStorage.getItem("streetAddress");
             const city = localStorage.getItem("city");
             const state = localStorage.getItem("state");
@@ -385,7 +371,7 @@ $conn->close();
         });
     </script>
 
-    <!-- <script>
+    <script>
         document.getElementById("profile-icon").onclick = function() {
             var sidebar = document.getElementById("sidebar");
             if (sidebar.style.width === "200px") {
@@ -398,7 +384,7 @@ $conn->close();
         document.getElementById("closebtn").onclick = function() {
             document.getElementById("sidebar").style.width = "0";
         }
-    </script> -->
+    </script>
 
 
 </body>
