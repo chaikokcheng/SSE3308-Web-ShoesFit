@@ -19,9 +19,10 @@ $email = $_SESSION['email'];
 // Retrieve order history
 $sql = "SELECT o.order_id, o.order_date, od.qty, od.order_price, p.name, p.img 
         FROM orders o 
-        JOIN orders_details od ON o.order_id = od.order_id 
+        JOIN orders_detail od ON o.order_id = od.order_id 
         JOIN products p ON od.product_id = p.id 
         WHERE o.cust_email = '$email'";
+
 $result = $conn->query($sql);
 
 $orders = [];

@@ -232,9 +232,9 @@ $conn->close();
         <input type="hidden" name="color" id="color">
         <input type="hidden" name="totalPrice" id="totalPrice">
 
-        <div class="container py-5">
+        <!-- <div class="container py-5">
             <a href="orderHistory.php"><button type="submit" name="viewHistory" id="historyBtn" class="btn btn-primary btn-sm pull-left">View Your Order History</button>
-        </div></a>
+        </div></a> -->
     </form>
 
     <div class="container py-5">
