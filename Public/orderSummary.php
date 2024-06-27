@@ -33,63 +33,75 @@ if (isset($_SESSION['email'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $productId = isset($_POST['productId']) ? intval($_POST['productId']) : NULL;
-    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : NULL;
-    $size = $conn->real_escape_string($_POST['size']);
-    $color = $conn->real_escape_string($_POST['color']);
-    $totalPrice = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : NULL;
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    // Insert the order into the ORDERS table
-    $orderDate = date('Y-m-d');
-    $insertOrderSql = "INSERT INTO orders (cust_email, order_date, total_amount) VALUES (?, ?, ?)";
-    $insertOrderStmt = $conn->prepare($insertOrderSql);
-    if ($insertOrderStmt) {
-        $insertOrderStmt->bind_param("ssd", $email, $orderDate, $totalPrice);
-        if ($insertOrderStmt->execute()) {
-            $orderId = $insertOrderStmt->insert_id;
+    file_put_contents('debug.log', print_r($data, true), FILE_APPEND);
 
-            // Fetch product details from the products table
-            $sql = "SELECT * FROM products WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            if ($stmt) {
-                $stmt->bind_param("i", $productId);
-                $stmt->execute();
-                $result = $stmt->get_result();
+    if (isset($data['cart'], $data['totalPrice'])) {
+        $cart = $data['cart'];
+        $totalPrice = $data['totalPrice'];
+        $orderDate = date('Y-m-d');
 
-                if ($result->num_rows > 0) {
-                    $product = $result->fetch_assoc();
+        // Insert the order into the ORDERS table
+        $insertOrderSql = "INSERT INTO orders (cust_email, order_date, total_amount) VALUES (?, ?, ?)";
+        $insertOrderStmt = $conn->prepare($insertOrderSql);
+        if ($insertOrderStmt) {
+            $insertOrderStmt->bind_param("ssd", $email, $orderDate, $totalPrice);
+            if ($insertOrderStmt->execute()) {
+                $orderId = $insertOrderStmt->insert_id;
 
-                    // Insert the order details into the orders_details table
-                    $insertOrderDetailSql = "INSERT INTO orders_details (order_id, product_id, qty, order_price) VALUES (?, ?, ?, ?)";
-                    $insertOrderDetailStmt = $conn->prepare($insertOrderDetailSql);
-                    if ($insertOrderDetailStmt) {
-                        $orderPrice = $product['price'];
-                        $insertOrderDetailStmt->bind_param("iiid", $orderId, $productId, $quantity, $orderPrice);
-                        if ($insertOrderDetailStmt->execute()) {
-                            echo "Order details inserted successfully.";
+                foreach ($cart as $item) {
+                    $productId = intval($item['productId']);
+                    $quantity = intval($item['quantity']);
+                    $size = $conn->real_escape_string($item['size']);
+                    $color = $conn->real_escape_string($item['color']);
+
+                    // Fetch product details from the products table
+                    $sql = "SELECT * FROM products WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    if ($stmt) {
+                        $stmt->bind_param("i", $productId);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        if ($result->num_rows > 0) {
+                            $product = $result->fetch_assoc();
+                            $orderPrice = $product['price'];
+
+                            // Insert the order details into the orders_details table
+                            $insertOrderDetailSql = "INSERT INTO orders_detail (order_id, product_id, qty, order_price, color, size) VALUES (?, ?, ?, ?, ?, ?)";
+                            $insertOrderDetailStmt = $conn->prepare($insertOrderDetailSql);
+                            if ($insertOrderDetailStmt) {
+                                $insertOrderDetailStmt->bind_param("iiidss", $orderId, $productId, $quantity, $orderPrice, $color, $size);
+                                if (!$insertOrderDetailStmt->execute()) {
+                                    echo "Error inserting order details: " . $insertOrderDetailStmt->error;
+                                }
+                                $insertOrderDetailStmt->close();
+                            } else {
+                                echo "Error preparing order detail insert statement: " . $conn->error;
+                            }
                         } else {
-                            echo "Error inserting order details: " . $insertOrderDetailStmt->error;
+                            echo "Product not found.";
                         }
-                        $insertOrderDetailStmt->close();
+                        $stmt->close();
                     } else {
-                        echo "Error preparing order detail insert statement: " . $conn->error;
+                        echo "Error preparing select statement: " . $conn->error;
                     }
-                } else {
-                    echo "Product not found.";
                 }
-                $stmt->close();
+                echo "Order details inserted successfully.";
             } else {
-                echo "Error preparing select statement: " . $conn->error;
+                echo "Error inserting order: " . $insertOrderStmt->error;
             }
+            $insertOrderStmt->close();
         } else {
-            echo "Error inserting order: " . $insertOrderStmt->error;
+            echo "Error preparing order insert statement: " . $conn->error;
         }
-        $insertOrderStmt->close();
     } else {
-        echo "Error preparing order insert statement: " . $conn->error;
+        echo "Invalid cart data.";
+        file_put_contents('debug.log', "Invalid cart data: " . print_r($data, true), FILE_APPEND);
     }
 }
+
 
 $conn->close();
 ?>
@@ -343,8 +355,26 @@ $conn->close();
                             document.getElementById("size").value = cart[0].size;
                             document.getElementById("color").value = cart[0].color;
                             document.getElementById("totalPrice").value = (total + 10).toFixed(2);
-                            // document.getElementById("orderNumber").innerText = Math.floor(Math.random() * 1000000);
                         }
+
+                        // Send the cart data to the server
+                        fetch('orderSummary.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    cart: cart,
+                                    totalPrice: (total + shippingCharge).toFixed(2)
+                                })
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                console.log(data);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
