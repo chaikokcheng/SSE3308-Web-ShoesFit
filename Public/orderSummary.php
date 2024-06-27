@@ -33,47 +33,61 @@ if (isset($_SESSION['email'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // var_dump($_POST);
-
-    $productId =  isset($_POST['productId']) ? intval($_POST['productId']) : NULL;
-    $productName = $conn->real_escape_string($_POST['productName']);
+    
+    $productId = isset($_POST['productId']) ? intval($_POST['productId']) : NULL;
     $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : NULL;
     $size = $conn->real_escape_string($_POST['size']);
     $color = $conn->real_escape_string($_POST['color']);
     $totalPrice = isset($_POST['totalPrice']) ? floatval($_POST['totalPrice']) : NULL;
-    // $orderNumber = isset($_POST['orderNumber']) ? intval($_POST['orderNumber']) : NULL;
 
-    // Fetch product details from the products table
-    $sql = "SELECT * FROM products WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("i", $productId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    // Insert the order into the ORDERS table
+    $orderDate = date('Y-m-d');
+    $insertOrderSql = "INSERT INTO orders (cust_email, order_date, total_amount) VALUES (?, ?, ?)";
+    $insertOrderStmt = $conn->prepare($insertOrderSql);
+    if ($insertOrderStmt) {
+        $insertOrderStmt->bind_param("ssd", $email, $orderDate, $totalPrice);
+        if ($insertOrderStmt->execute()) {
+            $orderId = $insertOrderStmt->insert_id;
 
-        if ($result->num_rows > 0) {
-            $product = $result->fetch_assoc();
+            // Fetch product details from the products table
+            $sql = "SELECT * FROM products WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("i", $productId);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-            // Insert the product details into the order_history table
-            $insertSql = "INSERT INTO order_history (product_id, name, price, img, quantity, size, color, total, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $insertStmt = $conn->prepare($insertSql);
-            if ($insertStmt) {
-                $insertStmt->bind_param("isdsissds", $product['id'], $product['name'], $product['price'], $product['img'], $quantity, $size, $color, $totalPrice, $email);
-                if ($insertStmt->execute()) {
-                    echo "Order details inserted successfully.";
+                if ($result->num_rows > 0) {
+                    $product = $result->fetch_assoc();
+
+                    // Insert the order details into the orders_details table
+                    $insertOrderDetailSql = "INSERT INTO orders_details (order_id, product_id, qty, order_price) VALUES (?, ?, ?, ?)";
+                    $insertOrderDetailStmt = $conn->prepare($insertOrderDetailSql);
+                    if ($insertOrderDetailStmt) {
+                        $orderPrice = $product['price'];
+                        $insertOrderDetailStmt->bind_param("iiid", $orderId, $productId, $quantity, $orderPrice);
+                        if ($insertOrderDetailStmt->execute()) {
+                            echo "Order details inserted successfully.";
+                        } else {
+                            echo "Error inserting order details: " . $insertOrderDetailStmt->error;
+                        }
+                        $insertOrderDetailStmt->close();
+                    } else {
+                        echo "Error preparing order detail insert statement: " . $conn->error;
+                    }
                 } else {
-                    echo "Error inserting order details: " . $insertStmt->error;
+                    echo "Product not found.";
                 }
-                $insertStmt->close();
+                $stmt->close();
             } else {
-                echo "Error preparing insert statement: " . $conn->error;
+                echo "Error preparing select statement: " . $conn->error;
             }
         } else {
-            echo "Product not found.";
+            echo "Error inserting order: " . $insertOrderStmt->error;
         }
-        $stmt->close();
+        $insertOrderStmt->close();
     } else {
-        echo "Error preparing select statement: " . $conn->error;
+        echo "Error preparing order insert statement: " . $conn->error;
     }
 }
 

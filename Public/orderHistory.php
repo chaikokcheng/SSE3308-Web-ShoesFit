@@ -17,7 +17,11 @@ if ($conn->connect_error) {
 $email = $_SESSION['email'];
 
 // Retrieve order history
-$sql = "SELECT * FROM order_history WHERE email = '$email'";
+$sql = "SELECT o.order_id, o.order_date, od.qty, od.order_price, p.name, p.img 
+        FROM orders o 
+        JOIN orders_details od ON o.order_id = od.order_id 
+        JOIN products p ON od.product_id = p.id 
+        WHERE o.cust_email = '$email'";
 $result = $conn->query($sql);
 
 $orders = [];
@@ -57,7 +61,6 @@ $conn->close();
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
@@ -89,22 +92,20 @@ $conn->close();
                         <div class="col-4">
                             <img src="<?php echo htmlspecialchars($order['img']); ?>" alt="<?php echo htmlspecialchars($order['name']); ?>" class="product-img">
                         </div>
-                        <div class="col-6 ">
+                        <div class="col-6">
                             <div class="card-body">
                                 <h5 class="card-title">Order Number: <?php echo htmlspecialchars($order['order_id']); ?></h5>
                                 <p class="card-text">Product Name: <?php echo htmlspecialchars($order['name']); ?></p>
-                                <p class="card-text">Quantity: <?php echo htmlspecialchars($order['quantity']); ?></p>
-                                <p class="card-text">Size: <?php echo htmlspecialchars($order['size']); ?></p>
-                                <p class="card-text">Color: <?php echo htmlspecialchars($order['color']); ?></p>
-                                <p class="card-text">Price: $<?php echo htmlspecialchars($order['price']); ?></p>
-                                <p class="card-text">Total Price: $<?php echo htmlspecialchars($order['total']); ?></p>
+                                <p class="card-text">Quantity: <?php echo htmlspecialchars($order['qty']); ?></p>
+                                <p class="card-text">Price per Item: $<?php echo htmlspecialchars($order['order_price']); ?></p>
+                                <p class="card-text">Order Date: <?php echo htmlspecialchars($order['order_date']); ?></p>
+                                <p class="card-text">Total Price: $<?php echo htmlspecialchars($order['qty'] * $order['order_price']); ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         <?php } ?>
-    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
