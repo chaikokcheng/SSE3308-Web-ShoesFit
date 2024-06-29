@@ -143,12 +143,11 @@ $conn->close();
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">        
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -159,7 +158,7 @@ $conn->close();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  title="User Profile" id="profile-icon">
+                    <a class="nav-link" title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -271,7 +270,7 @@ $conn->close();
     <div id="sidebar" class="sidebar">
         <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
         <a href="profile.php" id="profile">Profile</a>
-        <a href="orderHistory.php"id="orderHistory">Order History</a>
+        <a href="orderHistory.php" id="orderHistory">Order History</a>
         <a href="login.php" id="logout"><span>LOGOUT</span></a>
     </div>
 
@@ -349,18 +348,18 @@ $conn->close();
                 });
             });
         });
-        document.getElementById("profile-icon").onclick = function () {
-        var sidebar = document.getElementById("sidebar");
-        if (sidebar.style.width === "200px") {
-            sidebar.style.width = "0";
-        } else {
-            sidebar.style.width = "200px";
+        document.getElementById("profile-icon").onclick = function() {
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "200px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "200px";
+            }
         }
-    }
 
-    document.getElementById("closebtn").onclick = function () {
-        document.getElementById("sidebar").style.width = "0";
-    }
+        document.getElementById("closebtn").onclick = function() {
+            document.getElementById("sidebar").style.width = "0";
+        }
     </script>
 </body>
 
