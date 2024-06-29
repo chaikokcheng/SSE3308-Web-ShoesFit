@@ -11,11 +11,11 @@
         rel="stylesheet">
 
 
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">        
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  title="User Profile" id="profile-icon">
+                    <a class="nav-link" title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -299,7 +299,7 @@
     <div id="sidebar" class="sidebar">
         <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
         <a href="profile.php" id="profile">Profile</a>
-        <a href="orderHistory.php"id="orderHistory">Order History</a>
+        <a href="orderHistory.php" id="orderHistory">Order History</a>
         <a href="login.php" id="logout"><span>LOGOUT</span></a>
     </div>
 
@@ -324,45 +324,37 @@
             if (cart.length === 0) {
                 cartSection.innerHTML = '<p>Your cart is empty.</p>';
             } else {
-                fetch('products.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const cartHTML = cart.map(cartItem => {
-                            const product = data.products.find(p => p.id === cartItem.productId);
-                            if (product) {
-                                total += product.price * cartItem.quantity;
-                                return `
-                                <div class="order-border" data-id="${product.id}">
-                    <img src="${product.img}" alt="${product.name}" class="shoeImage-size">
+                const cartHTML = cart.map(cartItem => {
+                    total += cartItem.price * cartItem.quantity;
+                    return `
+                                <div class="order-border" data-id="${cartItem.id}">
+                    <img src="${cartItem.img}" alt="${cartItem.name}" class="shoeImage-size">
                     <div class="order-details">
-                        <h6 style="font-size: 18px;">${product.name}</h6>
+                        <h6 style="font-size: 18px;">${cartItem.name}</h6>
                         <p class="shoe-colour">${cartItem.color}</p>
                         <div class="cart-text">
-                            <p>Price: $ ${product.price}</p>
+                            <p>Price: $ ${cartItem.price}</p>
                             <p>Qty: ${cartItem.quantity}</p>
                             <p>Size: ${cartItem.size}</p>
                         </div>
                     </div>
                 </div>
-                        `;
-                            }
-                            return '';
-                        }).join('');
+                        `
+                }).join('');
 
-                        cartSection.innerHTML = cartHTML;
-                        productAmt.innerText = total.toFixed(2);
-                        totalPrice.innerText = (total + shippingCharge).toFixed(2);
-                    });
+                cartSection.innerHTML = cartHTML;
+                productAmt.innerText = total.toFixed(2);
+                totalPrice.innerText = (total + shippingCharge).toFixed(2);
             }
-
         });
+
         document.getElementById("profile-icon").onclick = function () {
-        var sidebar = document.getElementById("sidebar");
-        if (sidebar.style.width === "200px") {
-            sidebar.style.width = "0";
-        } else {
-            sidebar.style.width = "200px";
-        }
+            var sidebar = document.getElementById("sidebar");
+            if (sidebar.style.width === "200px") {
+                sidebar.style.width = "0";
+            } else {
+                sidebar.style.width = "200px";
+            }
         }
 
         document.getElementById("closebtn").onclick = function () {

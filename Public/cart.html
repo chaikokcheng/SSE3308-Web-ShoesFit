@@ -14,12 +14,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="cartStyle.css">
+    <link rel="stylesheet" type="text/css" href="styles/cartStyle.css">
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">        
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">
             <img src="images/shoesfitlogo.jpg" alt="ShoesFit Logo" style="height: 50px; margin-right: 10px;">ShoesFit
         </a>
@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  title="User Profile" id="profile-icon">
+                    <a class="nav-link" title="User Profile" id="profile-icon">
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
@@ -102,7 +102,7 @@
     <div id="sidebar" class="sidebar">
         <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
         <a href="profile.php" id="profile">Profile</a>
-        <a href="orderHistory.php"id="orderHistory">Order History</a>
+        <a href="orderHistory.php" id="orderHistory">Order History</a>
         <a href="login.php" id="logout"><span>LOGOUT</span></a>
     </div>
 
@@ -115,7 +115,7 @@
 
     <script src="main.js"></script>
     <script>
-        
+
         const decreaseNumber = (id, incdec, itemprice) => {
             const itemval = document.getElementById(incdec);
             const itempriceElement = document.getElementById(itemprice);
@@ -177,14 +177,13 @@
             console.log("Change variation");
             changeVariationRunning = true;
             let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            console.log("Cart before variation change:", cart);
+            console.log("Cart before change:", cart);
 
             const currentIndex = cart.findIndex(item => item.id == itemId);
 
             console.log("Current Index:", currentIndex);
             console.log("New Size:", newSize);
             console.log("New Color:", newColor);
-            console.log("Cart:", cart);
 
             if (currentIndex === -1) {
                 console.log("Item not found in cart.");
@@ -192,33 +191,42 @@
                 return;
             }
 
-            const newItemId = `${cart[currentIndex].productId}_${newSize}_${newColor}`.trim();
-            cart[currentIndex].size = newSize;
-            cart[currentIndex].color = newColor;
+            fetch(`fetch_details.php?id=${cart[currentIndex].productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    if (!product) {
+                        console.error("Product details not found.");
+                        changeVariationRunning = false;
+                        return;
+                    }
 
-            console.log("New Item Id:", newItemId);
+                    const newItemId = `${cart[currentIndex].productId}_${newSize}_${newColor}`.trim();
 
-            const existingItemIndex = cart.findIndex(item => item.id === newItemId);
+                    const existingItemIndex = cart.findIndex(item => item.id === newItemId);
 
-            if (existingItemIndex !== -1 && existingItemIndex !== currentIndex) {
-                console.log("Exist");
-                const newItemQuantity = cart[currentIndex].quantity + cart[existingItemIndex].quantity;
-                cart[existingItemIndex].quantity = newItemQuantity;
-                cart.splice(currentIndex, 1);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                location.reload();
-            } else {
-                console.log("Doesn't exist");
-                const itempriceElement = document.getElementById(`textbox${newItemId}`);
-                if (itempriceElement) {
-                    itempriceElement.innerHTML = (parseFloat(cart[currentIndex].productId.price) * parseInt(cart[currentIndex].quantity)).toFixed(2);
-                }
-
-                addToCart(cart[currentIndex].productId, newSize, newColor, cart[currentIndex].quantity, cart[currentIndex].price);
-                removeFromCart(itemId);
-                console.log("Cart after variation change:", cart);
-                changeVariationRunning = false;
-            }
+                    if (existingItemIndex !== -1 && existingItemIndex !== currentIndex) {
+                        console.log("Existing item found in cart.");
+                        const newItemQuantity = cart[currentIndex].quantity + cart[existingItemIndex].quantity;
+                        cart[existingItemIndex].quantity = newItemQuantity;
+                        cart.splice(currentIndex, 1);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        location.reload(); 
+                    } else {
+                        console.log("New variation added to cart.");
+                        const itempriceElement = document.getElementById(`textbox${newItemId}`);
+                        if (itempriceElement) {
+                            itempriceElement.innerHTML = (parseFloat(cart[currentIndex].price) * parseInt(cart[currentIndex].quantity)).toFixed(2);
+                        }                        
+                        const newImg = product.colors.find(c => c.color_text === newColor)?.color_img;
+                        addToCart(cart[currentIndex].productId, product.name, newSize, newColor, cart[currentIndex].quantity, cart[currentIndex].price, newImg);
+                        removeFromCart(itemId);
+                    }
+                    changeVariationRunning = false;
+                })
+                .catch(error => {
+                    console.error("Error fetching product details:", error);
+                    changeVariationRunning = false;
+                });
 
         }, 300);
 
@@ -227,7 +235,6 @@
         function onChangeVariation(itemId, newSize, newColor) {
             const cardElement = $(`[data-id="${itemId}"]`);
             const updatedItemId = cardElement.data('id');
-            console.log("UPDATED ITEM ID: " + updatedItemId);
             changeVariation(updatedItemId, newSize, newColor);
         }
 
@@ -260,152 +267,155 @@
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
             } else {
-                fetch('products.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const cartHTML = cart.map(cartItem => {
-                            const product = data.products.find(p => p.id === cartItem.productId);
+                let total = 0;
+
+                const fetchPromises = cart.map(cartItem => {
+                    console.log(cart);
+                    return fetch(`fetch_details.php?id=${cartItem.productId}`)
+                        .then(response => response.json())
+                        .then(product => {
                             if (product) {
-                                total += product.price * cartItem.quantity;
+                                total += cartItem.price * cartItem.quantity;
                                 return `
-                            <div class="card p-4 shadow" data-id="${cartItem.id}">
-                                <div class="row">
-                                    <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
-                                        <img src="${product.img}" class="img-fluid" alt="${product.name}">
-                                    </div>
-                                    <div class="col-md-7 col-12 mx-auto px-4 mt-2">
-                                        <div class="row">
-                                            <div class="col-8 card-body">
-                                                <h5 class="mb-3 card-title text-align-left">${product.name}</h5>
-                                                <div class="multi_select_box mb-2">
-                                                    <select class="multi_select selectpicker w-100" multiple data-live-search="true" title="Select Size">
-                                                    <optgroup label="Sizes">${product.sizes.map(size => `
-                                                       <option data-category="size" ${size === cartItem.size ? 'selected' : ''}>${size}
-                                                       </option>`).join('')}
+                        <div class="card p-4 shadow" data-id="${cartItem.id}">
+                            <div class="row">
+                                <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                                    <img src="${cartItem.img}" class="img-fluid" alt="${cartItem.name}">
+                                </div>
+                                <div class="col-md-7 col-12 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <div class="col-8 card-body">
+                                            <h5 class="mb-3 card-title text-align-left">${cartItem.name}</h5>
+                                            <div class="multi_select_box mb-2">
+                                                <select class="multi_select selectpicker w-100" multiple data-live-search="true" title="Select Size">
+                                                    <optgroup label="Sizes">
+                                                        ${product.sizes.map(size => `
+                                                            <option data-category="size" ${size.size === cartItem.size ? 'selected' : ''}>${size.size}</option>`).join('')}
                                                     </optgroup>
-                                                    <optgroup label="Colors">${product.colors.map(color => `
-                                                       <option data-category="color" ${color.color_text === cartItem.color ? 'selected' : ''}>
-                                                        ${color.color_text}
-                                                        </option>`).join('')}
+                                                    <optgroup label="Colors">
+                                                        ${product.colors.map(color => `
+                                                            <option data-category="color" ${color.color_text === cartItem.color ? 'selected' : ''}>${color.color_text}</option>`).join('')}
                                                     </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-4">
-                                                <ul class="pagination justify-content-end set_quantity">
-                                                    <li class="page-item">
-                                                        <button class="page-link" onclick="decreaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                    </li>
-                                                    <li class="page-item">
-                                                        <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
-                                                    </li>
-                                                    <li class="page-item">
-                                                        <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </li>
-                                                </ul>
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-8 d-flex justify-content-between remove">
-                                                <p class="remove-item-btn" data-id="${cartItem.id}"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
-                                            </div>
-                                            <div class="col-4 d-flex justify-content-end price_money">
-                                                <h3>$<span id="itemval${cartItem.id}">${(product.price * cartItem.quantity).toFixed(2)}</span></h3>
-                                            </div>
+                                        <div class="col-4">
+                                            <ul class="pagination justify-content-end set_quantity">
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="decreaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <input type="text" name="" class="page-link" value="${cartItem.quantity}" id="textbox${cartItem.id}" data-price="${product.price}">
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="increaseNumber('${cartItem.id}', 'textbox${cartItem.id}','itemval${cartItem.id}')">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-between remove">
+                                            <p class="remove-item-btn" data-id="${cartItem.id}"><i class="fas fa-trash-alt"></i> REMOVE ITEM</p>
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <h3>$<span id="itemval${cartItem.id}">${(cartItem.price * cartItem.quantity).toFixed(2)}</span></h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        `;
+                        </div>
+                    `;
                             }
                             return '';
-                        }).join('');
-
-                        cartItemsContainer.innerHTML = cartHTML;
-                        productTotalAmt.innerText = total.toFixed(2);
-                        totalCartAmt.innerText = (total + shippingCharge).toFixed(2);
-
-                        $('.selectpicker').selectpicker();
-
-                        $('.multi_select').on('changed.bs.select', function () {
-                            const selectPicker = $(this);
-
-                            selectPicker.find('option').each(function () {
-                                $(this).on('click', function () {
-                                    const selectedSize = selectPicker.find('option[data-category="size"]:selected').text().trim();
-                                    const selectedColor = selectPicker.find('option[data-category="color"]:selected').text().trim();
-                                    const itemId = selectPicker.closest('.card').data('id');
-                                    onChangeVariation(itemId, selectedSize, selectedColor);
-                                });
-                            });
                         });
-                        $(document).ready(function () {
-                            function showErrorAndRestore(selectPicker, clickedOption) {
-                                Swal.fire({
-                                    title: 'Selection Error',
-                                    text: 'Please select at least one size and one color.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    clickedOption.prop('selected', true);
-                                    selectPicker.selectpicker('refresh');
-                                });
-                            }
+                });
 
-                            $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected) {
-                                const selectPicker = $(this);
-                                const clickedOption = selectPicker.find('option').eq(clickedIndex);
-                                const category = clickedOption.data('category');
+                Promise.all(fetchPromises).then(cartHTMLArray => {
+                    const cartHTML = cartHTMLArray.join('');
+                    cartItemsContainer.innerHTML = cartHTML;
+                    productTotalAmt.innerText = total.toFixed(2);
+                    totalCartAmt.innerText = (total + shippingCharge).toFixed(2);
 
-                                if (isSelected) {
-                                    if (category === 'size') {
-                                        selectPicker.find('option[data-category="size"]').not(clickedOption).prop('selected', false);
-                                    } else if (category === 'color') {
-                                        selectPicker.find('option[data-category="color"]').not(clickedOption).prop('selected', false);
-                                    }
-                                }
+                    $('.selectpicker').selectpicker();
 
-                                selectPicker.selectpicker('refresh');
+                    $('.multi_select').on('changed.bs.select', function () {
+                        const selectPicker = $(this);
 
-                                const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
-                                const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
-
-                                if (selectedSizes === 0 || selectedColors === 0) {
-                                    showErrorAndRestore(selectPicker, clickedOption);
-                                }
-
-                                const selectedSize = $(this).find('option[data-category="size"]:selected').text().trim();
-                                const selectedColor = $(this).find('option[data-category="color"]:selected').text().trim();
-
-                                const itemId = $(this).closest('.card').data('id');
-
+                        selectPicker.find('option').each(function () {
+                            $(this).on('click', function () {
+                                const selectedSize = selectPicker.find('option[data-category="size"]:selected').text().trim();
+                                const selectedColor = selectPicker.find('option[data-category="color"]:selected').text().trim();
+                                const itemId = selectPicker.closest('.card').data('id');
                                 onChangeVariation(itemId, selectedSize, selectedColor);
                             });
+                        });
+                    });
 
-                            const selectPicker = $('.multi_select');
+                    $(document).ready(function () {
+                        function showErrorAndRestore(selectPicker, clickedOption) {
+                            Swal.fire({
+                                title: 'Selection Error',
+                                text: 'Please select at least one size and one color.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                clickedOption.prop('selected', true);
+                                selectPicker.selectpicker('refresh');
+                            });
+                        }
+
+                        $('.multi_select').on('changed.bs.select', function (e, clickedIndex, isSelected) {
+                            const selectPicker = $(this);
+                            const clickedOption = selectPicker.find('option').eq(clickedIndex);
+                            const category = clickedOption.data('category');
+
+                            if (isSelected) {
+                                if (category === 'size') {
+                                    selectPicker.find('option[data-category="size"]').not(clickedOption).prop('selected', false);
+                                } else if (category === 'color') {
+                                    selectPicker.find('option[data-category="color"]').not(clickedOption).prop('selected', false);
+                                }
+                            }
+
+                            selectPicker.selectpicker('refresh');
+
                             const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
                             const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
 
                             if (selectedSizes === 0 || selectedColors === 0) {
-                                Swal.fire({
-                                    title: 'Selection Error',
-                                    text: 'Please select at least one size and one color.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                });
+                                showErrorAndRestore(selectPicker, clickedOption);
                             }
 
-                            selectPicker.selectpicker('refresh');
+                            const selectedSize = $(this).find('option[data-category="size"]:selected').text().trim();
+                            const selectedColor = $(this).find('option[data-category="color"]:selected').text().trim();
+
+                            const itemId = $(this).closest('.card').data('id');
+
+                            onChangeVariation(itemId, selectedSize, selectedColor);
                         });
+
+                        const selectPicker = $('.multi_select');
+                        const selectedSizes = selectPicker.find('option[data-category="size"]:selected').length;
+                        const selectedColors = selectPicker.find('option[data-category="color"]:selected').length;
+
+                        if (selectedSizes === 0 || selectedColors === 0) {
+                            Swal.fire({
+                                title: 'Selection Error',
+                                text: 'Please select at least one size and one color.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+
+                        selectPicker.selectpicker('refresh');
                     });
-
-
+                }).catch(error => console.error('Error fetching product details:', error));
             }
+
             cartItemsContainer.addEventListener('click', (e) => {
                 if (e.target.classList.contains('remove-item-btn')) {
                     const productId = e.target.dataset.id;

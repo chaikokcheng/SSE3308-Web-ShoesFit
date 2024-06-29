@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $totalPrice = $data['totalPrice'];
         $orderDate = date('Y-m-d H:i:s');
 
-        // Insert the order into the ORDERS table
         $insertOrderSql = "INSERT INTO orders (cust_email, order_date, total_amount) VALUES (?, ?, ?)";
         $insertOrderStmt = $conn->prepare($insertOrderSql);
         if ($insertOrderStmt) {
@@ -115,7 +114,7 @@ $conn->close();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="summaryStyle.css">
+    <link rel="stylesheet" type="text/css" href="styles/summaryStyle.css">
 </head>
 
 <body>
@@ -248,142 +247,117 @@ $conn->close();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const streetAddress = localStorage.getItem("streetAddress");
-            const city = localStorage.getItem("city");
-            const state = localStorage.getItem("state");
-            const postcode = localStorage.getItem("postcode");
+     document.addEventListener("DOMContentLoaded", function() {
+    const streetAddress = localStorage.getItem("streetAddress");
+    const city = localStorage.getItem("city");
+    const state = localStorage.getItem("state");
+    const postcode = localStorage.getItem("postcode");
 
-            let fullAddress = '';
-            if (streetAddress) fullAddress += streetAddress;
-            if (city) fullAddress += `, <br> ${city}`;
-            if (postcode) fullAddress += `,<br> ${postcode}`;
-            if (state) fullAddress += `, ${state}`;
+    let fullAddress = '';
+    if (streetAddress) fullAddress += streetAddress;
+    if (city) fullAddress += `, <br> ${city}`;
+    if (postcode) fullAddress += `,<br> ${postcode}`;
+    if (state) fullAddress += `, ${state}`;
 
-            document.getElementById("fullAddress").innerHTML = fullAddress;
-            document.getElementById("billingAddress").innerHTML = fullAddress;
+    document.getElementById("fullAddress").innerHTML = fullAddress;
+    document.getElementById("billingAddress").innerHTML = fullAddress;
+
+    const printBtn = document.getElementById("printBtn");
+    if (printBtn) {
+        printBtn.addEventListener("click", function() {
+            console.log("Print button clicked");
+            window.print();
         });
+    }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const printBtn = document.getElementById("printBtn");
-            if (printBtn) {
-                printBtn.addEventListener("click", function() {
-                    console.log("Print button clicked");
-                    window.print();
-                });
-            }
-        });
+    const orderedSection = document.getElementById("orderedSection");
+    const productAmt = document.getElementById("productAmount");
+    const totalPrice = document.getElementById("totalPrice");
+    const shippingCharge = 10;
+    let total = 0;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const orderedSection = document.getElementById("orderedSection");
-            const productAmt = document.getElementById("productAmount");
-            const totalPrice = document.getElementById("totalPrice");
-            const shippingCharge = 10;
-            let total = 0;
+    const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+    $('#total_items_count').text(cart.length);
 
-            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-            $('#total_items_count').text(cart.length);
-
-            if (cart.length === 0) {
-                orderedSection.innerHTML = '<p>Your cart is empty.</p>';
-            } else {
-                fetch('products.json')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const cartHTML = cart.map(cartItem => {
-                            const product = data.products.find(p => p.id === cartItem.productId);
-                            if (product) {
-                                total += product.price * cartItem.quantity;
-                                return `
-                            <div class="card p-3 shadow" id="ordered-items">
-        <div class="row">
-            <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
-                <img src="${product.img}" alt="${product.name}" class="shoeImage-size" width="100%" , height="auto" >
-            </div>
-            <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
-                <div class="row">
-                    <div class="col-8 card-body">
-                        <h4 class="mb-3 card-title text-align-left" style:"font-weight:900">${product.name}</h4>
-                        <p class="shoe-colour">${cartItem.color}</p>
-                    <div class="cart-text">
-                        <p>Qty: ${cartItem.quantity}</p>
-                        <p>Size: ${cartItem.size}</p>
+    if (cart.length === 0) {
+        orderedSection.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+        const cartHTML = cart.map(cartItem => {        
+            total += cartItem.price * cartItem.quantity;
+            return `
+                <div class="card p-3 shadow" id="ordered-items">
+                    <div class="row">
+                        <div class="col-md-5 col-12 mx-auto d-flex justify-content-center align-items-center product_img">
+                            <img src="${cartItem.img}" alt="${cartItem.name}" class="shoeImage-size" width="100%" height="auto">
+                        </div>
+                        <div class="col-md-7 col-12 mx-auto px-4 mt-2 d-flex flex-column">
+                            <div class="row">
+                                <div class="col-8 card-body">
+                                    <h4 class="mb-3 card-title text-align-left" style="font-weight: 900">${cartItem.name}</h4>
+                                    <p class="shoe-colour">${cartItem.color}</p>
+                                    <div class="cart-text">
+                                        <p>Qty: ${cartItem.quantity}</p>
+                                        <p>Size: ${cartItem.size}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-auto">
+                                <div class="col-12 d-flex justify-content-end align-items-end">
+                                    <br>
+                                    <h3 style="font-size: 30px; font-weight: bold">$<span id="itemval">${cartItem.price * cartItem.quantity}</span></h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
-                <div class="row mt-auto">
-                    <div class="col-12 d-flex justify-content-end align-items-end">
-                        <br>
-                        <h3 style="font-size: 30px, font-weight:bold">$<span id="itemval">${product.price * cartItem.quantity}</span></h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-                            `;
-                            }
-                            return '';
-                        }).join('');
+                </div>`;
+        }).join('');
 
-                        orderedSection.innerHTML = cartHTML;
-                        productAmt.innerText = total.toFixed(2);
-                        totalPrice.innerText = (total + shippingCharge).toFixed(2);
+        orderedSection.innerHTML = cartHTML;
+        productAmt.innerText = total.toFixed(2);
+        totalPrice.innerText = (total + shippingCharge).toFixed(2);
 
-                        if (cart.length > 0) {
-                            document.getElementById("productId").value = cart[0].productId;
-                            document.getElementById("productName").value = cart[0].productName;
-                            document.getElementById("quantity").value = cart[0].quantity;
-                            document.getElementById("size").value = cart[0].size;
-                            document.getElementById("color").value = cart[0].color;
-                            document.getElementById("totalPrice").value = (total + 10).toFixed(2);
-                        }
-
-                        // Send the cart data to the server
-                        fetch('orderSummary.php', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    cart: cart,
-                                    totalPrice: (total + shippingCharge).toFixed(2)
-                                })
-                            })
-                            .then(response => response.text())
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                        orderedSection.innerHTML = '<p>There was an error loading the products. Please try again later.</p>';
-                    });
-
-            }
-        });
-    </script>
-
-    <script>
-        document.getElementById("profile-icon").onclick = function() {
-            var sidebar = document.getElementById("sidebar");
-            if (sidebar.style.width === "200px") {
-                sidebar.style.width = "0";
-            } else {
-                sidebar.style.width = "200px";
-            }
+        if (cart.length > 0) {
+            document.getElementById("productId").value = cart[0].productId;
+            document.getElementById("productName").value = cart[0].productName;
+            document.getElementById("quantity").value = cart[0].quantity;
+            document.getElementById("size").value = cart[0].size;
+            document.getElementById("color").value = cart[0].color;
+            document.getElementById("totalPrice").value = (total + 10).toFixed(2);
         }
 
-        document.getElementById("closebtn").onclick = function() {
-            document.getElementById("sidebar").style.width = "0";
-        }
+        fetch('orderSummary.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cart: cart,
+                totalPrice: (total + shippingCharge).toFixed(2)
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    }});
+
+document.getElementById("profile-icon").onclick = function() {
+    var sidebar = document.getElementById("sidebar");
+    if (sidebar.style.width === "200px") {
+        sidebar.style.width = "0";
+    } else {
+        sidebar.style.width = "200px";
+    }
+}
+
+document.getElementById("closebtn").onclick = function() {
+    document.getElementById("sidebar").style.width = "0";
+}
+
     </script>
 
 

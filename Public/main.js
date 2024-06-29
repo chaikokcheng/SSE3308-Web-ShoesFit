@@ -78,17 +78,18 @@ fetchProducts((products) => {
 //-----------------------------------------------------------------------------------------------------------------
 
 // Product Details Page + Cart Page
-function addToCart(productId, size, color, quantity, price) {
+function addToCart(productId, name, size, color, quantity, price, img) {
     let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
     const itemId = `${productId}_${size}_${color}`;
-
     const cartItem = {
         id: itemId,
         productId: productId,
+        name: name,
         size: size,
         color: color,
         quantity: quantity,
-        price: price
+        price: price,
+        img: img,
     };
 
     const itemIndex = cart.findIndex(item => item.id === itemId);

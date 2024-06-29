@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
     <style>
         #product-image-main {
             height: 400px;
@@ -151,7 +151,7 @@
             <button type="button" class="btn btn-primary" id="review-button">Rate A Review</button>
         </div>
         <hr>
-        <div id="similar-products-section" class="container mt-5 pb-5">
+        <!-- <div id="similar-products-section" class="container mt-5 pb-5">
             <h2>Similar Products</h2>
             <div id="similarProductsCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner"></div>
@@ -164,7 +164,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-        </div>
+        </div> -->
     </main>
     <div id="sidebar" class="sidebar">
         <a href="#" class="closebtn" id="closebtn"><span>CLOSE</span>&times;</a>
@@ -180,11 +180,11 @@
     <script src="main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            function fetchSimilarProducts() {
-                return fetch('products.json')
-                    .then(response => response.json())
-                    .then(data => data.products);
-            }
+            // function fetchSimilarProducts() {
+            //     return fetch('products.json')
+            //         .then(response => response.json())
+            //         .then(data => data.products);
+            // }
 
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
@@ -280,12 +280,14 @@
                                     }
 
                                     const productId = product.id;
+                                    const productName = product.name;
                                     const color = selectedColor.getAttribute('title');
                                     const size = selectedSize.textContent;
                                     const quantity = parseInt(document.getElementById('quantity').value);
                                     const price = product.price;
+                                    const img = product.colors.find(color => color.color_text === selectedColor.getAttribute('title'))?.color_img;
 
-                                    addToCart(productId, size, color, quantity, price);
+                                    addToCart(productId, productName, size, color, quantity, price, img);
                                 });
                                 const reviewButton = document.getElementById('review-button');
                                 reviewButton.addEventListener('click', function () {
@@ -295,66 +297,42 @@
                         });
             }
 
-            function generateSimilarProductHTML(product) {
-                return `
-                <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="${product.img}" alt="${product.name}">
-                        <div class="card-body">
-                            <h5 class="similar-card-title">${product.name}</h5>
-                            <p class="card-text">$${product.price}</p>
-                            <div class="rating">
-                                ${generateStarRating(product.rating)}
-                            </div>
-                            <div class="d-flex justify-content-between mt-2">
-                                <button class="btn btn-primary mr-2">Buy Now</button>
-                                <button class="btn btn-secondary">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            }
+            // function generateSimilarProductHTML(product) {
+            //     return `
+            //     <div class="col-md-3">
+            //         <div class="card">
+            //             <img class="card-img-top" src="${product.img}" alt="${product.name}">
+            //             <div class="card-body">
+            //                 <h5 class="similar-card-title">${product.name}</h5>
+            //                 <p class="card-text">$${product.price}</p>
+            //                 <div class="d-flex justify-content-between mt-2">
+            //                     <button class="btn btn-primary mr-2">Buy Now</button>
+            //                     <button class="btn btn-secondary">Add to Cart</button>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // `;
+            // }
 
-            function generateStarRating(rating) {
-                const fullStar = '<i class="fas fa-star"></i>';
-                const halfStar = '<i class="fas fa-star-half-alt"></i>';
-                const emptyStar = '<i class="far fa-star"></i>';
-                const roundedRating = Math.round(rating * 2) / 2;
-                const stars = [];
+            // fetchSimilarProducts().then(products => {
+            //     const similarProductsSection = document.getElementById('similar-products-section').querySelector('.carousel-inner');
 
-                for (let i = 1; i <= 5; i++) {
-                    if (i <= roundedRating) {
-                        stars.push(fullStar);
-                    } else if (i - roundedRating === 0.5) {
-                        stars.push(halfStar);
-                    } else {
-                        stars.push(emptyStar);
-                    }
-                }
+            //     let carouselItem = '';
+            //     products.forEach((product, index) => {
+            //         if (index % 4 === 0) {
+            //             if (index === 0) {
+            //                 carouselItem += '<div class="carousel-item active"><div class="row">';
+            //             } else {
+            //                 carouselItem += '</div></div><div class="carousel-item"><div class="row">';
+            //             }
+            //         }
+            //         carouselItem += generateSimilarProductHTML(product);
+            //     });
+            //     carouselItem += '</div></div>';
 
-                return stars.join('');
-            }
-
-            fetchSimilarProducts().then(products => {
-                const similarProductsSection = document.getElementById('similar-products-section').querySelector('.carousel-inner');
-
-                let carouselItem = '';
-                products.forEach((product, index) => {
-                    if (index % 4 === 0) {
-                        if (index === 0) {
-                            carouselItem += '<div class="carousel-item active"><div class="row">';
-                        } else {
-                            carouselItem += '</div></div><div class="carousel-item"><div class="row">';
-                        }
-                    }
-                    carouselItem += generateSimilarProductHTML(product);
-                });
-                carouselItem += '</div></div>';
-
-                similarProductsSection.innerHTML = carouselItem;
-            });
-
+            //     similarProductsSection.innerHTML = carouselItem;
+            // });
 
             const decreaseBtn = document.getElementById("decrease");
             const increaseBtn = document.getElementById("increase");
